@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.RideDetailsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        >
+
+
+        <ImageView
+            android:id="@+id/back_ride_details"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:padding="@dimen/five"
+            android:layout_centerInParent="true"
+            android:src="@drawable/back_black"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/my_ride_details"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            />
+
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/map_ride_detail"
+                />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal"
+                android:layout_marginStart="@dimen/spaceing_large_x"
+                android:layout_marginEnd="@dimen/spaceing_large_x"
+                >
+
+
+                <TextView
+
+                    android:id="@+id/tv_trip_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trip_id"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:layout_alignParentStart="true"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="@dimen/normal"
+                    android:layout_below="@+id/tv_trip_id"
+                    android:text="1 Dec,2019 7:20 PM"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_trip_id"
+                    android:layout_alignParentEnd="true"
+                    android:text="Chevrolet Spark (White)"
+                    android:layout_marginTop="@dimen/normal"
+                    android:textColor="@color/light_black"
+                    />
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGrey"
+                android:layout_marginTop="@dimen/normal"
+                android:layout_marginStart="@dimen/spaceing_large_x"
+                android:layout_marginEnd="@dimen/spaceing_large_x"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/normal"
+                android:layout_marginStart="@dimen/spaceing_large_x"
+                android:layout_marginEnd="@dimen/spaceing_large_x"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/one_five"
+                        android:layout_height="@dimen/one_five"
+                        android:src="@drawable/yellow_elipse"
+                        android:layout_marginTop="@dimen/spacing_very_tiny"
+                        />
+
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/view_vertical"
+                        android:layout_marginStart="@dimen/five"
+                        />
+
+
+                    <ImageView
+                        android:layout_width="@dimen/normal"
+                        android:layout_height="@dimen/normal"
+                        android:src="@drawable/location_yellow"
+                        />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="241-205 Barrieau Rd, Moncton."
+                        android:maxLines="1"
+                        android:textColor="@color/light_black"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 Dec,2019 7:20 PM"
+                        android:layout_marginTop="@dimen/five"
+                        />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/lightGrey"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100 Holland Dr.Moncton, NB..."
+                        android:maxLines="1"
+                        android:textColor="@color/light_black"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 Dec,2019 7:20 PM"
+                        android:layout_marginTop="@dimen/five"
+                        />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGrey"
+                android:layout_marginTop="@dimen/normal"
+                android:layout_marginStart="@dimen/spaceing_large_x"
+                android:layout_marginEnd="@dimen/spaceing_large_x"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/normal"
+                android:layout_marginStart="@dimen/spaceing_large_x"
+                android:layout_marginEnd="@dimen/spaceing_large_x"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trip_fare"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textStyle="bold"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paid by"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:textSize="@dimen/text_size_12sp"
+                    />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    >
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cash"
+                        android:textColor="@color/light_black"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerHorizontal="true"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="20 CAD"
+                        android:textColor="@color/light_black"
+                        />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    >
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/discount"
+                        android:textColor="@color/light_black"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerHorizontal="true"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="05 CAD"
+                        android:textColor="@color/light_black"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    >
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/paid_amount"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textStyle="bold"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerHorizontal="true"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="15 CAD"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    >
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rating"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textStyle="bold"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerHorizontal="true"
+                        />
+
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Base.Widget.AppCompat.RatingBar.Small"
+                        android:rating="4"
+                        android:theme="@style/RatingBar"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightGrey"
+                    android:layout_marginTop="@dimen/one_five"
+                    />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/one_five"
+                    android:layout_marginBottom="@dimen/ten_dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/details_profile"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_customer_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Philippe"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:layout_toEndOf="@+id/img_profile"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_away"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2mins away!"
+                        android:textColor="@color/light_black"
+                        android:layout_toEndOf="@+id/img_profile"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_below="@+id/tv_customer_name"
+                        android:layout_marginTop="@dimen/five"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="1.5 KM"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textColor="@color/app_blue"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/img_profile"
+                        android:layout_below="@+id/tv_away"
+                        android:layout_marginTop="@dimen/one_five"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:background="@drawable/rect_shape"
+                        android:padding="@dimen/ten_dp"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="JOR 327"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_16sp"
+                            android:textStyle="bold"
+                            android:layout_gravity="start|center"
+                            android:gravity="start|center"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chevrolet Spark (White)"
+                            android:textColor="@color/light_black"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginStart="@dimen/five"
+                            android:textSize="@dimen/text_size_12sp"
+                            />
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
+</LinearLayout>

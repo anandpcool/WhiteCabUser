@@ -1,0 +1,48 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="TextLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/app_blue</item>
+    </style>
+
+    <!--To remove all caps in for fragment name in tab layout-->
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyCustomTextAppearance</item>
+    </style>
+
+    <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">18sp</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/green</item>
+        <item name="colorControlNormal">@color/orange</item>
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/orange</item>
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/orange</item>
+    </style>
+
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/nav_gray</item>
+        <item name="colorControlActivated">@color/yellow</item>
+    </style>
+
+    <style name="Theme_Dialog" parent="android:Theme.Holo.Light.Dialog.NoActionBar">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
+
+</resources>

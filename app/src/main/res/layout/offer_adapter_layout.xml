@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="December 12,2019"
+        android:textColor="@color/light_black"
+        android:layout_marginStart="@dimen/normal"
+        />
+
+    <ImageView
+        android:id="@+id/offer_image"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:src="@drawable/offer_image1"
+        android:scaleType="fitXY"
+        />
+
+</LinearLayout>

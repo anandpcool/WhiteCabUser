@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.DropOffActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-80dp"
+        android:src="@drawable/drop_off_map"
+        android:visibility="gone"
+        />
+
+    <fragment
+        android:id="@+id/drop_off_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        />
+
+    <ImageView
+        android:id="@+id/drop_off_location"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/current_loc_icon" />
+
+    <ImageView
+        android:id="@+id/img_myLoc"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_current_location" />
+
+    <RelativeLayout
+        android:id="@+id/rl_dropOff_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        >
+
+
+        <ImageView
+            android:id="@+id/back_drop_off"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/one_five"
+            android:padding="@dimen/five"
+            android:layout_centerInParent="true"
+            android:src="@drawable/back_black"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/drop_off"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            />
+
+
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/one_five"
+        app:cardBackgroundColor="@color/white"
+        android:layout_marginStart="@dimen/one_five"
+        android:layout_marginEnd="@dimen/one_five"
+        android:layout_marginTop="@dimen/one_five"
+        android:layout_below="@+id/rl_dropOff_toolbar"
+        app:cardCornerRadius="@dimen/ten_dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/five"
+            >
+
+
+            <ImageView
+                android:layout_weight="0.1"
+                android:id="@+id/img_elipse"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/one_five"
+                android:src="@drawable/yellow_elipse"
+                android:layout_gravity="start|center"
+                android:layout_marginStart="@dimen/ten_dp"
+                />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:textColorHint="@color/hintcolor">
+
+                <EditText
+                    android:id="@+id/et_to_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/from"
+                    android:inputType="text"
+                    android:text="100 Holland Dr, Moncton..."
+                    android:paddingBottom="25dp"
+                    android:textColor="@color/black"
+                    android:background="@color/white"
+                    android:textColorHint="@color/hintcolor"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <View
+                android:layout_weight="0.005"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/spacing_xlarge"
+                android:layout_gravity="center"
+                android:background="@color/lightGrey"
+                />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_weight="0.19"
+                android:layout_gravity="center"
+                android:src="@drawable/love_gray"
+                />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/one_five"
+        android:layout_alignParentBottom="true"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/spacing_very_tiny"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/one_five"
+                android:layout_height="@dimen/one_five"
+                android:layout_marginTop="@dimen/spaceing_large_x"
+                android:layout_gravity="center_horizontal"
+                android:foregroundGravity="center_horizontal"
+                android:src="@drawable/exclamation"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/five"
+                android:text="@string/get_estimation"
+                android:textColor="@color/light_black"
+                android:textSize="@dimen/text_size_12sp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGrey"
+                android:layout_marginTop="@dimen/ten_dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/five"
+                android:padding="@dimen/five"
+                >
+
+                <ImageView
+                    android:id="@+id/cash_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/cash_icon"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="@dimen/spaceing_large_x"
+                    />
+
+                <TextView
+                    android:layout_toEndOf="@+id/cash_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cash"
+                    android:textColor="@color/black"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/normal"
+                    />
+
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="@dimen/normal"
+                    android:background="@color/lightGrey"
+                    android:layout_centerInParent="true"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/spaceing_large_x"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/two_five"
+                        android:layout_height="@dimen/two_five"
+                        android:src="@drawable/promo_icon"
+                        android:layout_gravity="center"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/promo_code"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/normal"
+                        />
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_black"
+                android:text="@string/confirm_dropoff"
+                android:textColor="@color/white"
+                android:padding="@dimen/one_five"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_size_18sp"
+                android:layout_marginStart="@dimen/spaceing_large_x"
+                android:layout_marginEnd="@dimen/spaceing_large_x"
+                android:layout_marginTop="@dimen/five"
+                />
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

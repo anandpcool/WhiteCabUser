@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/normal"
+    android:id="@+id/ll_nav_adapter"
+    android:layout_gravity="start|top"
+    android:gravity="start|top"
+    >
+
+
+    <ImageView
+        android:id="@+id/nav_icon"
+        android:layout_width="@dimen/two_five"
+        android:layout_height="@dimen/two_five"
+        android:layout_marginStart="@dimen/ten_dp"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tv_nav_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/five"
+        android:text="@string/home"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_16sp"
+        android:textColor="@color/black"
+        android:padding="@dimen/five"
+        />
+
+    <TextView
+        android:id="@+id/tv_walletAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/spaceing_large_x"
+        android:text="267 CAD"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_20sp"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

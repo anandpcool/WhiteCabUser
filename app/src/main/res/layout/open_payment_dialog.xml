@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/top_dialog_background"
+    >
+
+    <ImageView
+        android:id="@+id/img_cancel"
+        android:layout_width="@dimen/normal"
+        android:layout_height="@dimen/normal"
+        android:src="@drawable/ic_cancel"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/normal"
+        android:layout_marginTop="@dimen/one_five"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/img_cancel"
+        android:layout_marginStart="@dimen/normal"
+        android:layout_marginEnd="@dimen/normal"
+        android:id="@+id/ll_payment"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/payment"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/five"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spaceing_large_x"
+            android:layout_marginBottom="@dimen/spacing_xlarge"
+            android:orientation="horizontal"
+            android:padding="@dimen/five"
+            >
+
+            <LinearLayout
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/ll_cash"
+                >
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/payment_cash_icon"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/cash"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.02dp"
+                android:layout_height="@dimen/button_height_large"
+                android:background="@color/lightGrey"
+                />
+
+            <LinearLayout
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/ll_card"
+                >
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/payment_card"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/card"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.01dp"
+                android:layout_height="@dimen/button_height_large"
+                android:background="@color/lightGrey"
+                />
+
+            <LinearLayout
+                android:id="@+id/wallet_layout"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/payment_wallet"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/wallet"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.01dp"
+                android:layout_height="@dimen/button_height_large"
+                android:background="@color/lightGrey"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/img_cancel"
+        android:layout_marginStart="@dimen/normal"
+        android:layout_marginEnd="@dimen/normal"
+        android:id="@+id/ll_wallet"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wallet_amount"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/five"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="200 CAD"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/spaceing_large_x"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spaceing_large_x"
+            android:layout_marginBottom="@dimen/spacing_xlarge"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/please_enter_promo"
+                />
+
+            <ImageView
+                android:id="@+id/wallet_button"
+                android:layout_width="?actionBarSize"
+                android:layout_height="?actionBarSize"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_alignParentEnd="true"
+                />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

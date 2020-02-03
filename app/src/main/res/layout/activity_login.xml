@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/normal"
+        android:layout_marginEnd="@dimen/normal"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:text="@string/login"
+                android:layout_marginTop="@dimen/five"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_18sp"
+                android:padding="@dimen/five"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome_to_whitecab"
+            android:textColor="@color/black"
+            android:layout_marginTop="115dp"
+            android:layout_gravity="start|center_horizontal"
+            android:gravity="start|center_horizontal"
+            android:textSize="@dimen/text_size_30sp"
+            android:textStyle="bold"
+            />
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="?actionBarSize"
+            android:textColorHint="@color/hintcolor">
+
+            <EditText
+                android:id="@+id/et_phone_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:paddingBottom="25dp"
+                android:textColorHint="@color/hintcolor"
+                android:textSize="16sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            >
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etPassword_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="25dp"
+                    android:hint="@string/password"
+                    android:textColorHint="@color/hintcolor"
+                    android:inputType="textPassword"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/forgot"
+                android:id="@+id/txt_forgot"
+                android:padding="@dimen/spacing_very_tiny"
+                android:textColor="@color/light_black"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/five"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+
+
+        <Button
+            android:id="@+id/btn_log_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xlarge"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="normal"
+            android:background="@drawable/button_background_black"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:padding="@dimen/one_five"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?actionBarSize"
+            android:layout_marginBottom="@dimen/normal"
+            android:text="@string/dont_have_account"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/light_black"
+            android:textSize="@dimen/text_size_16sp"
+            android:padding="@dimen/five"
+            />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

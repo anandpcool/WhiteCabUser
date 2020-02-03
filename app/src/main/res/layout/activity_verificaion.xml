@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:orientation="vertical"
+    tools:context=".Activities.VerificaionActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        >
+
+        <ImageView
+            android:id="@+id/back_verify"
+            android:layout_width="@dimen/spaceing_large_x"
+            android:layout_height="@dimen/spaceing_large_x"
+            android:src="@drawable/back_black"
+            android:layout_gravity="start|center_horizontal"
+            android:padding="@dimen/five"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/one_five"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/verification"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="bold"
+            />
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/normal"
+            android:layout_marginEnd="@dimen/normal"
+            >
+
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/spaceing_large_x"
+                android:src="@drawable/ic_verify_mobile"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/verify_otp"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/spaceing_large_x"
+                android:layout_gravity="start|center_horizontal"
+                android:gravity="start|center_horizontal"
+                android:textSize="@dimen/text_size_30sp"
+                android:textStyle="bold"
+                />
+
+
+            <TextView
+                android:id="@+id/tv_enter_pin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_pin"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="?actionBarSize"
+                android:textColor="@color/light_black"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_mobile_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:text="@string/verify_moblie"
+                    android:textColor="@color/light_black"
+                    />
+
+                <ImageView
+                    android:layout_width="@dimen/two_five"
+                    android:layout_height="@dimen/two_five"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:src="@drawable/ic_pencil"
+                    />
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:padding="@dimen/normal"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:weightSum="4">
+
+
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/ten_dp"
+                    >
+
+                    <EditText
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/edt_one"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_20sp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        android:text=""
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:maxLength="1"
+                        android:singleLine="true"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"/>
+
+                    <View
+                        android:background="@color/white"
+                        android:layout_height="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="@dimen/ten_dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:layout_height="60dp"
+                        android:layout_width="60dp"
+                        android:id="@+id/edt_two"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_20sp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        android:text=""
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:maxLength="1"
+                        android:singleLine="true"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"/>
+
+                    <View
+                        android:background="@color/white"
+                        android:layout_height="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="@dimen/ten_dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:layout_height="60dp"
+                        android:layout_width="60dp"
+                        android:id="@+id/edt_three"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_20sp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        android:text=""
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:maxLength="1"
+                        android:singleLine="true"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"/>
+
+                    <View
+                        android:background="@color/white"
+                        android:layout_height="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:layout_height="60dp"
+                        android:layout_width="60dp"
+                        android:id="@+id/edt_four"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_20sp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center"
+                        android:text=""
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:maxLength="1"
+                        android:singleLine="true"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"/>
+
+                    <View
+                        android:background="@color/white"
+                        android:layout_height="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btn_verify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?actionBarSize"
+                android:background="@drawable/button_background_black"
+                android:text="@string/verify"
+                android:textColor="@color/white"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:textSize="@dimen/text_size_18sp"
+                android:padding="@dimen/one_five"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/resend_code"
+                android:layout_marginTop="@dimen/spaceing_large_x"
+                android:textColor="@color/black"
+                android:padding="@dimen/five"
+                android:textSize="@dimen/text_size_16sp"
+                android:layout_marginBottom="@dimen/normal"
+                />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+</LinearLayout>

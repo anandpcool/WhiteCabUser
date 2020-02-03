@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/button_boarder">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/wallet_img"
+            android:layout_width="@dimen/button_height_large"
+            android:layout_height="@dimen/button_height_large"
+            android:src="@drawable/wallet_black" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/one_five"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/wallet_paid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/paid_for_order"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/wallet_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="Order No: #452788"
+                android:textColor="@color/light_black"
+                android:layout_marginTop="@dimen/five"
+                 />
+
+
+            <TextView
+                android:id="@+id/wallet_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="12th, July, 2019"
+                android:textColor="@color/light_black"
+                android:layout_marginTop="@dimen/five"
+                 />
+
+
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/wallet_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20 CAD"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+</LinearLayout>

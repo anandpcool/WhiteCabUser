@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/top_dialog_background"
+    >
+
+    <ImageView
+        android:id="@+id/img_cancel"
+        android:layout_width="@dimen/normal"
+        android:layout_height="@dimen/normal"
+        android:src="@drawable/ic_cancel"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/normal"
+        android:layout_marginTop="@dimen/one_five"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_below="@+id/img_cancel"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="@string/ride_confirmed"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/tv_confirm_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/normal"
+            android:layout_marginStart="@dimen/normal"
+            android:layout_marginEnd="@dimen/normal"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16sp"
+            android:text="Your Booking for 7 Sep at 07:30 AM has been confirmed"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spaceing_large_x"
+            android:layout_marginBottom="@dimen/spacing_xlarge"
+            android:layout_marginEnd="@dimen/normal"
+            android:layout_marginStart="@dimen/normal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/you_will_notified"
+                android:layout_centerInParent="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/img_ride_confirm"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:text="@string/ok"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/light_black"
+                />
+
+            <ImageView
+                android:id="@+id/img_ride_confirm"
+                android:layout_width="?actionBarSize"
+                android:layout_height="?actionBarSize"
+                android:src="@drawable/ic_arrow_right"
+                android:layout_alignParentEnd="true"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

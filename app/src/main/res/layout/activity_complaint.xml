@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.ComplaintActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        >
+
+
+        <ImageView
+            android:id="@+id/back_complaint"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:padding="@dimen/five"
+            android:layout_centerInParent="true"
+            android:src="@drawable/back_black"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/complaint"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            />
+
+
+    </RelativeLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/one_five"
+            android:layout_marginEnd="@dimen/one_five"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/complaint"
+                android:layout_marginTop="@dimen/spaceing_large_x"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/black"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/complaint_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                />
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="?actionBarSize"
+                android:textColorHint="@color/hintcolor"
+
+                >
+
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/additional_comments"
+                    android:inputType="text"
+                    android:paddingBottom="25dp"
+                    android:textColorHint="@color/hintcolor"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/button_height_large"
+                android:text="@string/submit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18sp"
+                android:background="@drawable/button_background_black"
+                android:padding="@dimen/one_five"
+                android:textAllCaps="false"
+                />
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

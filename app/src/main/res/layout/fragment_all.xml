@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scrollbars="none">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:id="@+id/rel_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_thick"
+            android:paddingBottom="@dimen/spaceing_large_x"
+            android:paddingLeft="@dimen/ten_dp"
+            android:paddingRight="@dimen/ten_dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/normal">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/avilable_balance"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_20sp" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="2000 CAD"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/spaceing_large_x"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_25sp" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_background"
+                android:gravity="center"
+                android:paddingRight="@dimen/spaceing_large_x"
+                android:paddingLeft="@dimen/spaceing_large_x"
+                android:paddingTop="@dimen/ten_dp"
+                android:paddingBottom="@dimen/ten_dp"
+                android:text="@string/add_money"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/spaceing_large_x"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_16sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dec 2019"
+            android:textSize="@dimen/text_size_16sp"
+            android:layout_marginTop="@dimen/five"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/text_size_16sp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/wallet_recycler"
+            android:layout_marginTop="@dimen/five"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            />
+
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

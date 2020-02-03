@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/ten_dp"
+    android:id="@+id/ll_recent"
+    >
+
+    <ImageView
+        android:id="@+id/img_love_yellow"
+        android:layout_width="@dimen/two_five"
+        android:layout_height="@dimen/two_five"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_timer_black"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_address_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/img_love_yellow"
+        android:layout_marginStart="@dimen/ten_dp"
+        android:textColor="@color/black"
+        android:text="Stonehurst Golf Course Park"
+        />
+
+    <TextView
+        android:id="@+id/tv_address_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/img_love_yellow"
+        android:layout_marginStart="@dimen/ten_dp"
+        android:layout_below="@+id/tv_address_title"
+        android:layout_marginTop="@dimen/five"
+        android:text="47915 Homestead Rd, Berry Mills, NB E1G 3S5"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/two_five"
+        android:layout_height="@dimen/two_five"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/love_gray"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightGrey"
+        android:layout_below="@+id/tv_address_desc"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_toEndOf="@+id/img_love_yellow"
+        />
+
+</RelativeLayout>

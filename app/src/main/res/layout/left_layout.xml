@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:baselineAligned="false"
+        >
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/five"
+            android:layout_marginTop="@dimen/spacing_xlarge"
+            android:paddingStart="@dimen/spacing_small"
+            android:paddingTop="@dimen/spacing_small"
+            android:paddingEnd="@dimen/spacing_small"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/five">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivMenuProfileImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:src="@drawable/nav_profile"
+                />
+
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:text="John Williams"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_18sp"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:text="John.Williams@email.com"
+                android:layout_marginTop="@dimen/five"
+                android:textSize="@dimen/text_size_16sp"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/normal"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spaceing_large_x"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layoutDirection="locale"
+                android:scrollbars="none"
+                android:id="@+id/nav_drawer_recycler_view"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

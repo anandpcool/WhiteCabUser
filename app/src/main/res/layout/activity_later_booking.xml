@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.BookingActivity">
+
+    <ImageView
+        android:id="@+id/img_booking_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/map_booking"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        />
+
+    <fragment
+        android:id="@+id/booking_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        />
+
+    <ImageView
+        android:id="@+id/booking_my_location"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/current_loc_icon" />
+
+    <ImageView
+        android:id="@+id/current_loc"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_current_location" />
+
+    <RelativeLayout
+        android:id="@+id/rl_booking_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_marginTop="@dimen/ten_dp"
+        >
+
+
+        <ImageView
+            android:id="@+id/back_later_booking"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/one_five"
+            android:padding="@dimen/five"
+            android:layout_centerInParent="true"
+            android:src="@drawable/back_black"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/booking"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18sp"
+            />
+
+
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/one_five"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/ten_dp"
+        android:layout_marginStart="@dimen/one_five"
+        android:layout_marginEnd="@dimen/one_five"
+        android:layout_marginTop="@dimen/five"
+        android:layout_below="@+id/rl_booking_toolbar"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/five"
+            >
+
+
+            <ImageView
+                android:layout_weight="0.1"
+                android:id="@+id/img_elipse"
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:src="@drawable/from_to_icon"
+                android:layout_gravity="start|center"
+                android:padding="@dimen/ten_dp"
+                android:layout_marginStart="@dimen/ten_dp"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="0.9"
+                android:layout_marginTop="@dimen/five"
+                android:layout_marginBottom="@dimen/five"
+                >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:textColorHint="@color/hintcolor">
+
+                    <EditText
+                        android:id="@+id/et_from_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/from"
+                        android:inputType="text"
+                        android:text="241-205 Barrieau Rd,Moncton"
+                        android:paddingBottom="@dimen/ten_dp"
+                        android:textColor="@color/black"
+                        android:background="@color/white"
+                        android:textColorHint="@color/hintcolor"
+                        android:textSize="16sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightGrey"
+                    />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_dropoff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Drop off Location"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_gravity="start|center"
+                        android:gravity="start|center"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:layout_marginBottom="@dimen/five"
+                        />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_toAddress"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:textColorHint="@color/hintcolor">
+
+                        <EditText
+                            android:id="@+id/et_drop_loc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/drop_off_location"
+                            android:inputType="text"
+                            android:text="1000 Holland Dr, Moncton..."
+                            android:paddingBottom="@dimen/ten_dp"
+                            android:textColor="@color/black"
+                            android:background="@color/white"
+                            android:textColorHint="@color/hintcolor"
+                            android:textSize="16sp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </RelativeLayout>
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/one_five"
+        android:layout_alignParentBottom="true"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/nav_gray"
+                android:padding="@dimen/five"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/ll_ride_time"
+                android:visibility="visible"
+                >
+
+                <TextView
+                    android:id="@+id/tv_booking_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ride on 7 Sep at 7:30 AM"
+                    android:textColor="@color/white"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/spacing_very_tiny"
+                >
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/ll_fare"
+                    android:layout_marginTop="@dimen/normal"
+                    android:visibility="gone"
+                    >
+
+                    <ImageView
+                        android:layout_width="@dimen/spaceing_large_x"
+                        android:layout_height="@dimen/two_five"
+                        android:src="@drawable/car_mini"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fare estimate: "
+                        android:layout_marginStart="@dimen/one_five"
+                        android:textColor="@color/light_black"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_fare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15 - 20 CAD"
+                        android:textColor="@color/black"
+                        />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_estimate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginStart="@dimen/normal"
+                    android:layout_marginEnd="@dimen/normal"
+                    android:text="@string/note_text"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/text_size_12sp"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightGrey"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/five"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/linear_cash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/five"
+                        >
+
+                        <ImageView
+                            android:id="@+id/cash_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/cash_icon"
+                            android:layout_marginStart="@dimen/spaceing_large_x"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cash"
+                            android:textColor="@color/black"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginStart="@dimen/normal"
+                            />
+
+
+                    </LinearLayout>
+
+
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/normal"
+                        android:background="@color/lightGrey"
+                        android:layout_centerInParent="true"
+                        />
+
+
+                    <LinearLayout
+                        android:id="@+id/linear_promo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/spaceing_large_x"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/five"
+                        >
+
+                        <ImageView
+                            android:layout_width="@dimen/two_five"
+                            android:layout_height="@dimen/two_five"
+                            android:src="@drawable/promo_icon"
+                            android:layout_gravity="center"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/promo_code"
+                            android:textColor="@color/black"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginStart="@dimen/normal"
+                            />
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btn_conform_booking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_background_black"
+                    android:text="@string/confirm_booking"
+                    android:textColor="@color/white"
+                    android:padding="@dimen/one_five"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/text_size_18sp"
+                    android:layout_marginStart="@dimen/spaceing_large_x"
+                    android:layout_marginEnd="@dimen/spaceing_large_x"
+                    android:layout_marginTop="@dimen/five"
+                    />
+
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>

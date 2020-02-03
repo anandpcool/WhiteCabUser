@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
+    tools:context=".Activities.HomeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            />
+
+
+        <ImageView
+            android:id="@+id/current_loc"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/current_loc_icon" />
+
+        <ImageView
+            android:id="@+id/img_currentLocation"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_current_location" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/home_map"
+            android:visibility="gone"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_marginTop="@dimen/normal"
+            android:id="@+id/rl_toolbar"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/one_five"
+            >
+
+
+            <ImageView
+                android:id="@+id/img_home_menu"
+                android:layout_width="@dimen/two_five"
+                android:layout_height="@dimen/two_five"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/img_home_menu"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/white_cab"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_18sp"
+                android:textStyle="bold"
+                />
+
+
+        </RelativeLayout>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="@dimen/one_five"
+            app:cardBackgroundColor="@color/white"
+            android:layout_marginStart="@dimen/one_five"
+            android:layout_marginEnd="@dimen/one_five"
+            android:layout_marginTop="@dimen/one_five"
+            android:layout_below="@+id/rl_toolbar"
+            app:cardCornerRadius="@dimen/ten_dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/five"
+                >
+
+                <LinearLayout
+                    android:id="@+id/ll_fromAddress"
+                    android:layout_weight="0.805"
+                    android:layout_width="0dp"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_weight="0.1"
+                        android:id="@+id/img_elipse"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/one_five"
+                        android:src="@drawable/yellow_elipse"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/from_address"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:textColorHint="@color/hintcolor">
+
+                        <EditText
+                            android:id="@+id/et_from_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/from"
+                            android:inputType="text"
+                            android:text="241-205 Barrieau Rd,Moncton"
+                            android:paddingBottom="25dp"
+                            android:textColor="@color/black"
+                            android:background="@color/white"
+                            android:textColorHint="@color/hintcolor"
+                            android:textSize="16sp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_weight="0.005"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@color/lightGrey"
+                        />
+
+                </LinearLayout>
+
+
+
+                <ImageView
+                    android:id="@+id/imgSaveAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="0.19"
+                    android:layout_gravity="center"
+                    android:src="@drawable/love_gray"
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/ll_pick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/buttonborder"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/bottom_cardView"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/partner1" />
+
+                <TextView
+                    android:id="@+id/txt_pickTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="@dimen/one_five"
+            android:id="@+id/bottom_cardView"
+            android:layout_alignParentBottom="true"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/spacing_very_tiny"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_vehicle_type"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/vehicle_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/five"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:layout_marginEnd="@dimen/ten_dp"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    >
+
+                    <Button
+                        android:id="@+id/btn_ride_now"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_background_black"
+                        android:text="@string/ride_now"
+                        android:textColor="@color/white"
+                        android:padding="@dimen/one_five"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/text_size_18sp"
+                        android:layout_marginEnd="@dimen/five"
+                        />
+
+                    <Button
+                        android:id="@+id/btn_ride_later"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_background_black"
+                        android:text="@string/ride_later"
+                        android:textColor="@color/white"
+                        android:padding="@dimen/one_five"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/text_size_18sp"
+                        android:layout_marginStart="@dimen/five"
+                        />
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+
+
+    </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        app:headerLayout="@layout/left_layout"
+        android:scrollbars="none"
+        />
+
+</android.support.v4.widget.DrawerLayout>

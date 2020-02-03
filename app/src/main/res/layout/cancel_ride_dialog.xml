@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/top_dialog_background"
+    >
+
+
+    <ImageView
+        android:id="@+id/img_cancel"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="@dimen/one_five"
+        android:src="@drawable/ic_cancel"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/normal"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_request"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textSize="@dimen/text_size_18sp"
+        android:textStyle="bold"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cancel_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/normal"
+        android:layout_marginStart="@dimen/normal"
+        android:layout_marginEnd="@dimen/normal"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end|center"
+        android:layout_gravity="end|center"
+        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_marginEnd="@dimen/normal"
+        android:layout_marginBottom="@dimen/spaceing_large_x"
+        >
+
+        <TextView
+            android:id="@+id/txt_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_16sp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_toEndOf="@+id/txt_submit"
+            />
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>
