@@ -11,6 +11,8 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     NetworkConnection nw;
     Boolean netConnection = false;
     Boolean nodata = false;
+    CheckBox checkbox;
     String strLanguage="1",user_id,otp,phone;
 
 
@@ -58,6 +61,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         back_sign_up=findViewById(R.id.back_sign_up);
         btn_sign_up=findViewById(R.id.btn_sign_up);
         tv_login=findViewById(R.id.tv_login);
+        checkbox=findViewById(R.id.checkbox);
         nw=new NetworkConnection(SignupActivity.this);
     }
 
@@ -69,6 +73,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         btn_sign_up.setOnClickListener(this);
         back_sign_up.setOnClickListener(this);
         tv_login.setOnClickListener(this);
+
     }
 
     @Override
@@ -105,7 +110,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     MessageToast.showToastMethod(SignupActivity.this,getString(R.string.confirm_your_password));
                 }else if(!(etPassword.getText().toString().equals(et_con_password.getText().toString()))){
                     MessageToast.showToastMethod(SignupActivity.this,getString(R.string.password_mismatch));
-                }else {
+                }else if(!(checkbox.isChecked())){
+                    MessageToast.showToastMethod(SignupActivity.this, getString(R.string.please_accept_terms));
+                } else{
                     new Register().execute();
                 }
 
@@ -203,10 +210,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
                         JSONObject userobj = js.getJSONObject("user_info");
 
-                         user_id = userobj.getString("user_id");
+                        user_id = userobj.getString("user_id");
                         String username = userobj.getString("username");
                         String email = userobj.getString("email");
-                         phone = userobj.getString("phone");
+                        phone = userobj.getString("phone");
                         String password = userobj.getString("passwd");
                         otp=userobj.getString("otp");
                         System.out.println("mobile user_id"+user_id);

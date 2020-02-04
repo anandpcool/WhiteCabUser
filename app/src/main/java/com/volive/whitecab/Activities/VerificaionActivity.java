@@ -10,6 +10,7 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -71,7 +72,7 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
         back_verify.setOnClickListener(this);
 
         if(getIntent().getExtras() != null){
-           user_id= getIntent().getStringExtra("user_id");
+            user_id= getIntent().getStringExtra("user_id");
             otp= getIntent().getStringExtra("otp");
             phone=getIntent().getStringExtra("phone");
             forgot=getIntent().getBooleanExtra("forgot",false);
@@ -143,6 +144,7 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
+
     }
 
     @Override
@@ -186,7 +188,6 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
     }
 
     private class VerifyOTP extends AsyncTask<Void,Void,Void>{
-
         String response = null;
         int status;
         String message, message_ar;

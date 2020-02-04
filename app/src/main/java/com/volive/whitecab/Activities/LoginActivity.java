@@ -67,10 +67,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()){
 
             case R.id.txt_forgot:
-
                 phone=et_phone_login.getText().toString();
                 if(phone.isEmpty() || phone.length()< 10){
-                    MessageToast.showToastMethod(LoginActivity.this,getString(R.string.enter_phone_number));
+                    MessageToast.showToastMethod(LoginActivity.this, getString(R.string.enter_phone_number));
                 }else {
 
                     Intent intent=new Intent(LoginActivity.this, VerificaionActivity.class);

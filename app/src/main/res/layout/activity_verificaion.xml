@@ -251,9 +251,9 @@
                         android:text=""
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
-                        android:imeOptions="actionNext"
                         android:inputType="numberDecimal"
                         android:maxLength="1"
+                        android:imeOptions="actionDone"
                         android:singleLine="true"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"/>
