@@ -267,6 +267,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
         mMap.setMyLocationEnabled(false);
 
         mMap.getUiSettings().setZoomControlsEnabled(false);
@@ -707,7 +708,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 isSelectVehicle = true;
                     holder.txtview.setTextColor(context.getResources().getColor(R.color.colorAccent));
                 holder.txtview.setTypeface(holder.txtview.getTypeface(), Typeface.BOLD);
-
             } else {
                 holder.txtview.setTextColor(context.getResources().getColor(R.color.black));
             }

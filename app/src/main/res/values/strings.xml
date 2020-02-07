@@ -147,5 +147,6 @@
     <string name="select_time">Select Time</string>
     <string name="enter_description">Enter a description</string>
     <string name="please_accept_terms">Please Accept Terms and Conditions</string>
+    <string name="send">Send</string>
 
 </resources>

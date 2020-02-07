@@ -13,10 +13,10 @@ public class ApiUrl {
     public static String strVerifiyOtp = "otpverification";
     public static String strCheckEmail = "check_email";
     public static String strUserRegister = "registration";
-    public static String strUserLogin = "login";
+    public static String strUserLogin = "customerLogin";
     public static String strSaveAddress = "save_address";
     public static String strVehicle = "vehicles";
-    public static String strForgotPassword = "forgot_password";
+    public static String strForgotPassword = "forgotPassword";
     public static String strChangedPassword = "change_password";
     public static String strChangedPasswordNew = "change_pwd";
     public static String strEditProfile = "edit_profile";
