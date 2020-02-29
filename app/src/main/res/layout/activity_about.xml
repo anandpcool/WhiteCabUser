@@ -84,20 +84,19 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:scrollbars="none"
                 android:layout_marginTop="@dimen/normal"
                 android:layout_marginStart="@dimen/one_five"
                 android:layout_marginEnd="@dimen/one_five"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/about_text"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_16sp"
-                    />
+                <WebView
+                    android:id="@+id/about_webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </WebView>
 
             </ScrollView>
 

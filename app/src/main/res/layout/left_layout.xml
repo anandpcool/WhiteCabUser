@@ -26,7 +26,7 @@
             android:paddingBottom="@dimen/five">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivMenuProfileImage"
+                android:id="@+id/img_user_profile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="start"
@@ -42,7 +42,7 @@
                 android:layout_gravity="start"
                 android:gravity="start"
                 android:layout_marginTop="@dimen/ten_dp"
-                android:text="John Williams"
+                android:text=""
                 android:layout_marginStart="@dimen/ten_dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_18sp"
@@ -50,10 +50,11 @@
 
 
             <TextView
+                android:id="@+id/tv_user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/ten_dp"
-                android:text="John.Williams@email.com"
+                android:text=""
                 android:layout_marginTop="@dimen/five"
                 android:textSize="@dimen/text_size_16sp"
                 />

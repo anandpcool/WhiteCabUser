@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.ApiUrl;
+import com.volive.whitecab.util.Constants;
 import com.volive.whitecab.util.DialogsUtils;
 import com.volive.whitecab.util.GPSTracker;
 import com.volive.whitecab.util.MessageToast;
@@ -206,7 +207,7 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
                 JSONObject json = new JSONObject();
 
                 try{
-                    json.put("API-KEY", "1514209135");
+                    json.put("API-KEY", Constants.API_KEY);
                     json.put("user_id", user_id);
                     json.put("otp", strOtp);
 

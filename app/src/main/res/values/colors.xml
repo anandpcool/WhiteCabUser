@@ -29,4 +29,5 @@
     <color name="yellow">#FFCC00</color>
     <color name="gray_thick">#2E2E2E</color>
     <color name="lightWhite">#FFCC00</color>
+    <color name="black_transperent">#C3000000</color>
 </resources>

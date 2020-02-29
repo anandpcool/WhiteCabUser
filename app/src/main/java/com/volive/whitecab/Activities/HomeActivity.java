@@ -1,13 +1,21 @@
 package com.volive.whitecab.Activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +28,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,7 +52,9 @@ import com.volive.whitecab.DataModels.VechileType;
 import com.volive.whitecab.DataModels.Vehicle;
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.ApiUrl;
+import com.volive.whitecab.util.Constants;
 import com.volive.whitecab.util.GPSTracker;
+import com.volive.whitecab.util.GalleryUriToPath;
 import com.volive.whitecab.util.MapUtil;
 import com.volive.whitecab.util.MessageToast;
 import com.volive.whitecab.util.NetworkConnection;
@@ -54,6 +65,11 @@ import com.volive.whitecab.util.SessionManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,15 +94,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     String[] vehicle_texts=new String[]{"Mini","Sedan","SUV","Luxury","Redo"};
     PreferenceUtils preferenceUtils;
 
-    EditText et_from_address;
     LinearLayout ll_pick,ll_fromAddress;
-    TextView txt_pickTime;
-
+    TextView txt_pickTime,tv_from_address,tv_user_name,tv_user_email;
     SupportMapFragment mapFragment;
     private GoogleMap mMap;
-    ImageView img_currentLocation;
+    ImageView img_currentLocation,img_user_profile;
     GPSTracker gpsTracker;
-    String strAddress,strLat, strLong, strDate,strUserId, strEmail, strName,strLanguage,strVehicleBaseOnType,strDriverId, strVehicleNumber, strDistance;
+    String strAddress,strLat, strLong, strDate,strUserId, strEmail, strName,strLanguage="",strVehicleBaseOnType,strDriverId, strVehicleNumber, strDistance;
     NetworkConnection nw;
     SessionManager sm;
     Boolean netConnection = false;
@@ -98,7 +112,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     ProgressDialog myDialog;
     boolean isSelectVehicle = false;
     HorizontalAdapter horizontalAdapter;
-
+    int pickLocationResultCode = 111;
+    public static int REQUEST_CAMERA = 5;
+    public static int SELECT_FILE = 4;
+    private static final int GRANT_LOC_ACCESS = 800;
+    String picturePath = "empty";
+    String PickedImgPath = "empty";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +141,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         btn_ride_now=findViewById(R.id.btn_ride_now);
         btn_ride_later=findViewById(R.id.btn_ride_later);
         img_currentLocation=findViewById(R.id.img_currentLocation);
-        et_from_address=findViewById(R.id.et_from_address);
-        et_from_address.setEnabled(false);
+//        et_from_address=findViewById(R.id.et_from_address);
+//        et_from_address.setEnabled(false);
+        tv_from_address=findViewById(R.id.tv_from_address);
         ll_pick=findViewById(R.id.ll_pick);
         txt_pickTime=findViewById(R.id.txt_pickTime);
         imgSaveAddress=findViewById(R.id.imgSaveAddress);
@@ -139,10 +159,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Date dateNew = new Date();
         strDate = format1.format(dateNew);
 
-
         DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) navigationView.getLayoutParams();
         navigationView.removeHeaderView(navigationView.getHeaderView(0));
         View headerView = navigationView.inflateHeaderView(R.layout.left_layout);
+        tv_user_name=(TextView) headerView.findViewById(R.id.tv_user_name);
+        tv_user_email=(TextView) headerView.findViewById(R.id.tv_user_email);
+        img_user_profile=(ImageView) headerView.findViewById(R.id.img_user_profile);
         drawerRecyclerView = (RecyclerView) headerView.findViewById(R.id.nav_drawer_recycler_view);
         itemAdapter=new NavigationItemAdapter(HomeActivity.this,nav_texts,nav_icons);
         drawerRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
@@ -150,6 +172,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         drawerRecyclerView.setAdapter(itemAdapter);
 
         navigationView.setVerticalScrollBarEnabled(false);
+
+
+        HashMap<String, String> userDetail = sm.getUserDetails();
+
+        if(userDetail.get(SessionManager.KEY_ID) != null){
+            strUserId = userDetail.get(SessionManager.KEY_ID);
+            strName = userDetail.get(SessionManager.KEY_NAME);
+            strEmail = userDetail.get(SessionManager.KEY_EMAIL);
+            strLanguage = userDetail.get(SessionManager.KEY_LANGUAGE);
+            tv_user_name.setText(strName);
+            tv_user_email.setText(strEmail);
+        }
     }
 
     private void initViews() {
@@ -159,12 +193,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         img_currentLocation.setOnClickListener(this);
         imgSaveAddress.setOnClickListener(this);
         ll_fromAddress.setOnClickListener(this);
-
-        HashMap<String, String> userDetail = sm.getUserDetails();
-        strUserId = userDetail.get(SessionManager.KEY_ID);
-        strName = userDetail.get(SessionManager.KEY_NAME);
-        strEmail = userDetail.get(SessionManager.KEY_EMAIL);
-        strLanguage = userDetail.get(SessionManager.KEY_LANGUAGE);
+        img_user_profile.setOnClickListener(this);
 
         try {
             strLat = String.valueOf(gpsTracker.getLatitude());
@@ -172,7 +201,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println("latlong" + strLat + strLong);
             strAddress = MapUtil.getLatLongToAddress(gpsTracker.getLatitude(), gpsTracker.getLongitude(), this);
 
-            et_from_address.setText(strAddress);
+            tv_from_address.setText(strAddress);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -184,14 +213,31 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+      //  new currentRide().execute();
+    }
+
+    @Override
     public void onClick(View view) {
 
         switch (view.getId()){
 
+            case R.id.img_user_profile:
+
+                if (ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(HomeActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE}, GRANT_LOC_ACCESS);
+                } else {
+                    selectImage();
+                }
+
+                break;
+
             case R.id.ll_fromAddress:
 
                 Intent intent=new Intent(HomeActivity.this,PickLocationActivity.class);
-                startActivity(intent);
+                intent.putExtra("strAddress",strAddress);
+                startActivityForResult(intent,pickLocationResultCode);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
                 break;
@@ -209,7 +255,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                 strAddress = MapUtil.getLatLongToAddress(gpsTracker.getLatitude(), gpsTracker.getLongitude(), HomeActivity.this);
 
-                et_from_address.setText(strAddress);
+                tv_from_address.setText(strAddress);
                 strLat = String.valueOf(gpsTracker.getLatitude());
                 strLong = String.valueOf(gpsTracker.getLongitude());
                 new getVehicle().execute();
@@ -225,24 +271,37 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_ride_now:
                 preferenceUtils.setRideType("");
-                //startActivity(new Intent(HomeActivity.this, PickLocationActivity.class));
-                startActivity(new Intent(HomeActivity.this, BookingActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                    Intent intent1 = new Intent(HomeActivity.this, DropOffActivity.class);
+                    intent1.putExtra("from_lat", strLat);
+                    intent1.putExtra("from_long", strLong);
+                    intent1.putExtra("from_address", strAddress);
+                    intent1.putExtra("vehicleType", strVehicleBaseOnType);
+                    intent1.putExtra("driverId", strDriverId);
+                    System.out.println("driverId" + strDriverId);
+                    intent1.putExtra("distance", strDistance);
+                    intent1.putExtra("vehicleNumber", strVehicleNumber);
+                    startActivity(intent1);
+                    // startActivity(new Intent(HomeActivity.this, BookingActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
                 break;
 
             case R.id.btn_ride_later:
 
-                if (!isSelectVehicle) {
+               /* if (!isSelectVehicle) {
                     Toast.makeText(HomeActivity.this, R.string.empty_select_car, Toast.LENGTH_SHORT).show();
-                } else {
+                } else {*/
 
                     Intent my_intent = new Intent(HomeActivity.this, RideLaterActivity.class);
                     my_intent.putExtra("address", strAddress);
+                    my_intent.putExtra("from_lat", strLat);
+                    my_intent.putExtra("from_long", strLong);
                     my_intent.putExtra("vehicleType", strVehicleBaseOnType);
                     startActivity(my_intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-                }
+               // }
 
                 break;
 
@@ -289,7 +348,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     strLat = String.valueOf(cameraPosition.target.latitude);
                     strLong = String.valueOf(cameraPosition.target.longitude);
                     strAddress = MapUtil.getLatLongToAddress(cameraPosition.target.latitude, cameraPosition.target.longitude, HomeActivity.this);
-                    et_from_address.setText(strAddress);
+                    tv_from_address.setText(strAddress);
                     new getVehicle().execute();
                     new vehicleType().execute();
                 }
@@ -559,6 +618,41 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 MessageToast.showToastMethod(HomeActivity.this, getString(R.string.check_net_connection));
 
+            }
+
+        }
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if (resultCode == RESULT_OK){
+
+            if (requestCode == pickLocationResultCode){
+
+                strAddress = data.getStringExtra("from_address");
+                strLat=data.getStringExtra("from_lat");
+                strLong=data.getStringExtra("from_long");
+                Log.e("data123", strAddress+" "+strLat+","+strLong);
+                tv_from_address.setText(strAddress);
+
+                mapFragment.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
+
+                        mMap.clear();
+                        mMap = googleMap;
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(strLat), Double.parseDouble(strLong)), 16));
+
+                    }
+                });
+
+            }else  if (requestCode == SELECT_FILE){
+                onSelectFromGalleryResult(data);
+            } else if (requestCode == REQUEST_CAMERA){
+                onCaptureImageResult(data);
             }
 
         }
@@ -1033,6 +1127,251 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+
+    public class currentRide extends AsyncTask<Void, Void, Void> {
+
+        String response = null;
+        boolean status;
+        String type;
+        String message, message_ar, driver_id, vehicle_name, vehicle_number, driver_name, driver_mobile, trip_id, time, distance, driver_profile, driver_lat, driver_long;
+
+        String color, avg_rating="",from_address,dest_address,from_latitude,from_longitude,to_latitude,to_longitude;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //showLoader();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            if (nw.isConnectingToInternet()) {
+
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("API-KEY", Constants.API_KEY);
+                    json.put("user_id", strUserId);
+
+                    Log.e("Param", json.toString());
+                    ServiceHandler sh = new ServiceHandler();
+                    response = sh.callToServer(ApiUrl.strBaseUrl + "waiting_requests", ServiceHandler.POST, json);
+
+
+                    JSONObject js = new JSONObject(response);
+                    status = js.getBoolean("status");
+                    message = js.getString("message");
+
+                    Log.e("currentrides", response.toString());
+                    System.out.println("current rides" + response.toString());
+//                    message_ar = js.getString("message_ar");
+
+
+                    if (status) {
+                        JSONObject aps = js.getJSONObject("aps");
+                        JSONObject alert = aps.getJSONObject("alert");
+                        JSONObject data = alert.getJSONObject("data");
+                        vehicle_name = data.getString("driver_name");
+                        vehicle_number = data.getString("vehicle_number");
+                        driver_name = data.getString("vehicle_name");
+                        driver_mobile = data.getString("driver_mobile");
+                        trip_id = data.getString("trip_id");
+                        time = data.getString("req_time");
+                        distance = data.getString("distance");
+                        driver_profile = data.getString("driver_profile");
+                        driver_lat = data.getString("driver_lat");
+                        driver_long = data.getString("driver_long");
+                        driver_id = data.getString("driver_id");
+                        color = data.getString("vehicle_color");
+                        avg_rating = data.getString("avg_rating");
+
+                        from_address=data.getString("from_address");
+                        dest_address=data.getString("to_address");
+                        from_latitude=data.getString("from_latitude");
+                        from_longitude=data.getString("from_longitude");
+                        to_latitude=data.getString("to_latitude");
+                        to_longitude=data.getString("to_longitude");
+
+
+                        if (strLanguage.equalsIgnoreCase("1")) {
+                            // message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            // message = js.getString("message_ar");
+                        }
+
+                        JSONObject start_ride = js.getJSONObject("start_ride");
+                        JSONObject alerts = start_ride.getJSONObject("alerts");
+                        String ride_status = alerts.getString("type");
+                        if (ride_status.equalsIgnoreCase("4")) {
+                            type = ride_status;
+
+                        } else {
+                            type = "";
+                        }
+
+                    } else {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            // message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            //message = js.getString("message_ar");
+                        }
+//                        message_ar = js.getString("message_ar");
+
+                    }
+
+                    nodata = false;
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    nodata = true;
+                }
+
+                netConnection = true;
+
+            } else {
+
+                netConnection = false;
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            // hideLoader();
+
+            if (netConnection) {
+
+                if (nodata) {
+
+                    MessageToast.showToastMethod(HomeActivity.this, getString(R.string.no_data));
+
+                } else {
+
+                    if (status) {
+
+                        Intent intent = new Intent(HomeActivity.this, TrackingActivity.class);
+                        intent.putExtra("fromscreen", "1");
+                        intent.putExtra("vehicle_name", vehicle_name);
+                        intent.putExtra("vehicle_number", vehicle_number);
+                        intent.putExtra("driver_name", driver_name);
+                        intent.putExtra("driver_mobile", driver_mobile);
+                        intent.putExtra("trip_id", trip_id);
+                        intent.putExtra("time", time);
+                        intent.putExtra("distance", distance);
+                        intent.putExtra("driver_profile", driver_profile);
+                        intent.putExtra("driver_lat", driver_lat);
+                        intent.putExtra("driver_long", driver_long);
+                        intent.putExtra("driver_id", driver_id);
+
+                        intent.putExtra("type", type);
+                        intent.putExtra("avg_rating ", avg_rating);
+                        intent.putExtra("color", color);
+
+                        intent.putExtra("from_address",from_address);
+                        intent.putExtra("dest_address",dest_address);
+                        intent.putExtra("from_latitude",from_latitude);
+                        intent.putExtra("from_longitude",from_longitude);
+                        intent.putExtra("to_latitude",to_latitude);
+                        intent.putExtra("to_longitude",to_longitude);
+                        startActivity(intent);
+
+                    } /*else {
+                         MessageToast.showToastMethod(HomeScreenActivity.this, "There is no current ride now");
+                    }*/
+
+
+                }
+            } else {
+
+                MessageToast.showToastMethod(HomeActivity.this, getString(R.string.check_net_connection));
+
+            }
+
+        }
+
+    }
+
+    private void selectImage() {
+        final CharSequence[] items = {getString(R.string.takeaphoto), getString(R.string.choosefrmgallery),
+                getString(R.string.cancel)};
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this);
+        builder.setTitle(R.string.add_photo);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals(getString(R.string.takeaphoto))) {
+                    cameraIntent();
+                } else if (items[item].equals(getString(R.string.choosefrmgallery))) {
+                    galleryIntent();
+                } else if (items[item].equals(getString(R.string.cancel))) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void galleryIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
+    }
+
+    private void cameraIntent() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    private void onSelectFromGalleryResult(Intent data) {
+        Bitmap bm = null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(HomeActivity.this.getContentResolver(), data.getData());
+
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                picturePath = GalleryUriToPath.getPath(HomeActivity.this, selectedImage);
+                PickedImgPath = GalleryUriToPath.getPath(HomeActivity.this, selectedImage);
+                Log.e("Gallery Path", picturePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        img_user_profile.setImageBitmap(bm);
+
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+            picturePath = destination.getAbsolutePath();
+            Log.e("Camera Path", destination.getAbsolutePath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        img_user_profile.setImageBitmap(thumbnail);
+    }
+
 
     @Override
     public void onBackPressed() {

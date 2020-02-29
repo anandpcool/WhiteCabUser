@@ -47,12 +47,14 @@
 
 
             <EditText
+                android:id="@+id/edtPromoCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="WHITE254"
                 />
 
             <ImageView
+                android:id="@+id/img_clear_code"
                 android:layout_width="@dimen/two_five"
                 android:layout_height="@dimen/two_five"
                 android:src="@drawable/cancel_gray"

@@ -6,8 +6,14 @@ package com.volive.whitecab.util;
 
 public class ApiUrl {
 
+    /*
+    First Base Url
+    http://demomaplebrains.com/whitecab/api/customer/
+     */
+
     //live url
-    public static String strBaseUrl = "http://demomaplebrains.com/whitecab/api/customer/";
+    public static String strBaseUrl = "http://demomaplebrains.com/whitecab_final/api/customer/";
+
 
     public static String strSendOtp = "send_otp";
     public static String strVerifiyOtp = "otpverification";
@@ -30,5 +36,8 @@ public class ApiUrl {
     public static String strReviewRating = "review_rating";
     public static String logout = "logoff";
     public static String change_lang = "change_lang";
-
+    public static String contact_us = "contact_requests";
+    public static String complaintList="complaintsList?";
+    public static String cancelRideList="CancelRideList?";
+    public static String userComplaint="user_complaint";
 }

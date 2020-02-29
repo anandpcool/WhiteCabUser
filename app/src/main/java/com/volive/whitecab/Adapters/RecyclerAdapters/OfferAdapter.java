@@ -9,13 +9,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.volive.whitecab.Activities.OffersActivity;
+import com.volive.whitecab.DataModels.OfferPojo;
 import com.volive.whitecab.R;
+
+import java.util.ArrayList;
 
 public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyHolder> {
     Context context;
-    public OfferAdapter(Context context) {
+    ArrayList<OfferPojo> offerPojoArrayList;
+    String base_url;
+    public OfferAdapter(Context context, ArrayList<OfferPojo> offerPojoArrayList, String base_url) {
         this.context=context;
+        this.offerPojoArrayList=offerPojoArrayList;
+        this.base_url=base_url;
     }
 
     @NonNull
@@ -28,17 +36,14 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.MyHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
 
-        if(position == 1){
-            holder.tv_date.setText("December 01,2019");
-            holder.offer_image.setImageDrawable(context.getResources().getDrawable(R.drawable.offer_image2));
-        }
-
+        holder.tv_date.setText(offerPojoArrayList.get(position).getDate());
+        Glide.with(context).load(base_url+offerPojoArrayList.get(position).getImage()).into(holder.offer_image);
 
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return offerPojoArrayList.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder{

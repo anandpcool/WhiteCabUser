@@ -11,17 +11,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.volive.whitecab.Activities.TrackingActivity;
+import com.volive.whitecab.DataModels.ComplaintModel;
 import com.volive.whitecab.R;
+
+import java.util.ArrayList;
 
 public class RideCancelAdapter extends RecyclerView.Adapter<RideCancelAdapter.MyHolder> {
 
     Context context;
-    String[] texts;
+    ArrayList<ComplaintModel> arrayList;
     private int selected= -1;
 
-    public RideCancelAdapter(Context context, String[] texts) {
+    public RideCancelAdapter(Context context, ArrayList<ComplaintModel> arrayList) {
         this.context=context;
-        this.texts=texts;
+        this.arrayList=arrayList;
     }
 
     @NonNull
@@ -34,7 +37,8 @@ public class RideCancelAdapter extends RecyclerView.Adapter<RideCancelAdapter.My
     @Override
     public void onBindViewHolder(@NonNull final MyHolder holder, final int position) {
 
-        holder.tv_reason.setText(texts[position]);
+        holder.tv_reason.setText(arrayList.get(position).getComplaint_title());
+        ((TrackingActivity)context).onItemSelect(arrayList.get(0).getComplaint_title());
 
         holder.rl_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +46,7 @@ public class RideCancelAdapter extends RecyclerView.Adapter<RideCancelAdapter.My
 
                 selected=position;
 
-                //((TrackingActivity)context).onItemSelect(position);
+                ((TrackingActivity)context).onItemSelect(arrayList.get(position).getComplaint_title());
 
                 notifyDataSetChanged();
 
@@ -60,7 +64,7 @@ public class RideCancelAdapter extends RecyclerView.Adapter<RideCancelAdapter.My
 
     @Override
     public int getItemCount() {
-        return texts.length;
+        return arrayList.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder{

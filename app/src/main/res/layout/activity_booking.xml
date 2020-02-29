@@ -28,12 +28,14 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerInParent="true"
+        android:visibility="gone"
         android:src="@drawable/current_loc_icon" />
 
     <ImageView
         android:id="@+id/img_current_loc"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:visibility="gone"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_current_location" />
@@ -112,11 +114,43 @@
                 android:layout_marginBottom="@dimen/five"
                 >
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginBottom="@dimen/five"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/from"
+                        android:textSize="@dimen/text_size_10sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_from_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:maxLines="2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16sp"
+                        />
+
+
+                </LinearLayout>
+
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:textColorHint="@color/hintcolor">
 
@@ -143,30 +177,46 @@
                     />
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
 
-                    <TextView
-                        android:id="@+id/tv_dropoff"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Drop off Location"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:layout_gravity="start|center"
-                        android:gravity="start|center"
-                        android:layout_marginTop="@dimen/ten_dp"
-                        android:layout_marginBottom="@dimen/five"
-                        />
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drop_off_location"
+                            android:textSize="@dimen/text_size_10sp"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_dest_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:maxLines="2"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_16sp"
+                            />
+
+
+                    </LinearLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_destination"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
                         android:layout_marginTop="@dimen/ten_dp"
+                        android:visibility="gone"
                         android:textColorHint="@color/hintcolor">
 
                         <EditText
@@ -210,25 +260,6 @@
             android:orientation="vertical"
             >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/nav_gray"
-                android:padding="@dimen/five"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:id="@+id/ll_ride_time"
-                android:visibility="gone"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ride on 7 Sep at 7:30 AM"
-                    android:textColor="@color/white"
-                    />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -253,8 +284,8 @@
                     android:orientation="horizontal"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/ll_fare"
-                    android:layout_marginTop="@dimen/normal"
                     android:visibility="gone"
+                    android:layout_marginTop="@dimen/normal"
                     >
 
                     <ImageView
@@ -384,11 +415,11 @@
                 </RelativeLayout>
 
                 <Button
-                    android:id="@+id/btn_select_drop_off"
+                    android:id="@+id/btn_book_now"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_background_black"
-                    android:text="@string/select_drop_location"
+                    android:text="@string/book_now"
                     android:textColor="@color/white"
                     android:padding="@dimen/one_five"
                     android:textAllCaps="false"

@@ -48,22 +48,64 @@
             android:layout_marginTop="@dimen/one_five"
             >
 
-            <ImageView
-                android:id="@+id/img_profile"
+            <RelativeLayout
+                android:id="@+id/rl_profile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_alignParentStart="true"
-                android:src="@drawable/details_profile"
-                />
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_captainProfile"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/details_profile" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/black_transperent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    >
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:src="@drawable/yellow_star"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:layout_marginStart="@dimen/spacing_very_tiny"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_16sp"
+                        />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
 
             <TextView
-                android:id="@+id/tv_customer_name"
+                android:id="@+id/tv_driver_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Philippe"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_16sp"
-                android:layout_toEndOf="@+id/img_profile"
+                android:layout_toEndOf="@+id/rl_profile"
                 android:layout_marginStart="@dimen/ten_dp"
                 />
 
@@ -73,13 +115,14 @@
                 android:layout_height="wrap_content"
                 android:text="2mins away!"
                 android:textColor="@color/light_black"
-                android:layout_toEndOf="@+id/img_profile"
+                android:layout_toEndOf="@+id/rl_profile"
                 android:layout_marginStart="@dimen/ten_dp"
-                android:layout_below="@+id/tv_customer_name"
+                android:layout_below="@+id/tv_driver_name"
                 android:layout_marginTop="@dimen/five"
                 />
 
             <TextView
+                android:id="@+id/txt_ride_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -90,10 +133,10 @@
                 android:textColor="@color/app_blue"
                 />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/img_profile"
+                android:layout_toEndOf="@+id/rl_profile"
                 android:layout_below="@+id/tv_away"
                 android:layout_marginTop="@dimen/one_five"
                 android:layout_marginStart="@dimen/ten_dp"
@@ -103,29 +146,31 @@
                 >
 
                 <TextView
+                    android:id="@+id/txt_vehicle_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="JOR 327"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_16sp"
                     android:textStyle="bold"
-                    android:layout_gravity="start|center"
-                    android:gravity="start|center"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
                     />
 
                 <TextView
+                    android:id="@+id/txt_vehicle_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chevrolet Spark (White)"
                     android:textColor="@color/light_black"
-                    android:layout_gravity="center"
-                    android:gravity="center"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
                     android:layout_marginStart="@dimen/five"
                     android:textSize="@dimen/text_size_12sp"
                     />
 
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </RelativeLayout>
@@ -185,15 +230,17 @@
                 >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtFromAddress"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="241-205 Barrieau Rd, Moncton."
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:textColor="@color/light_black"
                     />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtStartTime"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1 Dec,2019 7:20 PM"
                     android:layout_marginTop="@dimen/five"
@@ -208,16 +255,18 @@
                     />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtDestAddress"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="100 Holland Dr.Moncton, NB..."
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/ten_dp"
                     />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtEndTime"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1 Dec,2019 7:20 PM"
                     android:layout_marginTop="@dimen/five"
@@ -278,6 +327,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/txt_total_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -305,6 +355,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/txt_discount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -332,6 +383,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/txt_final_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -93,7 +95,8 @@
         <activity
             android:name=".Activities.HelpActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activities.LaterBookingActivity"></activity>
+        <activity android:name=".Activities.LaterBookingActivity" />
+        <activity android:name=".Activities.TermsActivity"></activity>
     </application>
 
 </manifest>

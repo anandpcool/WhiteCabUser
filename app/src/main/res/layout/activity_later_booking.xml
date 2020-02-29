@@ -23,20 +23,6 @@
         android:layout_centerInParent="true"
         />
 
-    <ImageView
-        android:id="@+id/booking_my_location"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/current_loc_icon" />
-
-    <ImageView
-        android:id="@+id/current_loc"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_current_location" />
 
     <RelativeLayout
         android:id="@+id/rl_booking_toolbar"
@@ -112,12 +98,44 @@
                 android:layout_marginBottom="@dimen/five"
                 >
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/five"
+                    android:layout_marginBottom="@dimen/five"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/from"
+                        android:textSize="@dimen/text_size_10sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_from_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:maxLines="2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16sp"
+                        />
+
+
+                </LinearLayout>
+
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:layout_marginTop="@dimen/ten_dp"
+                    android:visibility="gone"
                     android:textColorHint="@color/hintcolor">
 
                     <EditText
@@ -145,18 +163,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/tv_dropoff"
-                        android:layout_width="wrap_content"
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Drop off Location"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:layout_gravity="start|center"
-                        android:gravity="start|center"
-                        android:layout_marginTop="@dimen/ten_dp"
-                        android:layout_marginBottom="@dimen/five"
-                        />
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drop_off_location"
+                            android:textSize="@dimen/text_size_10sp"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_dest_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:maxLines="2"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_16sp"
+                            />
+
+
+                    </LinearLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_toAddress"
@@ -174,7 +208,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/drop_off_location"
                             android:inputType="text"
-                            android:text="1000 Holland Dr, Moncton..."
+                            android:text=""
                             android:paddingBottom="@dimen/ten_dp"
                             android:textColor="@color/black"
                             android:background="@color/white"
@@ -329,7 +363,6 @@
                             android:layout_marginStart="@dimen/normal"
                             />
 
-
                     </LinearLayout>
 
 
@@ -343,7 +376,7 @@
 
 
                     <LinearLayout
-                        android:id="@+id/linear_promo"
+                        android:id="@+id/ll_promo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

@@ -11,15 +11,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.volive.whitecab.Activities.ComplaintActivity;
+import com.volive.whitecab.DataModels.ComplaintModel;
 import com.volive.whitecab.R;
+
+import java.util.ArrayList;
 
 public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.MyHolder> {
 
     Context context;
-    String[] complaint_texts;
+    ArrayList<ComplaintModel> complaint_texts;
     private int selected= -1;
 
-    public ComplaintAdapter(Context context, String[] complaint_texts) {
+    public ComplaintAdapter(Context context, ArrayList<ComplaintModel> complaint_texts) {
         this.complaint_texts=complaint_texts;
         this.context=context;
     }
@@ -34,15 +37,15 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.MyHo
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, final int position) {
 
-        holder.tv_reason.setText(complaint_texts[position]);
-
+        holder.tv_reason.setText(complaint_texts.get(position).getComplaint_title());
+        ((ComplaintActivity)context).onItemSelect(complaint_texts.get(0).getId());
         holder.rl_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 selected=position;
 
-                ((ComplaintActivity)context).onItemSelect(position);
+                ((ComplaintActivity)context).onItemSelect(complaint_texts.get(position).getId());
 
                 notifyDataSetChanged();
 
@@ -59,7 +62,7 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.MyHo
 
     @Override
     public int getItemCount() {
-        return complaint_texts.length;
+        return complaint_texts.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder{

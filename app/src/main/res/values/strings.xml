@@ -148,5 +148,24 @@
     <string name="enter_description">Enter a description</string>
     <string name="please_accept_terms">Please Accept Terms and Conditions</string>
     <string name="send">Send</string>
-
+    <string name="empty_promocode">Please Enter Code</string>
+    <string name="search_address_here">Search Your Address Here..</string>
+    <string name="please_add_your_address">Please Add Your Address</string>
+    <string name="empty_name">Please Enter Name</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="confirm">Confirm</string>
+    <string name="sure_signout">Do you want to Signout?</string>
+    <string name="enter_old_pass">Enter your current password</string>
+    <string name="update">Update</string>
+    <string name="enter_your_current_pass">Enter your current password</string>
+    <string name="create_new_password">Create new password</string>
+    <string name="add_your_message">Please write your message</string>
+    <string name="takeaphoto">take a photo</string>
+    <string name="choosefrmgallery">choose from Gallery</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="cancel">cancel</string>
+    <string name="no_completed_rides">No Completed Rides</string>
+    <string name="no_cancelled_rides">No Cancelled Rides</string>
+    <string name="no_scheduled_rides">No Scheduled Rides</string>
 </resources>

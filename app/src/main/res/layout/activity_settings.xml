@@ -70,6 +70,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/edit"
@@ -87,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="@dimen/ten_dp"
+                android:padding="@dimen/five"
                 >
 
                 <ImageView
@@ -110,22 +111,23 @@
                     android:layout_marginStart="@dimen/ten_dp"
                     />
 
-                <TextView
-                    android:id="@+id/tv_user_name"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/et_user_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="John Williams"
+                    android:text=""
                     android:layout_toEndOf="@+id/img_name"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:layout_below="@+id/img_name"
                     android:layout_marginTop="@dimen/five"
+                    android:background="@null"
                     />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/lightGrey"
-                    android:layout_below="@+id/tv_user_name"
+                    android:layout_below="@+id/et_user_name"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:layout_marginStart="@dimen/one_five"
                     />
@@ -136,7 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="@dimen/ten_dp"
+                android:padding="@dimen/five"
                 >
 
                 <ImageView
@@ -159,22 +161,23 @@
                     android:layout_marginStart="@dimen/ten_dp"
                     />
 
-                <TextView
-                    android:id="@+id/tv_user_mobile"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/et_user_mobile"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="+1 8005619629"
+                    android:text=""
                     android:layout_toEndOf="@+id/img_mobile"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:layout_below="@+id/img_mobile"
                     android:layout_marginTop="@dimen/five"
+                    android:background="@null"
                     />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/lightGrey"
-                    android:layout_below="@+id/tv_user_mobile"
+                    android:layout_below="@+id/et_user_mobile"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:layout_marginStart="@dimen/one_five"
                     />
@@ -185,7 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="@dimen/ten_dp"
+                android:padding="@dimen/five"
                 >
 
                 <ImageView
@@ -208,22 +211,23 @@
                     android:layout_marginStart="@dimen/ten_dp"
                     />
 
-                <TextView
-                    android:id="@+id/tv_user_mail"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/et_user_mail"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="John.Williams@email.com"
+                    android:text=""
                     android:layout_toEndOf="@+id/img_mail"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:layout_below="@+id/img_mail"
                     android:layout_marginTop="@dimen/five"
+                    android:background="@null"
                     />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/lightGrey"
-                    android:layout_below="@+id/tv_user_mail"
+                    android:layout_below="@+id/et_user_mail"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:layout_marginStart="@dimen/one_five"
                     />
@@ -231,6 +235,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_change_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -259,9 +264,10 @@
 
                 <TextView
                     android:id="@+id/tv_change_pass"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="**********"
+                    android:text=""
+                    android:inputType="textPassword"
                     android:layout_toEndOf="@+id/img_password"
                     android:layout_marginStart="@dimen/ten_dp"
                     android:layout_below="@+id/img_password"
@@ -417,11 +423,13 @@
                 />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_terms_condition"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_condition"
                 android:textColor="@color/light_black"
                 android:layout_marginTop="@dimen/one_five"
+                android:textSize="@dimen/text_size_16sp"
                 android:layout_marginStart="25dp"
                 />
 
@@ -435,7 +443,7 @@
 
             <TextView
                 android:id="@+id/tv_sign_out"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_out"
                 android:textColor="@color/black"

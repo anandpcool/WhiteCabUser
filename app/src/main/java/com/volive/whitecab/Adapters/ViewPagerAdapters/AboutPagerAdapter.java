@@ -4,27 +4,35 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+import com.volive.whitecab.DataModels.AboutPojo;
 import com.volive.whitecab.R;
+
+import java.util.ArrayList;
 
 
 public class AboutPagerAdapter extends PagerAdapter {
 
     Context context;
-    int[] about_images;
+    ArrayList<AboutPojo> about_images;
+    String base_url;
 
-    public AboutPagerAdapter(Context context, int[] about_images) {
+    public AboutPagerAdapter(Context context, ArrayList<AboutPojo> about_images, String base_url) {
         this.context=context;
         this.about_images=about_images;
+        this.base_url=base_url;
     }
 
     @Override
     public int getCount() {
-        return about_images.length;
+        return about_images.size();
     }
 
     @Override
@@ -40,8 +48,8 @@ public class AboutPagerAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.offers_page_layout, null);
 
         ImageView img_offer = view.findViewById(R.id.img_offer);
-
-        img_offer.setImageResource(about_images[position]);
+        Log.e("imagelink",base_url+about_images.get(position).getImage());
+        Glide.with(context).load(base_url+about_images.get(position).getImage()).into(img_offer);
 
         ViewPager vp = (ViewPager) container;
         vp.addView(view, 0);

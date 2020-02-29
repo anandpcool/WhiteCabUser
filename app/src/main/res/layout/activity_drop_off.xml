@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="@dimen/five"
+            android:padding="@dimen/ten_dp"
             >
 
 
@@ -101,6 +101,37 @@
                 android:layout_marginStart="@dimen/ten_dp"
                 />
 
+            <LinearLayout
+                android:id="@+id/ll_drop_off"
+                android:layout_weight="0.7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/drop_off_location"
+                    android:textSize="@dimen/text_size_10sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_dest_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:maxLines="2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_16sp"
+                    />
+
+
+            </LinearLayout>
+
+<!--
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_weight="0.7"
@@ -108,6 +139,7 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/ten_dp"
+                android:visibility="gone"
                 android:textColorHint="@color/hintcolor">
 
                 <EditText
@@ -124,6 +156,7 @@
                     android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
+-->
 
 
             <View
@@ -194,6 +227,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/five"
                 android:padding="@dimen/five"
+                android:visibility="gone"
                 >
 
                 <ImageView
@@ -206,14 +240,13 @@
                     />
 
                 <TextView
-                    android:layout_toEndOf="@+id/cash_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cash"
-                    android:textColor="@color/black"
                     android:layout_centerInParent="true"
-                    android:layout_marginStart="@dimen/normal"
-                    />
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/cash_icon"
+                    android:text="@string/cash"
+                    android:textColor="@color/black" />
 
 
                 <View

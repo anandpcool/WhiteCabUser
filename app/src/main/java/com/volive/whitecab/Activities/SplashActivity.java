@@ -37,6 +37,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.GPSTracker;
+import com.volive.whitecab.util.SessionManager;
+
+import java.util.HashMap;
 
 public class SplashActivity extends AppCompatActivity  implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -58,12 +61,22 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
     private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
     private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
-
+    String strUserId="",strMobile="";
+    SessionManager sm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        sm=new SessionManager(SplashActivity.this);
+        HashMap<String, String> userDetail = sm.getUserDetails();
+
+        if(userDetail.get(SessionManager.KEY_ID) != null){
+            strUserId = userDetail.get(SessionManager.KEY_ID);
+            Log.e("key_id", strUserId);
+            strMobile= userDetail.get(SessionManager.KEY_NUMBER);
+        }
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mSettingsClient = LocationServices.getSettingsClient(this);
         gpsTracker = new GPSTracker(SplashActivity.this);
@@ -277,8 +290,13 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
             @Override
             public void run() {
 
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                finish();
+                if(strUserId.isEmpty()){
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    finish();
+                }else {
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    finish();
+                }
 
             }
         }, SPLASH_TIME_OUT);
@@ -304,9 +322,17 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
                     if (j == grantResults.length) {
 
                         Intent mainIntent;
-                        mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
-                        startActivity(mainIntent);
-                        finish();
+
+                        if(strUserId.isEmpty()){
+                            mainIntent = new Intent(SplashActivity.this, HomeActivity.class);
+                            startActivity(mainIntent);
+                            finish();
+                        }else {
+                            mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                            startActivity(mainIntent);
+                            finish();
+                        }
+
                     }
 
                 }

@@ -9,7 +9,7 @@
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="December 12,2019"
+        android:text=""
         android:textColor="@color/light_black"
         android:layout_marginStart="@dimen/normal"
         />
@@ -18,8 +18,8 @@
         android:id="@+id/offer_image"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:src="@drawable/offer_image1"
         android:scaleType="fitXY"
+        android:layout_margin="@dimen/one_five"
         />
 
 </LinearLayout>

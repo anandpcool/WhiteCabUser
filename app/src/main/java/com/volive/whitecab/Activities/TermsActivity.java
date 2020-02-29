@@ -5,13 +5,11 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.volive.whitecab.Adapters.ViewPagerAdapters.AboutPagerAdapter;
-import com.volive.whitecab.DataModels.AboutPojo;
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.ApiUrl;
 import com.volive.whitecab.util.DialogsUtils;
@@ -20,80 +18,64 @@ import com.volive.whitecab.util.NetworkConnection;
 import com.volive.whitecab.util.ServiceHandler;
 import com.volive.whitecab.util.SessionManager;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-public class HelpActivity extends AppCompatActivity implements View.OnClickListener {
-
-    ImageView back_help;
-    TextView tv_help;
-    private ProgressDialog myDialog;
-    NetworkConnection nw;
-    SessionManager sm;
+public class TermsActivity extends AppCompatActivity {
+    ProgressDialog myDialog;
     Boolean netConnection = false;
     Boolean nodata = false;
+    ImageView back_terms;
+    NetworkConnection nw;
+    SessionManager sm;
     String strLanguage="";
-
+    WebView webview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+        setContentView(R.layout.activity_terms);
 
         initUI();
         initViews();
-
     }
 
     private void initUI() {
-        back_help=findViewById(R.id.back_help);
-        tv_help=findViewById(R.id.tv_help);
-        nw=new NetworkConnection(HelpActivity.this);
-        sm=new SessionManager(HelpActivity.this);
+        nw = new NetworkConnection(TermsActivity.this);
+        sm = new SessionManager(TermsActivity.this);
+        back_terms= findViewById(R.id.back_terms);
+        webview = (WebView) findViewById(R.id.webview);
     }
 
     private void initViews() {
-        back_help.setOnClickListener(this);
-        new help().execute();
-    }
-
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()){
-
-            case R.id.back_help:
-
+        back_terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 finish();
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                break;
-
-        }
-
+            }
+        });
+        new getTerms().execute();
     }
 
-    private class help extends AsyncTask<Void, Void, Void>{
+    private class getTerms extends AsyncTask<Void, Void, Void> {
+
         String response = null;
         boolean status;
-        String base_url,message, message_ar,help;
+        String message, message_ar, terms, terms_ar;
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            myDialog = DialogsUtils.showProgressDialog(HelpActivity.this, getString(R.string.please_wait));
+            myDialog = DialogsUtils.showProgressDialog(TermsActivity.this, getString(R.string.please_wait));
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-
+        protected Void doInBackground(Void... arg0) {
             if (nw.isConnectingToInternet()) {
 
                 JSONObject json = new JSONObject();
                 try {
 
-                    String finalUrl = ApiUrl.strBaseUrl+"help?" + "&API-KEY=1514209135";
-                    Log.e("HelpFinalUrl", finalUrl);
+                    String finalUrl = ApiUrl.strBaseUrl+"terms?API-KEY=1514209135";
                     ServiceHandler sh = new ServiceHandler();
                     response = sh.callToServer(finalUrl, ServiceHandler.GET, json);
 
@@ -101,19 +83,19 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
                     JSONObject js = new JSONObject(response);
                     status = js.getBoolean("status");
                     message = js.getString("message");
-                    Log.e("Fare", response.toString());
+                    Log.e("strEditProfile", response);
+//                    message_ar = js.getString("message_ar");
+
 
                     if (status) {
 
                         if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
                             message = js.getString("message");
-                            help=js.getString("help");
                         } else if (strLanguage.equalsIgnoreCase("2")) {
                             message = js.getString("message_ar");
-                            help=js.getString("help_ar");
                         }
-
-
+                        terms = js.getString("terms");
+                        terms_ar = js.getString("terms_ar");
                     } else {
 
                         if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
@@ -121,7 +103,6 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
                         } else if (strLanguage.equalsIgnoreCase("2")) {
                             message = js.getString("message_ar");
                         }
-//                        message_ar = js.getString("message_ar");
 
                     }
 
@@ -140,7 +121,6 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
 
             }
 
-
             return null;
         }
 
@@ -155,32 +135,34 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (nodata) {
 
-                    MessageToast.showToastMethod(HelpActivity.this, getString(R.string.no_data));
+                    MessageToast.showToastMethod(TermsActivity.this, getString(R.string.no_data));
 
                 } else {
 
                     if (status) {
 
                         if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
-                           // about_webView.loadDataWithBaseURL(null, heading_text_en, "text/html", "UTF-8", null);
-                            tv_help.setText(help);
-                        }else {
-                            tv_help.setText(help);
+                            webview.loadDataWithBaseURL(null, terms, "text/html", "UTF-8", null);
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+
+                            webview.loadDataWithBaseURL(null, terms_ar, "text/html", "UTF-8", null);
+
                         }
 
+
                     } else {
-                        MessageToast.showToastMethod(HelpActivity.this, message);
+
+                        MessageToast.showToastMethod(TermsActivity.this, message);
                     }
 
                 }
             } else {
 
-                MessageToast.showToastMethod(HelpActivity.this, getString(R.string.check_net_connection));
+                MessageToast.showToastMethod(TermsActivity.this, getString(R.string.check_net_connection));
 
             }
 
         }
-
 
     }
 
@@ -189,5 +171,4 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
         finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
-
 }

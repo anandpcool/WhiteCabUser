@@ -52,11 +52,13 @@
         android:id="@+id/cardView_pickup"
         >
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="@dimen/five"
+            android:padding="@dimen/one_five"
             >
 
 
@@ -70,6 +72,53 @@
                 android:layout_marginStart="@dimen/ten_dp"
                 />
 
+            <LinearLayout
+                android:id="@+id/ll_auto_fragment"
+                android:layout_width="0dp"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
+
+                <fragment android:id="@+id/autocomplete_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_from"
+                android:layout_weight="0.7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/from"
+                    android:textSize="@dimen/text_size_10sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:maxLines="2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_16sp"
+                    />
+
+
+            </LinearLayout>
+
+<!--
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_weight="0.7"
@@ -77,6 +126,7 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/ten_dp"
+                android:visibility="gone"
                 android:textColorHint="@color/hintcolor">
 
                 <EditText
@@ -93,6 +143,7 @@
                     android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
+-->
 
 
             <ImageView

@@ -30,7 +30,7 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
     String strDate, strTime;
     SimpleDateFormat foramteDate, formatTime;
 
-    String strAddress, strVehicleType;
+    String strAddress, strVehicleType, strFromLat="",strFromLong="";
 
 
     ImageView back_ride_later;
@@ -63,10 +63,12 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
         Intent intent = getIntent();
         strAddress = intent.getStringExtra("address");
         strVehicleType = intent.getStringExtra("vehicleType");
+        strFromLat= intent.getStringExtra("from_lat");
+        strFromLong= intent.getStringExtra("from_long");
 
         Date date = new Date();
         calendar.setMinDate(date.getTime());
-        foramteDate = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        foramteDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date dateNew = new Date();
         strDate = foramteDate.format(dateNew);
 
@@ -84,9 +86,9 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
                 String strDate1 = String.valueOf(dayOfMonth + "/" + (month + 1) + "/" + year);
 
                 try {
-                    SimpleDateFormat spf = new SimpleDateFormat("dd/mm/yyyy");
+                    SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
                     Date newDate = spf.parse(strDate1);
-                    spf = new SimpleDateFormat("dd-MM-yyyy");
+                    spf = new SimpleDateFormat("yyyy-MM-dd");
                     strDate = spf.format(newDate);
                     Log.e("Date is : ", +dayOfMonth + " / " + (month + 1) + " / " + year + " : " + strDate);
                 } catch (ParseException e) {
@@ -134,11 +136,14 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
             case R.id.btn_select_location:
                 preferenceUtils.setRideType("Ride Later");
 
-                Intent intent = new Intent(RideLaterActivity.this, LaterBookingActivity.class);
-                intent.putExtra("Address", strAddress);
+                //Intent intent = new Intent(RideLaterActivity.this, LaterBookingActivity.class);
+                Intent intent = new Intent(RideLaterActivity.this, DropOffActivity.class);
+                intent.putExtra("from_address", strAddress);
                 intent.putExtra("vehicleType", strVehicleType);
                 intent.putExtra("Date", strDate);
                 intent.putExtra("Time", strTime);
+                intent.putExtra("from_lat", strFromLat);
+                intent.putExtra("from_long", strFromLong);
 
                 intent.putExtra("key", "");
                 Log.e("fsdafndsaklfdsaf",strDate+" "+strTime);
