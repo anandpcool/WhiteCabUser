@@ -17,26 +17,30 @@
 
     <TextView
         android:id="@+id/tv_address_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/img_love_yellow"
         android:layout_marginStart="@dimen/ten_dp"
         android:textColor="@color/black"
-        android:text="@string/home"
+        android:text=""
+        android:layout_toStartOf="@+id/cancel_image"
+        android:layout_marginEnd="@dimen/spacing_very_tiny"
         />
 
     <TextView
         android:id="@+id/tv_address_desc"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/img_love_yellow"
         android:layout_marginStart="@dimen/ten_dp"
         android:layout_below="@+id/tv_address_title"
         android:layout_marginTop="@dimen/five"
-        android:text="47-75 Briariea Dr, Moncton, NB E1G 2E9, Canada"
+        android:maxLines="2"
+        android:text=""
         />
 
     <ImageView
+        android:id="@+id/cancel_image"
         android:layout_width="@dimen/normal"
         android:layout_height="@dimen/normal"
         android:layout_alignParentEnd="true"

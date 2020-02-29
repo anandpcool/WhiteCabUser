@@ -1,8 +1,10 @@
 package com.volive.whitecab.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -21,10 +23,22 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.volive.whitecab.Adapters.RecyclerAdapters.FavoriteAdapter;
 import com.volive.whitecab.Adapters.RecyclerAdapters.RecentVisitedAdapter;
+import com.volive.whitecab.DataModels.FavouriteModel;
+import com.volive.whitecab.DataModels.RecentRideModel;
 import com.volive.whitecab.R;
+import com.volive.whitecab.util.ApiUrl;
+import com.volive.whitecab.util.DialogsUtils;
 import com.volive.whitecab.util.MessageToast;
+import com.volive.whitecab.util.NetworkConnection;
+import com.volive.whitecab.util.ServiceHandler;
+import com.volive.whitecab.util.SessionManager;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,7 +53,14 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
     String from_address="",to_address="";
     AutocompleteSupportFragment from_autocomplete,dest_autocomplete;
     LinearLayout ll_from_autoComeplete,layout_toAddress,ll_dest_autoComeplete;
-    double from_lat,from_lng, dest_lan, dest_lng;
+    double from_lat,from_lng, dest_lat, dest_lng;
+    NetworkConnection nw;
+    SessionManager sm;
+    String strLanguage="",strUserId="";
+    Boolean netConnection = false;
+    Boolean nodata = false;
+    ArrayList<FavouriteModel> favouriteArrayList;
+    ArrayList<RecentRideModel> recentArrayList;
 
 
     @Override
@@ -53,6 +74,12 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initUI() {
+        nw=new NetworkConnection(DropLocationActivity.this);
+        sm=new SessionManager(DropLocationActivity.this);
+        favouriteArrayList=new ArrayList<>();
+        recentArrayList=new ArrayList<>();
+        HashMap<String, String> userDetail = sm.getUserDetails();
+        strUserId = userDetail.get(SessionManager.KEY_ID);
         back_drop_off=findViewById(R.id.back_drop_off);
         fav_recycler=findViewById(R.id.fav_recycler);
         visited_recycler=findViewById(R.id.visited_recycler);
@@ -86,16 +113,8 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
         tv_destination_Address.setOnClickListener(this);
         tv_from_add.setOnClickListener(this);
         back_drop_off.setOnClickListener(this);
-        fav_adapter=new FavoriteAdapter(DropLocationActivity.this, false);
-        fav_recycler.setHasFixedSize(true);
-        fav_recycler.setNestedScrollingEnabled(false);
-        fav_recycler.setAdapter(fav_adapter);
-        visitedAdapter=new RecentVisitedAdapter(DropLocationActivity.this, false);
-        visited_recycler.setHasFixedSize(true);
-        visited_recycler.setNestedScrollingEnabled(false);
-        visited_recycler.setAdapter(visitedAdapter);
-        cardView_fromTo.setOnClickListener(this);
-        layout_toAddress.setOnClickListener(this);
+
+        new favouritePlaces().execute();
 
 
     }
@@ -114,8 +133,6 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
 
             case R.id.cardView_fromTo:
 
-                startActivity(new Intent(DropLocationActivity.this, DropOffActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 break;
 
             case R.id.img_cancel:
@@ -147,6 +164,182 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    public void send_fav(String lattitude, String longitude, String address) {
+        dest_lat=Double.parseDouble(lattitude);
+        dest_lng=Double.parseDouble(longitude);
+        to_address=address;
+
+        Intent intent=new Intent(DropLocationActivity.this, DropOffActivity.class);
+        intent.putExtra("dest_address", to_address);
+        intent.putExtra("dest_lat", Double.toString(dest_lat));
+        intent.putExtra("dest_long", Double.toString(dest_lng));
+        intent.putExtra("from_address", from_address);
+        intent.putExtra("from_lat", Double.toString(from_lat));
+        intent.putExtra("from_long", Double.toString(from_lng));
+
+        setResult(RESULT_OK, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+    }
+
+    public void updateFavLocations() {
+        new favouritePlaces().execute();
+    }
+
+
+    private class favouritePlaces extends AsyncTask<Void,Void,Void> {
+
+        String response = null;
+        boolean status;
+        String message, message_ar;
+        private ProgressDialog myDialog;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            myDialog = DialogsUtils.showProgressDialog(DropLocationActivity.this, getString(R.string.please_wait));
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            if (nw.isConnectingToInternet()) {
+
+                JSONObject json = new JSONObject();
+                try {
+
+                    String finalUrl = ApiUrl.strBaseUrl+ApiUrl.favouriteLocations + "&API-KEY=1514209135"+"&customer_id="+strUserId;
+                    Log.e("OfferFinalUrl", finalUrl);
+                    ServiceHandler sh = new ServiceHandler();
+                    response = sh.callToServer(finalUrl, ServiceHandler.GET, json);
+
+
+                    JSONObject js = new JSONObject(response);
+                    status = js.getBoolean("status");
+                    message = js.getString("message");
+                    Log.e("favouriteResponse", response.toString());
+//                    message_ar = js.getString("message_ar");
+
+                    if (status) {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+
+                        JSONObject object=js.getJSONObject("rides");
+
+
+                        JSONArray favoriteArray=object.getJSONArray("favorite");
+                        JSONArray recentArray=object.getJSONArray("recent");
+                        favouriteArrayList.clear();
+                        recentArrayList.clear();
+                        if(favoriteArray != null && favoriteArray.length() > 0){
+                            for(int i=0; i<favoriteArray.length(); i++){
+
+                                JSONObject fav_object=favoriteArray.getJSONObject(i);
+
+                                String id= fav_object.getString("aid");
+                                String user_id=fav_object.getString("user_id");
+                                String lattitude=fav_object.getString("lattitude");
+                                String longitude=fav_object.getString("longitude");
+                                String address=fav_object.getString("address");
+                                String type=fav_object.getString("type");
+
+                                FavouriteModel favouritePojo= new FavouriteModel(id,user_id,lattitude,longitude,address,type);
+                                favouriteArrayList.add(favouritePojo);
+                            }
+
+                        }
+
+
+                        if(recentArray != null && recentArray.length() > 0){
+                            for(int i=0; i<recentArray.length(); i++){
+
+                                JSONObject recent_object=recentArray.getJSONObject(i);
+
+                                String id= recent_object.getString("id");
+                                String to_latitude= recent_object.getString("to_latitude");
+                                String to_longitude=recent_object.getString("to_longitude");
+                                String to_address= recent_object.getString("to_address");
+
+                                RecentRideModel recentRidePojo= new RecentRideModel(id,to_latitude,to_longitude,to_address);
+                                recentArrayList.add(recentRidePojo);
+                            }
+
+                        }
+
+                    } else {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+//                        message_ar = js.getString("message_ar");
+
+                    }
+
+                    nodata = false;
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    nodata = true;
+                }
+
+                netConnection = true;
+
+            } else {
+
+                netConnection = false;
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (myDialog.isShowing())
+                myDialog.dismiss();
+
+            if (netConnection) {
+
+                if (nodata) {
+
+                    MessageToast.showToastMethod(DropLocationActivity.this, getString(R.string.no_data));
+
+                } else {
+
+                    if (status) {
+                        fav_adapter=new FavoriteAdapter(DropLocationActivity.this,false,favouriteArrayList);
+                        fav_recycler.setHasFixedSize(true);
+                        fav_recycler.setNestedScrollingEnabled(false);
+                        fav_recycler.setAdapter(fav_adapter);
+
+                        visitedAdapter=new RecentVisitedAdapter(DropLocationActivity.this,false,recentArrayList);
+                        visited_recycler.setHasFixedSize(true);
+                        visited_recycler.setNestedScrollingEnabled(false);
+                        visited_recycler.setAdapter(visitedAdapter);
+                    } else {
+                        MessageToast.showToastMethod(DropLocationActivity.this, message);
+                    }
+
+                }
+            } else {
+
+                MessageToast.showToastMethod(DropLocationActivity.this, getString(R.string.check_net_connection));
+
+            }
+
+        }
+    }
+
     private void showDestGoogleAddress() {
         layout_toAddress.setVisibility(View.GONE);
         ll_dest_autoComeplete.setVisibility(View.VISIBLE);
@@ -168,15 +361,15 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
                 // TODO: Get info about the selected place.
                 Log.i("sdfg", "Place: " + place.getName() + ", " +  place.getLatLng().latitude);
 
-                dest_lan=place.getLatLng().latitude;
+                dest_lat =place.getLatLng().latitude;
                 dest_lng =place.getLatLng().longitude;
 
                 //googlemap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 16));
-                String dest_address= getCompleteAddressString(place.getLatLng().latitude,place.getLatLng().longitude);
+                 to_address= getCompleteAddressString(place.getLatLng().latitude,place.getLatLng().longitude);
 
-                if(from_address.length()>0 && dest_address.length()>0){
+                if(from_address.length()>0 && to_address.length()>0){
                     Intent intent=new Intent(DropLocationActivity.this, DropOffActivity.class);
-                    intent.putExtra("dest_address", dest_address);
+                    intent.putExtra("dest_address", to_address);
                     intent.putExtra("dest_lat", Double.toString(place.getLatLng().latitude));
                     intent.putExtra("dest_long", Double.toString(place.getLatLng().longitude));
                     intent.putExtra("from_address", from_address);
@@ -192,7 +385,7 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
                 }
 
 
-                tv_destination_Address.setText(dest_address);
+                tv_destination_Address.setText(to_address);
                 ll_dest_autoComeplete.setVisibility(View.GONE);
                 layout_toAddress.setVisibility(View.VISIBLE);
 

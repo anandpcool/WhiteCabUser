@@ -17,17 +17,21 @@
 
     <TextView
         android:id="@+id/tv_address_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/img_love_yellow"
         android:layout_marginStart="@dimen/ten_dp"
         android:textColor="@color/black"
+        android:maxLines="2"
         android:text="Stonehurst Golf Course Park"
+        android:layout_toStartOf="@+id/img_love_gray"
+        android:layout_marginEnd="@dimen/spacing_very_tiny"
         />
 
     <TextView
         android:id="@+id/tv_address_desc"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/img_love_yellow"
         android:layout_marginStart="@dimen/ten_dp"
@@ -37,6 +41,7 @@
         />
 
     <ImageView
+        android:id="@+id/img_love_gray"
         android:layout_width="@dimen/two_five"
         android:layout_height="@dimen/two_five"
         android:layout_alignParentEnd="true"
@@ -48,7 +53,7 @@
         android:layout_height="1dp"
         android:background="@color/lightGrey"
         android:layout_below="@+id/tv_address_desc"
-        android:layout_marginTop="@dimen/ten_dp"
+        android:layout_marginTop="@dimen/one_five"
         android:layout_toEndOf="@+id/img_love_yellow"
         />
 

@@ -276,13 +276,20 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
     }
 
     private void checkPermission() {
+
         int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int permissionLocation2 = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-        if (permissionLocation != PackageManager.PERMISSION_GRANTED && permissionLocation2 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        int readPermission=ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int writePermission=ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int callPermission=ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+
+
+        if (permissionLocation != PackageManager.PERMISSION_GRANTED && permissionLocation2 != PackageManager.PERMISSION_GRANTED&& readPermission != PackageManager.PERMISSION_GRANTED&& writePermission != PackageManager.PERMISSION_GRANTED&& callPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE}, 1);
         } else {
             callPermission();
         }
+
     }
 
     private void callPermission() {
@@ -304,10 +311,6 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-        }
-
 
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST:

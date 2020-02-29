@@ -2,6 +2,7 @@ package com.volive.whitecab.Activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -27,10 +29,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -62,6 +67,16 @@ import com.volive.whitecab.util.PreferenceUtils;
 import com.volive.whitecab.util.ServiceHandler;
 import com.volive.whitecab.util.SessionManager;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -117,7 +132,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public static int SELECT_FILE = 4;
     private static final int GRANT_LOC_ACCESS = 800;
     String picturePath = "empty";
-    String PickedImgPath = "empty";
+    String PickedImgPath = "empty",strImagePath, strImageUrl;
+    private Dialog addressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,14 +191,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
         HashMap<String, String> userDetail = sm.getUserDetails();
+        HashMap<String, String> userProfile = sm.returnProfile_url();
+        strImagePath = userProfile.get(SessionManager.PROFILE_IMG_PATH);
+        strImageUrl = userProfile.get(SessionManager.PROFILE_IMG_URL);
 
         if(userDetail.get(SessionManager.KEY_ID) != null){
             strUserId = userDetail.get(SessionManager.KEY_ID);
             strName = userDetail.get(SessionManager.KEY_NAME);
             strEmail = userDetail.get(SessionManager.KEY_EMAIL);
             strLanguage = userDetail.get(SessionManager.KEY_LANGUAGE);
+
             tv_user_name.setText(strName);
             tv_user_email.setText(strEmail);
+            if(strImageUrl.isEmpty()){
+                img_user_profile.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_empty));
+            }else {
+                Glide.with(HomeActivity.this).load(strImagePath + strImageUrl).into(img_user_profile);
+            }
+
         }
     }
 
@@ -245,7 +271,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.imgSaveAddress:
 
-                new saveAddress().execute();
+              /*  if(boolean_save_address){
+                    Toast.makeText(HomeActivity.this, "This Address is already saved", Toast.LENGTH_SHORT).show();
+                }else {
+
+                }*/
+
+                addAddressTitleDialog();
 
                 break;
 
@@ -260,6 +292,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 strLong = String.valueOf(gpsTracker.getLongitude());
                 new getVehicle().execute();
                 new vehicleType().execute();
+                new checkFavorite().execute();
 
                 break;
 
@@ -308,7 +341,157 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void addAddressTitleDialog() {
+        addressDialog=new Dialog(HomeActivity.this);
+        addressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        addressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        Window window = addressDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        addressDialog.setContentView(R.layout.address_title_dialog);
+        addressDialog.setCanceledOnTouchOutside(true);
+        addressDialog.setCancelable(true);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        addressDialog.show();
+
+        final EditText edt_title=(EditText)addressDialog.findViewById(R.id.edt_title);
+        Button btn_save=(Button)addressDialog.findViewById(R.id.btn_save);
+        ImageView img_close=(ImageView)addressDialog.findViewById(R.id.img_close);
+
+
+        img_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                addressDialog.dismiss();
+
+            }
+        });
+
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(edt_title.getText().toString().isEmpty()){
+                    MessageToast.showToastMethod(HomeActivity.this, ""+getResources().getString(R.string.add_title));
+                }else {
+                    new saveAddress(edt_title.getText().toString()).execute();
+                }
+
+            }
+        });
+
+    }
+
     public void onItemSelect(int position) {
+
+    }
+
+
+    private class checkFavorite extends AsyncTask<Void,Void,Void>{
+
+        String response = null;
+        boolean status;
+        String message, message_ar;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showLoader();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            if (nw.isConnectingToInternet()) {
+
+                JSONObject json = new JSONObject();
+                try {
+
+                    json.put("API-KEY", Constants.API_KEY);
+                    json.put("user_id", strUserId);
+                    json.put("lat", strLat);
+                    json.put("long", strLong);
+
+
+                    Log.e("Param", json.toString());
+                    ServiceHandler sh = new ServiceHandler();
+                    response = sh.callToServer(ApiUrl.strBaseUrl + ApiUrl.checkFavorite, ServiceHandler.POST, json);
+
+                    JSONObject js = new JSONObject(response);
+                    status = js.getBoolean("status");
+                    message = js.getString("message");
+
+                    Log.e("strFavouriteAddress", response.toString());
+
+                    if (status) {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+
+                    } else {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+//                        message_ar = js.getString("message_ar");
+                    }
+
+                    nodata = false;
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    nodata = true;
+                }
+
+                netConnection = true;
+
+            } else {
+
+                netConnection = false;
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            hideLoader();
+
+            if (netConnection) {
+
+                if (nodata) {
+
+                    MessageToast.showToastMethod(HomeActivity.this, getString(R.string.no_data));
+
+                } else {
+
+                    if (status) {
+                        imgSaveAddress.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_yellow));
+                       // boolean_save_address=true;
+                    } else {
+                        imgSaveAddress.setImageDrawable(getResources().getDrawable(R.drawable.love_gray));
+                        //boolean_save_address=false;
+                    }
+
+                }
+
+            } else {
+
+                MessageToast.showToastMethod(HomeActivity.this, getString(R.string.check_net_connection));
+
+            }
+
+        }
+
 
     }
 
@@ -349,8 +532,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     strLong = String.valueOf(cameraPosition.target.longitude);
                     strAddress = MapUtil.getLatLongToAddress(cameraPosition.target.latitude, cameraPosition.target.longitude, HomeActivity.this);
                     tv_from_address.setText(strAddress);
+                    imgSaveAddress.setImageDrawable(getResources().getDrawable(R.drawable.love_gray));
+                  //  boolean_save_address=false;
                     new getVehicle().execute();
                     new vehicleType().execute();
+                    new checkFavorite().execute();
                 }
             }
         });
@@ -379,7 +565,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                 JSONObject json = new JSONObject();
                 try {
-                    json.put("API-KEY", "1514209135");
+                    json.put("API-KEY", Constants.API_KEY);
                     json.put("lat", strLat);
                     json.put("long", strLong);
                     json.put("datetime", strDate);
@@ -395,7 +581,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     status = js.getBoolean("status");
                     message = js.getString("message");
 
-                    Log.e("strVehicle", response.toString());
+                    Log.e("getVehicleResponse", response.toString());
 
                     arrVehicle = new ArrayList<>();
 
@@ -520,7 +706,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                 JSONObject json = new JSONObject();
                 try {
-                    json.put("API-KEY", "1514209135");
+                    json.put("API-KEY", Constants.API_KEY);
                     json.put("lat", strLat);
                     json.put("long", strLong);
                     json.put("datetime", strDate);
@@ -534,7 +720,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     status = js.getBoolean("status");
                     message = js.getString("message");
 
-                    Log.e("strVehicleType", response.toString());
+                    Log.e("vehicleTypeResponse", response.toString());
 
                     arrVehicleType = new ArrayList<>();
                     if (status) {
@@ -661,9 +847,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private class saveAddress extends AsyncTask<Void, Void, Void> {
 
-        String response = null;
+        String response = null,title;
         boolean status;
         String message, message_ar;
+
+        public saveAddress(String title) {
+            this.title=title;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -679,11 +869,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 JSONObject json = new JSONObject();
                 try {
 
-                    json.put("API-KEY", "1514209135");
+                    json.put("API-KEY", Constants.API_KEY);
                     json.put("user_id", strUserId);
                     json.put("lat", strLat);
                     json.put("long", strLong);
                     json.put("address", strAddress);
+                    json.put("type",title);
+                    json.put("request_type","save");
 
                     Log.e("Param", json.toString());
                     ServiceHandler sh = new ServiceHandler();
@@ -747,7 +939,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
 
                     if (status) {
-                        imgSaveAddress.setImageDrawable(getResources().getDrawable(R.drawable.star_fill));
+                        addressDialog.dismiss();
+                        imgSaveAddress.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_yellow));
+                        //boolean_save_address=true;
                         MessageToast.showToastMethod(HomeActivity.this, message);
                     } else {
                         MessageToast.showToastMethod(HomeActivity.this, message);
@@ -1346,8 +1540,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
         }
-        img_user_profile.setImageBitmap(bm);
-
+       // img_user_profile.setImageBitmap(bm);
+        new uploadProfilePic().execute();
     }
 
     private void onCaptureImageResult(Intent data) {
@@ -1369,7 +1563,167 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         } catch (IOException e) {
             e.printStackTrace();
         }
-        img_user_profile.setImageBitmap(thumbnail);
+     //  img_user_profile.setImageBitmap(thumbnail);
+        new uploadProfilePic().execute();
+    }
+
+    private class uploadProfilePic extends AsyncTask<Void, Void, Void> {
+
+
+        String res;
+        String message;
+        boolean status;
+
+        String image, path;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showLoader();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+
+            if (nw.isConnectingToInternet()) {
+
+
+                JSONObject json = new JSONObject();
+                try {
+
+
+                    String res = postFile();
+                    System.out.println("register activity response res: " + res.toString());
+
+                    JSONObject js = new JSONObject(res);
+                    status = js.getBoolean("status");
+
+                    if (status) {
+
+                        if (strLanguage.equalsIgnoreCase("1")) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+                        JSONObject userobj = js.getJSONObject("user_details");
+                        image = userobj.getString("profile_pic");
+                        path = js.getString("base_url");
+                        sm.profileImageUrl(image, path);
+                    } else {
+                        if (strLanguage.equalsIgnoreCase("1")) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+                    }
+
+                    nodata = false;
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    nodata = true;
+                }
+
+                netConnection = true;
+
+            } else {
+
+                netConnection = false;
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            hideLoader();
+
+            if (netConnection) {
+
+                if (nodata) {
+
+                    MessageToast.showToastMethod(HomeActivity.this, getString(R.string.no_data));
+
+                } else {
+
+                    if (status) {
+
+                        Glide.with(HomeActivity.this).load(path + image).into(img_user_profile);
+                        MessageToast.showToastMethod(HomeActivity.this, message);
+                    } else {
+
+                        MessageToast.showToastMethod(HomeActivity.this, message);
+                    }
+
+                }
+            } else {
+
+                MessageToast.showToastMethod(HomeActivity.this, getString(R.string.check_net_connection));
+
+            }
+
+        }
+
+    }
+
+    private String postFile() {
+
+        String responseStr = "Empty";
+
+        try {
+
+            Log.v("textFile: ", picturePath);
+
+            // new HttpClient
+            HttpClient httpClient = new DefaultHttpClient();
+
+            // post header
+            HttpPost httpPost = new HttpPost(ApiUrl.strBaseUrl + ApiUrl.strEditProfileImage);
+
+            MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+            reqEntity.addPart("user_id", new StringBody(strUserId));
+            reqEntity.addPart("API-KEY", new StringBody("1514209135"));
+
+
+            if (!picturePath.equals("empty")) {
+
+                File pickedfile = new File(picturePath);
+
+                long fileSizeInBytes = pickedfile.length();
+                float fileSizeInKB = fileSizeInBytes / 1024;
+                System.out.println("/-/-/-/-/-/-  file size is " + fileSizeInKB);
+                FileBody fBody = new FileBody(pickedfile);
+
+                reqEntity.addPart("profile_picture", fBody);
+
+                System.out.println("bvksbvkjgmjlsf" + fBody);
+
+            }
+            //  reqEntity.addPart("attached_file", fileBody);  //file
+            httpPost.setEntity(reqEntity);
+
+            // execute HTTP post request
+            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity resEntity = response.getEntity();
+
+            if (resEntity != null) {
+
+                responseStr = EntityUtils.toString(resEntity).trim();
+                Log.e("Response in change: ", responseStr);
+                // you can add an if statement here and do other actions based on the response
+            }
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return responseStr;
     }
 
 

@@ -1,19 +1,27 @@
 package com.volive.whitecab.Activities;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,23 +30,41 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.volive.whitecab.R;
+import com.volive.whitecab.util.ApiUrl;
+import com.volive.whitecab.util.Constants;
+import com.volive.whitecab.util.DialogsUtils;
 import com.volive.whitecab.util.GPSTracker;
 import com.volive.whitecab.util.MapUtil;
+import com.volive.whitecab.util.MessageToast;
+import com.volive.whitecab.util.NetworkConnection;
 import com.volive.whitecab.util.PreferenceUtils;
+import com.volive.whitecab.util.ServiceHandler;
+import com.volive.whitecab.util.SessionManager;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class DropOffActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
 
     Button btn_confirm;
-    ImageView back_drop_off,img_myLoc;
+    ImageView back_drop_off,img_myLoc,img_saveAddress;
     TextView tv_dest_address;
     SupportMapFragment mapFragment;
     private GoogleMap mMap;
     GPSTracker gpsTracker;
-    String dropLat = "", dropLong = "", dropAddress = "";
+    String dropLat = "", dropLong = "", dropAddress = "",strUserId="",strLanguage="";
     PreferenceUtils preferenceUtils;
     LinearLayout ll_drop_off;
     String strFromAddress="", strTime="",strDate="",strVehicleType="", strFromLat="",strFromLong="",strDriverId="",strDistance="",strVehicleNumber="";
     int dropLocationResultCode = 222;
+    NetworkConnection nw;
+    SessionManager sm;
+    Boolean netConnection = false;
+    Boolean nodata = false;
+    private ProgressDialog myDialog;
+    private Dialog addressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +76,11 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initUI() {
+        nw=new NetworkConnection(DropOffActivity.this);
+        sm=new SessionManager(DropOffActivity.this);
+        HashMap<String, String> userDetail = sm.getUserDetails();
+        strUserId = userDetail.get(SessionManager.KEY_ID);
+
         preferenceUtils=new PreferenceUtils(DropOffActivity.this);
         gpsTracker=new GPSTracker(DropOffActivity.this);
         btn_confirm=findViewById(R.id.btn_confirm);
@@ -57,6 +88,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
         tv_dest_address=findViewById(R.id.tv_dest_address);
         ll_drop_off=findViewById(R.id.ll_drop_off);
         img_myLoc=findViewById(R.id.img_myLoc);
+        img_saveAddress=findViewById(R.id.img_saveAddress);
     }
 
     private void initViews() {
@@ -64,6 +96,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
         back_drop_off.setOnClickListener(this);
         ll_drop_off.setOnClickListener(this);
         img_myLoc.setOnClickListener(this);
+        img_saveAddress.setOnClickListener(this);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.drop_off_map);
         mapFragment.getMapAsync(DropOffActivity.this);
@@ -112,6 +145,12 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
 
+            case R.id.img_saveAddress:
+
+                addAddressTitleDialog();
+
+                break;
+
             case R.id.img_myLoc:
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude()), 16));
@@ -121,7 +160,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
                 tv_dest_address.setText(dropAddress);
                 dropLat= String.valueOf(gpsTracker.getLatitude());
                 dropLong = String.valueOf(gpsTracker.getLongitude());
-
+                new checkFavorite().execute();
                 break;
 
             case R.id.btn_confirm:
@@ -180,6 +219,47 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    private void addAddressTitleDialog() {
+        addressDialog=new Dialog(DropOffActivity.this);
+        addressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        addressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        Window window = addressDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        addressDialog.setContentView(R.layout.address_title_dialog);
+        addressDialog.setCanceledOnTouchOutside(true);
+        addressDialog.setCancelable(true);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        addressDialog.show();
+
+        final EditText edt_title=(EditText)addressDialog.findViewById(R.id.edt_title);
+        Button btn_save=(Button)addressDialog.findViewById(R.id.btn_save);
+        ImageView img_close=(ImageView)addressDialog.findViewById(R.id.img_close);
+
+
+        img_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                addressDialog.dismiss();
+
+            }
+        });
+
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(edt_title.getText().toString().isEmpty()){
+                    MessageToast.showToastMethod(DropOffActivity.this, ""+getResources().getString(R.string.add_title));
+                }else {
+                    new saveAddress(edt_title.getText().toString()).execute();
+                }
+
+            }
+        });
+
+    }
 
 
     @Override
@@ -218,6 +298,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
                     dropLong = String.valueOf(cameraPosition.target.longitude);
                     dropAddress = MapUtil.getLatLongToAddress(cameraPosition.target.latitude, cameraPosition.target.longitude, DropOffActivity.this);
                     tv_dest_address.setText(dropAddress);
+                    new checkFavorite().execute();
                 }
 
             }
@@ -256,6 +337,229 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         }
+    }
+
+
+    private class saveAddress extends AsyncTask<Void, Void, Void> {
+
+        String response = null,title;
+        boolean status;
+        String message, message_ar;
+
+        public saveAddress(String title) {
+            this.title=title;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            myDialog = DialogsUtils.showProgressDialog(DropOffActivity.this, getString(R.string.please_wait));
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            if (nw.isConnectingToInternet()) {
+
+                JSONObject json = new JSONObject();
+                try {
+
+                    json.put("API-KEY", Constants.API_KEY);
+                    json.put("user_id", strUserId);
+                    json.put("lat", dropLat);
+                    json.put("long", dropLong);
+                    json.put("address", dropAddress);
+                    json.put("type",title);
+                    json.put("request_type","save");
+
+                    Log.e("Param", json.toString());
+                    ServiceHandler sh = new ServiceHandler();
+                    response = sh.callToServer(ApiUrl.strBaseUrl + ApiUrl.strSaveAddress, ServiceHandler.POST, json);
+
+                    JSONObject js = new JSONObject(response);
+                    status = js.getBoolean("status");
+                    message = js.getString("message");
+
+                    Log.e("strSaveAddress", response.toString());
+//                    message_ar = js.getString("message_ar");
+
+                    if (status) {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+
+                    } else {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+//                        message_ar = js.getString("message_ar");
+                    }
+
+                    nodata = false;
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    nodata = true;
+                }
+
+                netConnection = true;
+
+            } else {
+
+                netConnection = false;
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (myDialog.isShowing()){
+                myDialog.dismiss();
+            }
+
+            if (netConnection) {
+
+                if (nodata) {
+
+                    MessageToast.showToastMethod(DropOffActivity.this, getString(R.string.no_data));
+
+                } else {
+
+                    if (status) {
+                        addressDialog.dismiss();
+                        img_saveAddress.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_yellow));
+                        MessageToast.showToastMethod(DropOffActivity.this, message);
+                    } else {
+                        MessageToast.showToastMethod(DropOffActivity.this, message);
+                    }
+
+                }
+
+            } else {
+
+                MessageToast.showToastMethod(DropOffActivity.this, getString(R.string.check_net_connection));
+
+            }
+
+        }
+
+    }
+
+    private class checkFavorite extends AsyncTask<Void,Void,Void>{
+
+        String response = null;
+        boolean status;
+        String message, message_ar;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            myDialog = DialogsUtils.showProgressDialog(DropOffActivity.this, getString(R.string.please_wait));
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            if (nw.isConnectingToInternet()) {
+
+                JSONObject json = new JSONObject();
+                try {
+
+                    json.put("API-KEY", Constants.API_KEY);
+                    json.put("user_id", strUserId);
+                    json.put("lat", dropLat);
+                    json.put("long", dropLong);
+
+
+                    Log.e("Param", json.toString());
+                    ServiceHandler sh = new ServiceHandler();
+                    response = sh.callToServer(ApiUrl.strBaseUrl + ApiUrl.checkFavorite, ServiceHandler.POST, json);
+
+                    JSONObject js = new JSONObject(response);
+                    status = js.getBoolean("status");
+                    message = js.getString("message");
+
+                    Log.e("strFavouriteAddress", response.toString());
+
+                    if (status) {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+
+                    } else {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+//                        message_ar = js.getString("message_ar");
+                    }
+
+                    nodata = false;
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    nodata = true;
+                }
+
+                netConnection = true;
+
+            } else {
+
+                netConnection = false;
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (myDialog.isShowing()){
+                myDialog.dismiss();
+            }
+
+            if (netConnection) {
+
+                if (nodata) {
+
+                    MessageToast.showToastMethod(DropOffActivity.this, getString(R.string.no_data));
+
+                } else {
+
+                    if (status) {
+                        img_saveAddress.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_yellow));
+                    } else {
+                        img_saveAddress.setImageDrawable(getResources().getDrawable(R.drawable.love_gray));
+                    }
+
+                }
+
+            } else {
+
+                MessageToast.showToastMethod(DropOffActivity.this, getString(R.string.check_net_connection));
+
+            }
+
+        }
+
+
     }
 
 

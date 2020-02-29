@@ -1,8 +1,11 @@
 package com.volive.whitecab.Activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -20,11 +23,26 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.volive.whitecab.Adapters.RecyclerAdapters.ComplaintAdapter;
 import com.volive.whitecab.Adapters.RecyclerAdapters.FavoriteAdapter;
 import com.volive.whitecab.Adapters.RecyclerAdapters.RecentVisitedAdapter;
+import com.volive.whitecab.DataModels.ComplaintModel;
+import com.volive.whitecab.DataModels.FavouriteModel;
+import com.volive.whitecab.DataModels.RecentRideModel;
 import com.volive.whitecab.R;
+import com.volive.whitecab.util.ApiUrl;
+import com.volive.whitecab.util.DialogsUtils;
+import com.volive.whitecab.util.MessageToast;
+import com.volive.whitecab.util.NetworkConnection;
+import com.volive.whitecab.util.ServiceHandler;
+import com.volive.whitecab.util.SessionManager;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,6 +58,13 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
     AutocompleteSupportFragment autocompleteFragment;
     LinearLayout ll_auto_fragment,ll_from;
     double lat,lng;
+    NetworkConnection nw;
+    SessionManager sm;
+    String strLanguage="",strUserId="",address;
+    Boolean netConnection = false;
+    Boolean nodata = false;
+    ArrayList<FavouriteModel> favouriteArrayList;
+    ArrayList<RecentRideModel> recentArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +77,12 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initUI() {
+        nw=new NetworkConnection(PickLocationActivity.this);
+        sm=new SessionManager(PickLocationActivity.this);
+        favouriteArrayList=new ArrayList<>();
+        recentArrayList=new ArrayList<>();
+        HashMap<String, String> userDetail = sm.getUserDetails();
+        strUserId = userDetail.get(SessionManager.KEY_ID);
         fav_recycler=findViewById(R.id.fav_recycler);
         visited_recycler=findViewById(R.id.visited_recycler);
         back_pickup=findViewById(R.id.back_pickup);
@@ -69,14 +100,9 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
     private void initViews() {
         cardView_pickup.setOnClickListener(this);
         back_pickup.setOnClickListener(this);
-        fav_adapter=new FavoriteAdapter(PickLocationActivity.this,true);
-        fav_recycler.setHasFixedSize(true);
-        fav_recycler.setNestedScrollingEnabled(false);
-        fav_recycler.setAdapter(fav_adapter);
-        visitedAdapter=new RecentVisitedAdapter(PickLocationActivity.this,true);
-        visited_recycler.setHasFixedSize(true);
-        visited_recycler.setNestedScrollingEnabled(false);
-        visited_recycler.setAdapter(visitedAdapter);
+
+        new favouritePlaces().execute();
+
     }
 
     @Override
@@ -120,7 +146,7 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
                         lng=place.getLatLng().longitude;
 
                         //googlemap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 16));
-                        String address= getCompleteAddressString(place.getLatLng().latitude,place.getLatLng().longitude);
+                        address= getCompleteAddressString(place.getLatLng().latitude,place.getLatLng().longitude);
 
                         Intent intent=new Intent(PickLocationActivity.this, HomeActivity.class);
                         intent.putExtra("from_address", address);
@@ -181,6 +207,180 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
         return strAdd;
     }
 
+    public void send_fav(String lattitude, String longitude, String address) {
+        lat=Double.parseDouble(lattitude);
+        lng=Double.parseDouble(longitude);
+        this.address=address;
+
+        Intent intent=new Intent(PickLocationActivity.this, HomeActivity.class);
+        intent.putExtra("from_address", address);
+        intent.putExtra("from_lat", Double.toString(lat));
+        intent.putExtra("from_long", Double.toString(lng));
+
+        setResult(RESULT_OK, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+    }
+
+    public void updateFavLocations() {
+        new favouritePlaces().execute();
+    }
+
+
+    private class favouritePlaces extends AsyncTask<Void,Void,Void>{
+
+        String response = null;
+        boolean status;
+        String message, message_ar;
+        private ProgressDialog myDialog;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            myDialog = DialogsUtils.showProgressDialog(PickLocationActivity.this, getString(R.string.please_wait));
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            if (nw.isConnectingToInternet()) {
+
+                JSONObject json = new JSONObject();
+                try {
+
+                    String finalUrl = ApiUrl.strBaseUrl+ApiUrl.favouriteLocations + "&API-KEY=1514209135"+"&customer_id="+strUserId;
+                    Log.e("OfferFinalUrl", finalUrl);
+                    ServiceHandler sh = new ServiceHandler();
+                    response = sh.callToServer(finalUrl, ServiceHandler.GET, json);
+
+
+                    JSONObject js = new JSONObject(response);
+                    status = js.getBoolean("status");
+                    message = js.getString("message");
+                    Log.e("favouriteResponse", response.toString());
+//                    message_ar = js.getString("message_ar");
+
+                    if (status) {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+
+                        JSONObject object=js.getJSONObject("rides");
+
+
+                        JSONArray favoriteArray=object.getJSONArray("favorite");
+                        JSONArray recentArray=object.getJSONArray("recent");
+                        favouriteArrayList.clear();
+                        recentArrayList.clear();
+                        if(favoriteArray != null && favoriteArray.length() > 0){
+
+                            for(int i=0; i<favoriteArray.length(); i++){
+
+                                JSONObject fav_object=favoriteArray.getJSONObject(i);
+
+                                String id= fav_object.getString("aid");
+                                String user_id=fav_object.getString("user_id");
+                                String lattitude=fav_object.getString("lattitude");
+                                String longitude=fav_object.getString("longitude");
+                                String address=fav_object.getString("address");
+                                String type=fav_object.getString("type");
+
+                                FavouriteModel favouritePojo= new FavouriteModel(id,user_id,lattitude,longitude,address,type);
+                                favouriteArrayList.add(favouritePojo);
+                            }
+
+                        }
+
+
+                        if(recentArray != null && recentArray.length() > 0){
+
+                            for(int i=0; i<recentArray.length(); i++){
+
+                                JSONObject recent_object=recentArray.getJSONObject(i);
+
+                                String id= recent_object.getString("id");
+                                String to_latitude= recent_object.getString("to_latitude");
+                                String to_longitude=recent_object.getString("to_longitude");
+                                String to_address= recent_object.getString("to_address");
+
+                                RecentRideModel recentRidePojo= new RecentRideModel(id,to_latitude,to_longitude,to_address);
+                                recentArrayList.add(recentRidePojo);
+                            }
+
+                        }
+
+                    } else {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+//                        message_ar = js.getString("message_ar");
+
+                    }
+
+                    nodata = false;
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    nodata = true;
+                }
+
+                netConnection = true;
+
+            } else {
+
+                netConnection = false;
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+            if (myDialog.isShowing())
+                myDialog.dismiss();
+
+            if (netConnection) {
+
+                if (nodata) {
+
+                    MessageToast.showToastMethod(PickLocationActivity.this, getString(R.string.no_data));
+
+                } else {
+
+                    if (status) {
+                        fav_adapter=new FavoriteAdapter(PickLocationActivity.this,true,favouriteArrayList);
+                        fav_recycler.setHasFixedSize(true);
+                        fav_recycler.setNestedScrollingEnabled(false);
+                        fav_recycler.setAdapter(fav_adapter);
+
+                        visitedAdapter=new RecentVisitedAdapter(PickLocationActivity.this,true,recentArrayList);
+                        visited_recycler.setHasFixedSize(true);
+                        visited_recycler.setNestedScrollingEnabled(false);
+                        visited_recycler.setAdapter(visitedAdapter);
+                    } else {
+                        MessageToast.showToastMethod(PickLocationActivity.this, message);
+                    }
+
+                }
+            } else {
+
+                MessageToast.showToastMethod(PickLocationActivity.this, getString(R.string.check_net_connection));
+
+            }
+
+        }
+    }
 
     @Override
     public void onBackPressed() {

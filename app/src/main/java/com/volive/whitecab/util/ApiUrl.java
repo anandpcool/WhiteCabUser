@@ -40,4 +40,6 @@ public class ApiUrl {
     public static String complaintList="complaintsList?";
     public static String cancelRideList="CancelRideList?";
     public static String userComplaint="user_complaint";
+    public static String favouriteLocations="favorite_locations?";
+    public static String checkFavorite="check_favorite";
 }
