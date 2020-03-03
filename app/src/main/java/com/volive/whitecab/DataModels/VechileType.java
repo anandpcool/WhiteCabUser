@@ -8,11 +8,11 @@ import java.io.Serializable;
 
 public class VechileType implements Serializable {
 
-    String driver_id, lattitude, longitude, distance, vehicle_type, time, cab_type_image,vehicle_type_ar;
+    String driver_id, lattitude, longitude, distance, vehicle_type, time, cab_type_image,vehicle_type_ar,capacity;
 
     private boolean iseTextVisible;
 
-    public VechileType(String driver_id, String lattitude, String longitude, String distance, String vehicle_type, String time, String cab_type_image, String vehicle_type_ar) {
+    public VechileType(String driver_id, String lattitude, String longitude, String distance, String vehicle_type, String time, String cab_type_image, String vehicle_type_ar, String capacity) {
         this.driver_id = driver_id;
         this.lattitude = lattitude;
         this.longitude = longitude;
@@ -21,8 +21,16 @@ public class VechileType implements Serializable {
         this.time = time;
         this.cab_type_image = cab_type_image;
         this.vehicle_type_ar = vehicle_type_ar;
+        this.capacity=capacity;
     }
 
+    public String getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
+    }
 
     public String getVehicle_type_ar() {
         return vehicle_type_ar;

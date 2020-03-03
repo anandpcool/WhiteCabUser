@@ -10,18 +10,15 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.ApiUrl;
 import com.volive.whitecab.util.Constants;
 import com.volive.whitecab.util.DialogsUtils;
-import com.volive.whitecab.util.GPSTracker;
 import com.volive.whitecab.util.MessageToast;
 import com.volive.whitecab.util.NetworkConnection;
 import com.volive.whitecab.util.ServiceHandler;

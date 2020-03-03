@@ -746,8 +746,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             String time = jsonArray.getJSONObject(i).getString("time");
                             String cab_type_image = jsonArray.getJSONObject(i).getString("cab_type_image");
                             String vehicle_type_ar = jsonArray.getJSONObject(i).getString("vehicle_type_ar");
+                            String capacity=jsonArray.getJSONObject(i).getString("capacity");
 
-                            VechileType vechileType = new VechileType(driver_id, lattitude, longitude, distance, vehicle_type, time, cab_type_image, vehicle_type_ar);
+                            VechileType vechileType = new VechileType(driver_id, lattitude, longitude, distance, vehicle_type, time, cab_type_image, vehicle_type_ar,capacity);
                             arrVehicleType.add(vechileType);
                         }
                         //arrVehicleType.get(0).setIseTextVisible(true);
@@ -993,6 +994,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             holder.textViewTime.setText(vechileType.getTime());
+            holder.tv_capacity.setText(getResources().getString(R.string.capacity)+" "+vechileType.getCapacity());
             Glide.with(context).load(vechileType.getCab_type_image()).into(holder.imageView);
 
             if (vechileType.iseTextVisible()) {
@@ -1043,13 +1045,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
             CircleImageView imageView;
-            TextView txtview, textViewTime;
+            TextView txtview, textViewTime,tv_capacity;
 
             public MyViewHolder(View view) {
                 super(view);
                 imageView = (CircleImageView) view.findViewById(R.id.imageview);
                 txtview = (TextView) view.findViewById(R.id.txtname);
                 textViewTime = (TextView) view.findViewById(R.id.txttime);
+                tv_capacity=(TextView) view.findViewById(R.id.tv_capacity);
               //  txtview.setTypeface(typefaceLight);
             }
         }

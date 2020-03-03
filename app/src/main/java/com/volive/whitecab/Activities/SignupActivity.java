@@ -29,7 +29,7 @@ import org.json.JSONObject;
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText et_your_name,et_email,et_phone_number,etPassword,et_con_password;
-    TextView txt_show,txt_show_con,tv_login;
+    TextView txt_show,txt_show_con,tv_login,tv_terms_conditions;
     Button btn_sign_up;
     ImageView back_sign_up;
     private ProgressDialog myDialog;
@@ -62,6 +62,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         btn_sign_up=findViewById(R.id.btn_sign_up);
         tv_login=findViewById(R.id.tv_login);
         checkbox=findViewById(R.id.checkbox);
+        tv_terms_conditions=findViewById(R.id.tv_terms_conditions);
         nw=new NetworkConnection(SignupActivity.this);
     }
 
@@ -73,7 +74,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         btn_sign_up.setOnClickListener(this);
         back_sign_up.setOnClickListener(this);
         tv_login.setOnClickListener(this);
-
+        tv_terms_conditions.setOnClickListener(this);
     }
 
     @Override
@@ -158,6 +159,13 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.tv_login:
 
                 startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+                break;
+
+            case R.id.tv_terms_conditions:
+
+                startActivity(new Intent(SignupActivity.this, TermsActivity.class));
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
                 break;

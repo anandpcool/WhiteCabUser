@@ -35,6 +35,7 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.volive.whitecab.BuildConfig;
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.GPSTracker;
 import com.volive.whitecab.util.SessionManager;
@@ -301,6 +302,7 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
 
                 if(strUserId.isEmpty()){
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                 }else {
                     /*startActivity(new Intent(SplashActivity.this, HomeActivity.class));
@@ -399,6 +401,8 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
                     } else {
                         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
                     }/* else {
                         Intent i = new Intent(SplashActivity.this, SelectLanguage.class);
                         startActivity(i);

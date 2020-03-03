@@ -255,7 +255,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         String response = null;
         boolean status;
-        String message, message_ar;
+        String message, message_ar,user_id,username,email,pass,mobile,profile_pic,otp_status,base_url;
 
 
         @Override
@@ -287,7 +287,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     if(status){
 
-                        String base_url=js.getString("base_url");
+                         base_url=js.getString("base_url");
 
                         if (strLanguage.equalsIgnoreCase("1")) {
                             message = js.getString("message");
@@ -297,16 +297,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         JSONObject userobj = js.getJSONObject("user_details");
 
-                        String user_id = userobj.getString("user_id");
-                        String username = userobj.getString("username");
-                        String email = userobj.getString("email");
-                        String password = userobj.getString("password");
-                        String mobile = userobj.getString("phone");
-                        String profile_pic = userobj.getString("profile_pic");
-                        System.out.println("mobile user_id"+user_id);
+                         user_id = userobj.getString("user_id");
+                         username = userobj.getString("username");
+                         email = userobj.getString("email");
+                         pass = userobj.getString("password");
+                         mobile = userobj.getString("phone");
+                         profile_pic = userobj.getString("profile_pic");
+                         otp_status= userobj.getString("otp_status");
+                         System.out.println("mobile user_id"+user_id);
 
-                        sm.createLoginSession(user_id, email, username, password, mobile, false);
-                        sm.profileImageUrl(profile_pic,base_url);
 
                     }else {
                         if (strLanguage.equalsIgnoreCase("1")) {
@@ -347,10 +346,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }else {
 
                     if(status){
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        MessageToast.showToastMethod(LoginActivity.this, message);
+                        if(otp_status.equalsIgnoreCase("1")){
+                            sm.createLoginSession(user_id, email, username, password, mobile, false);
+                            sm.profileImageUrl(profile_pic,base_url);
+
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            MessageToast.showToastMethod(LoginActivity.this, message);
+                        }else {
+                            Intent intent = new Intent(LoginActivity.this, VerificaionActivity.class);
+                            intent.putExtra("user_id", user_id);
+                            intent.putExtra("phone",phone);
+                            intent.putExtra("otp", "");
+                            intent.putExtra("forgot",false);
+                            startActivity(intent);
+                            finish();
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        }
+
                     }else {
                         MessageToast.showToastMethod(LoginActivity.this, message);
                     }

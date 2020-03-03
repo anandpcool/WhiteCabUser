@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.volive.whitecab.BuildConfig;
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.ApiUrl;
 import com.volive.whitecab.util.Constants;
@@ -37,9 +38,9 @@ import java.util.HashMap;
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener{
 
     ImageView back_settings;
-    TextView tv_sign_out,tv_edit,tv_change_pass,tv_terms_condition;
+    TextView tv_sign_out,tv_edit,tv_change_pass,tv_terms_condition,tv_app_version;
     EditText et_user_name,et_user_mobile,et_user_mail;
-    String strUserId="", strEmail="", strName="", strPassword="", strNumber="", strSelectLanguage="",change_lang="";
+    String strUserId="", strEmail="", strName="", strPassword="", strNumber="", strSelectLanguage="";
     ProgressDialog myDialog;
     NetworkConnection nw;
     SessionManager sm;
@@ -70,6 +71,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         tv_change_pass=findViewById(R.id.tv_change_pass);
         tv_terms_condition=findViewById(R.id.tv_terms_condition);
         rl_change_pass=findViewById(R.id.rl_change_pass);
+        tv_app_version=findViewById(R.id.tv_app_version);
+
+        Log.e("askljhdfds", BuildConfig.VERSION_CODE+"");
+        tv_app_version.setText(String.valueOf(BuildConfig.VERSION_CODE));
 
         et_user_name.setEnabled(false);
         et_user_mobile.setEnabled(false);

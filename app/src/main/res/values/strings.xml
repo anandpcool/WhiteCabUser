@@ -172,4 +172,5 @@
     <string name="min_six_characters">Password should contain minimum 6 characters</string>
     <string name="choose_valid_time">Choose Valid Time</string>
     <string name="please_select_reason">Please select your reason</string>
+    <string name="capacity">Capacity</string>
 </resources>

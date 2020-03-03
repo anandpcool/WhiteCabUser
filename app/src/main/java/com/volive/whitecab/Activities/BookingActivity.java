@@ -48,6 +48,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.ApiUrl;
+import com.volive.whitecab.util.Constants;
 import com.volive.whitecab.util.DialogsUtils;
 import com.volive.whitecab.util.DirectionsJSONParser;
 import com.volive.whitecab.util.GPSTracker;
@@ -557,9 +558,9 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
 
                 JSONObject json = new JSONObject();
                 try {
-                    json.put("API-KEY", "1514209135");
+                    json.put("API-KEY", Constants.API_KEY);
                     json.put("user_id", strUserId);
-//                    json.put("type", strVehicleType);
+                    json.put("type", strVehicleType);
 //                    json.put("driver_id", strDriverId);
                     json.put("from_address", strFromAddress);
                     json.put("from_latitude", strFromLat);
@@ -671,6 +672,7 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
                         MessageToast.showToastMethod(BookingActivity.this, message);
                         Intent intent = new Intent(BookingActivity.this, HomeActivity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     }
 
                 }
