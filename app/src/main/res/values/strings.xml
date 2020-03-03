@@ -139,7 +139,7 @@
     <string name="enter_phone_number">Please Enter Your Phone Number</string>
     <string name="create_your_password">Please Create Your Password</string>
     <string name="confirm_your_password">Re-Enter Your Password</string>
-    <string name="password_mismatch">Enter Your Password Correctly</string>
+    <string name="password_mismatch">Password and Confirm Password doesn\'t matched</string>
     <string name="enter_valid_mail">Enter Valid E-mail</string>
     <string name="empty_otp">Please Enter OTP</string>
     <string name="enter_your_pass">Enter Your Password</string>
@@ -169,4 +169,7 @@
     <string name="no_cancelled_rides">No Cancelled Rides</string>
     <string name="no_scheduled_rides">No Scheduled Rides</string>
     <string name="add_title">Add Title</string>
+    <string name="min_six_characters">Password should contain minimum 6 characters</string>
+    <string name="choose_valid_time">Choose Valid Time</string>
+    <string name="please_select_reason">Please select your reason</string>
 </resources>

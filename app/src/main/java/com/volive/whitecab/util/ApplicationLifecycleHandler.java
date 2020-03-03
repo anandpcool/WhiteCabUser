@@ -52,7 +52,7 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
             strUserId = userDetail.get(SessionManager.KEY_ID);
             strLanguage = userDetail.get(SessionManager.KEY_LANGUAGE);
             act = activity;
-            new currentRide().execute();
+           // new currentRide().execute();
         }
     }
 

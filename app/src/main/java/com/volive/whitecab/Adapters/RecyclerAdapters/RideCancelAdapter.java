@@ -38,7 +38,7 @@ public class RideCancelAdapter extends RecyclerView.Adapter<RideCancelAdapter.My
     public void onBindViewHolder(@NonNull final MyHolder holder, final int position) {
 
         holder.tv_reason.setText(arrayList.get(position).getComplaint_title());
-        ((TrackingActivity)context).onItemSelect(arrayList.get(0).getComplaint_title());
+
 
         holder.rl_cancel.setOnClickListener(new View.OnClickListener() {
             @Override

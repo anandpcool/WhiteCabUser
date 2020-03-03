@@ -559,8 +559,8 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
                 try {
                     json.put("API-KEY", "1514209135");
                     json.put("user_id", strUserId);
-                    json.put("type", strVehicleType);
-                    json.put("driver_id", strDriverId);
+//                    json.put("type", strVehicleType);
+//                    json.put("driver_id", strDriverId);
                     json.put("from_address", strFromAddress);
                     json.put("from_latitude", strFromLat);
                     json.put("from_longitude", strFromLong);
@@ -649,11 +649,12 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
 //                                JSONObject driver_details = new JSONObject(response);
 //                                System.out.println("driver_details" + driver_details.getString("Trip_id"));
                                 trip_id = js.getString("Trip_id");
+                                Intent intent = new Intent(BookingActivity.this, TrackingActivity.class);
+                                startActivity(intent);
+                                MessageToast.showToastMethod(BookingActivity.this,message);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            // layout_cancel.setVisibility(VISIBLE);
-                            //cancel.setVisibility(VISIBLE);
 
                         } else if (value.equalsIgnoreCase("2")) {
                             try {
@@ -663,11 +664,6 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
                                 e.printStackTrace();
                             }
 
-//to RideOnthewayActivity will redirect automatically from notification
-                       /* Intent intent = new Intent(BookingActivity.this, RideOnthewayActivity.class);
-                        intent.putExtra("fromscreen","2");
-                        intent.putExtra("jsonobject", jsonObject.toString());
-                        startActivity(intent);*/
                         }
 
 

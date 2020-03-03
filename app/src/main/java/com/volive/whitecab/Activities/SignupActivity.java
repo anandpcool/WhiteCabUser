@@ -106,6 +106,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     MessageToast.showToastMethod(SignupActivity.this,getString(R.string.enter_phone_number));
                 }else if(etPassword.getText().toString().equalsIgnoreCase("")){
                     MessageToast.showToastMethod(SignupActivity.this,getString(R.string.create_your_password));
+                }else if(etPassword.getText().toString().length() < 6){
+                    MessageToast.showToastMethod(SignupActivity.this,getString(R.string.min_six_characters));
                 }else if(et_con_password.getText().toString().equalsIgnoreCase("")){
                     MessageToast.showToastMethod(SignupActivity.this,getString(R.string.confirm_your_password));
                 }else if(!(etPassword.getText().toString().equals(et_con_password.getText().toString()))){

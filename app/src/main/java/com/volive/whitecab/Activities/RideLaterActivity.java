@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.volive.whitecab.R;
+import com.volive.whitecab.util.MessageToast;
 import com.volive.whitecab.util.PreferenceUtils;
 
 import java.text.ParseException;
@@ -22,12 +23,9 @@ import java.util.Locale;
 
 public class RideLaterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Typeface typeface, typefaceLight;
-    TextView tittle, selectlocationtxt;
-
     CalendarView calendar;
     TimePicker timePicker;
-    String strDate, strTime;
+    String strDate, strTime,strCurrentTime;
     SimpleDateFormat foramteDate, formatTime;
 
     String strAddress, strVehicleType, strFromLat="",strFromLong="";
@@ -75,6 +73,7 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
         formatTime = new SimpleDateFormat("HH:mm:ss",Locale.ENGLISH);
         Date dateNewTime = new Date();
         strTime = formatTime.format(dateNewTime);
+        strCurrentTime = formatTime.format(dateNewTime);
 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -134,29 +133,50 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.btn_select_location:
-                preferenceUtils.setRideType("Ride Later");
 
-                //Intent intent = new Intent(RideLaterActivity.this, LaterBookingActivity.class);
-                Intent intent = new Intent(RideLaterActivity.this, DropOffActivity.class);
-                intent.putExtra("from_address", strAddress);
-                intent.putExtra("vehicleType", strVehicleType);
-                intent.putExtra("Date", strDate);
-                intent.putExtra("Time", strTime);
-                intent.putExtra("from_lat", strFromLat);
-                intent.putExtra("from_long", strFromLong);
 
-                intent.putExtra("key", "");
-                Log.e("fsdafndsaklfdsaf",strDate+" "+strTime);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                if(checkTimeDifference() >= 0){
+                    preferenceUtils.setRideType("Ride Later");
 
-                /*Intent intent=new Intent(RideLaterActivity.this, PickLocationActivity.class);
-                startActivity(intent);*/
+                    Intent intent = new Intent(RideLaterActivity.this, DropOffActivity.class);
+                    intent.putExtra("from_address", strAddress);
+                    intent.putExtra("vehicleType", strVehicleType);
+                    intent.putExtra("Date", strDate);
+                    intent.putExtra("Time", strTime);
+                    intent.putExtra("from_lat", strFromLat);
+                    intent.putExtra("from_long", strFromLong);
+
+                    intent.putExtra("key", "");
+                    Log.e("fsdafndsaklfdsaf",strDate+" "+strTime);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }else {
+                    MessageToast.showToastMethod(RideLaterActivity.this,getString(R.string.choose_valid_time));
+                }
 
                 break;
 
         }
 
+    }
+
+    private long checkTimeDifference() {
+        String time1 = strCurrentTime;
+        String time2 = strTime;
+        long difference = 0;
+
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        Date date1 = null;
+        try {
+            date1 = format.parse(time1);
+            Date date2 = format.parse(time2);
+            difference = date2.getTime() - date1.getTime();
+            Log.e("time_difference",difference+"");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return difference;
     }
 
     @Override

@@ -41,7 +41,6 @@ public class ComplaintActivity extends AppCompatActivity implements View.OnClick
     SessionManager sm;
     Boolean netConnection = false;
     Boolean nodata = false;
-    ComplaintModel complaintModel;
     ArrayList<ComplaintModel> complaintArrayList;
     private String complaint_id="",strUserId;
 
@@ -76,9 +75,6 @@ public class ComplaintActivity extends AppCompatActivity implements View.OnClick
         }
 
         new complaintList().execute();
-        /*adapter=new ComplaintAdapter(ComplaintActivity.this,complaint_texts);
-        complaint_recycler.setHasFixedSize(true);
-        complaint_recycler.setAdapter(adapter);*/
     }
 
     public void onItemSelect(String complaint_id) {
@@ -99,7 +95,11 @@ public class ComplaintActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.btn_complaint:
 
-                new submitComplaint().execute();
+                if(complaint_id.isEmpty()){
+                    MessageToast.showToastMethod(ComplaintActivity.this,getString(R.string.please_select_reason));
+                }else {
+                    new submitComplaint().execute();
+                }
 
                 break;
 
@@ -258,7 +258,6 @@ public class ComplaintActivity extends AppCompatActivity implements View.OnClick
                         JSONArray jsonArray=js.getJSONArray("complaints");
                         complaintArrayList.clear();
                         if(jsonArray != null && jsonArray.length() > 0){
-                            complaintArrayList=new ArrayList<>();
                             for(int i=0; i<jsonArray.length(); i++){
 
                                 JSONObject object=jsonArray.getJSONObject(i);

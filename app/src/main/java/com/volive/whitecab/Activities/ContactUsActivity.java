@@ -57,9 +57,7 @@ public class ContactUsActivity extends AppCompatActivity implements View.OnClick
         txt_edt_message=findViewById(R.id.txt_edt_message);
         btn_contact_submit=findViewById(R.id.btn_contact_submit);
 
-        txt_edt_name.setEnabled(false);
-        txt_edt_email.setEnabled(false);
-        txt_edt_phone.setEnabled(false);
+
     }
 
     private void initViews() {

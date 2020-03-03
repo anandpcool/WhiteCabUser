@@ -32,6 +32,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -57,6 +58,7 @@ import com.volive.whitecab.util.Constants;
 import com.volive.whitecab.util.DialogsUtils;
 import com.volive.whitecab.util.DirectionsJSONParser;
 import com.volive.whitecab.util.MessageToast;
+import com.volive.whitecab.util.MyApplication;
 import com.volive.whitecab.util.NetworkConnection;
 import com.volive.whitecab.util.ServiceHandler;
 
@@ -73,22 +75,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class TrackingActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
+public class TrackingActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback,LocationListener, Observer {
 
     ImageView back_tracking;
     Button btn_cancel_ride,btn_call_captain;
     RideCancelAdapter cancelAdapter;
     String[] texts=new String[]{"Too many riders","Too much luggage","Rider requested cancel","Rider didn't answer","Wrong address shown","Other"};
-    String vehicle_name, vehicle_number, driver_name, driver_mobile, trip_id, time, distance, driver_profile, driver_lat, driver_long;
-    String color, avg_rating,driver_id = "",type,from_address,dest_address,from_latitude,from_longitude,to_latitude,to_longitude;
+    String vehicle_name="", vehicle_number="", driver_name="", driver_mobile, trip_id="", time, distance="", driver_profile="", driver_lat, driver_long;
+    String color, avg_rating="",driver_id = "",type,from_address,dest_address,from_latitude,from_longitude,to_latitude,to_longitude;
     TextView tracking_from_address,tracking_dest_address,tv_captainName,tv_rideDistance,tv_vehicleName,tv_vehicleNumber,tv_rating;
     CircleImageView captainProfile;
     SupportMapFragment mapFragment;
     GoogleMap mMap;
-    private Marker fromMarker;
+    private Marker fromMarker,now;
     private Marker destinationMarker;
     private static final float ANCHOR_VALUE = 0.5f;
     private Polyline polyline1,polyline2;
@@ -99,6 +103,7 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
     Boolean nodata = false;
     private String cancel_reason="",strLanguage="";
     ArrayList<ComplaintModel> cancelArrayList;
+    MyApplication myApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +167,13 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
                 tv_rideDistance.setText(distance + " KM");
             }
 
+        }else {
+            from_latitude="17.4436";
+            from_longitude="78.4458";
+            driver_lat="17.4875";
+            driver_long="78.3953";
+            to_latitude="17.4875";
+            to_longitude="78.3953";
         }
     }
 
@@ -170,6 +182,8 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
         cancelArrayList=new ArrayList<>();
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.tracking_map);
         mapFragment.getMapAsync(TrackingActivity.this);
+        myApplication = (MyApplication) getApplication();
+        myApplication.getObserver().addObserver(this);
         back_tracking=findViewById(R.id.back_tracking);
         btn_call_captain=findViewById(R.id.btn_call_captain);
         btn_cancel_ride=findViewById(R.id.btn_cancel_ride);
@@ -221,6 +235,37 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        if (myApplication.getObserver().getValue().equalsIgnoreCase("1")) {
+            mMap.clear();
+
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+
+            LatLng drivrLatlong = new LatLng(Double.parseDouble(driver_lat), Double.parseDouble(driver_long));
+
+            now = mMap.addMarker(new MarkerOptions()
+                    .position(drivrLatlong)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.car_new)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(drivrLatlong, 13));
+
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (now != null) {
+            now.remove();
+        }
+        LatLng drivrLatlong = new LatLng(location.getLatitude(), location.getLongitude());
+
+        now = mMap.addMarker(new MarkerOptions()
+                .position(drivrLatlong)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_loc_icon)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(drivrLatlong, 13));
     }
 
 
@@ -381,7 +426,11 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View view) {
 
-                new cancelRequest().execute();
+                if(cancel_reason.isEmpty()){
+                 MessageToast.showToastMethod(TrackingActivity.this,getString(R.string.please_select_reason));
+                }else {
+                    new cancelRequest().execute();
+                }
 
             }
         });
@@ -484,6 +533,7 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
 
                     } else {
                         MessageToast.showToastMethod(TrackingActivity.this, message);
+                        RideCompletedDialog();
                     }
 
                 }
@@ -534,6 +584,14 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
 
             }
         },1000);
+
+        LatLng drivrLatlong = new LatLng(Double.parseDouble(driver_lat), Double.parseDouble(driver_long));
+
+        now = mMap.addMarker(new MarkerOptions()
+                .position(drivrLatlong)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_loc_icon)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(drivrLatlong, 13));
+
 
     }
 

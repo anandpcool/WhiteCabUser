@@ -52,6 +52,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.volive.whitecab.Adapters.RecyclerAdapters.VechicleAdapter;
 import com.volive.whitecab.DataModels.VechileType;
 import com.volive.whitecab.DataModels.Vehicle;
@@ -203,7 +204,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             tv_user_name.setText(strName);
             tv_user_email.setText(strEmail);
-            if(strImageUrl.isEmpty()){
+            if(strImageUrl == null || strImageUrl.isEmpty()){
                 img_user_profile.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_empty));
             }else {
                 Glide.with(HomeActivity.this).load(strImagePath + strImageUrl).into(img_user_profile);
@@ -220,6 +221,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         imgSaveAddress.setOnClickListener(this);
         ll_fromAddress.setOnClickListener(this);
         img_user_profile.setOnClickListener(this);
+
+        //Log.e("sdsj", FirebaseInstanceId.getInstance().getToken());
 
         try {
             strLat = String.valueOf(gpsTracker.getLatitude());
@@ -242,6 +245,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
       //  new currentRide().execute();
+        new checkFavorite().execute();
     }
 
     @Override
@@ -383,9 +387,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void onItemSelect(int position) {
 
-    }
 
 
     private class checkFavorite extends AsyncTask<Void,Void,Void>{
@@ -823,6 +825,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 strLong=data.getStringExtra("from_long");
                 Log.e("data123", strAddress+" "+strLat+","+strLong);
                 tv_from_address.setText(strAddress);
+                new checkFavorite().execute();
 
                 mapFragment.getMapAsync(new OnMapReadyCallback() {
                     @Override

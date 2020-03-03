@@ -306,6 +306,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         System.out.println("mobile user_id"+user_id);
 
                         sm.createLoginSession(user_id, email, username, password, mobile, false);
+                        sm.profileImageUrl(profile_pic,base_url);
 
                     }else {
                         if (strLanguage.equalsIgnoreCase("1")) {

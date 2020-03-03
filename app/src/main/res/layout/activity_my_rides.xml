@@ -78,6 +78,7 @@
             android:layout_centerInParent="true"
             android:text="@string/scheduled"
             android:padding="@dimen/ten_dp"
+            android:textColor="@color/gray"
             />
 
 
@@ -98,6 +99,7 @@
             android:layout_alignParentEnd="true"
             android:text="@string/cancelled"
             android:padding="@dimen/ten_dp"
+            android:textColor="@color/gray"
             />
 
 

@@ -38,7 +38,6 @@ public class ComplaintAdapter extends RecyclerView.Adapter<ComplaintAdapter.MyHo
     public void onBindViewHolder(@NonNull MyHolder holder, final int position) {
 
         holder.tv_reason.setText(complaint_texts.get(position).getComplaint_title());
-        ((ComplaintActivity)context).onItemSelect(complaint_texts.get(0).getId());
         holder.rl_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

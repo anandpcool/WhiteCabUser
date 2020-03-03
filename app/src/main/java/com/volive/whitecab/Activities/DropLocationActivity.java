@@ -317,15 +317,20 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
                 } else {
 
                     if (status) {
-                        fav_adapter=new FavoriteAdapter(DropLocationActivity.this,false,favouriteArrayList);
-                        fav_recycler.setHasFixedSize(true);
-                        fav_recycler.setNestedScrollingEnabled(false);
-                        fav_recycler.setAdapter(fav_adapter);
+                        if(!favouriteArrayList.isEmpty()){
+                            fav_adapter=new FavoriteAdapter(DropLocationActivity.this,false,favouriteArrayList);
+                            fav_recycler.setHasFixedSize(true);
+                            fav_recycler.setNestedScrollingEnabled(false);
+                            fav_recycler.setAdapter(fav_adapter);
+                        }
 
-                        visitedAdapter=new RecentVisitedAdapter(DropLocationActivity.this,false,recentArrayList);
-                        visited_recycler.setHasFixedSize(true);
-                        visited_recycler.setNestedScrollingEnabled(false);
-                        visited_recycler.setAdapter(visitedAdapter);
+                        if(!recentArrayList.isEmpty()){
+                            visitedAdapter=new RecentVisitedAdapter(DropLocationActivity.this,false,recentArrayList);
+                            visited_recycler.setHasFixedSize(true);
+                            visited_recycler.setNestedScrollingEnabled(false);
+                            visited_recycler.setAdapter(visitedAdapter);
+                        }
+
                     } else {
                         MessageToast.showToastMethod(DropLocationActivity.this, message);
                     }

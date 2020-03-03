@@ -359,15 +359,20 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
                 } else {
 
                     if (status) {
-                        fav_adapter=new FavoriteAdapter(PickLocationActivity.this,true,favouriteArrayList);
-                        fav_recycler.setHasFixedSize(true);
-                        fav_recycler.setNestedScrollingEnabled(false);
-                        fav_recycler.setAdapter(fav_adapter);
+                        if(!favouriteArrayList.isEmpty()){
+                            fav_adapter=new FavoriteAdapter(PickLocationActivity.this,false,favouriteArrayList);
+                            fav_recycler.setHasFixedSize(true);
+                            fav_recycler.setNestedScrollingEnabled(false);
+                            fav_recycler.setAdapter(fav_adapter);
+                        }
 
-                        visitedAdapter=new RecentVisitedAdapter(PickLocationActivity.this,true,recentArrayList);
-                        visited_recycler.setHasFixedSize(true);
-                        visited_recycler.setNestedScrollingEnabled(false);
-                        visited_recycler.setAdapter(visitedAdapter);
+                        if(!recentArrayList.isEmpty()){
+                            visitedAdapter=new RecentVisitedAdapter(PickLocationActivity.this,false,recentArrayList);
+                            visited_recycler.setHasFixedSize(true);
+                            visited_recycler.setNestedScrollingEnabled(false);
+                            visited_recycler.setAdapter(visitedAdapter);
+                        }
+
                     } else {
                         MessageToast.showToastMethod(PickLocationActivity.this, message);
                     }

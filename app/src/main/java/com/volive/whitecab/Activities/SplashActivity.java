@@ -39,6 +39,8 @@ import com.volive.whitecab.R;
 import com.volive.whitecab.util.GPSTracker;
 import com.volive.whitecab.util.SessionManager;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class SplashActivity extends AppCompatActivity  implements  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -301,8 +303,107 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     finish();
                 }else {
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                    finish();
+                    /*startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    finish();*/
+                    Bundle bundle = getIntent().getExtras();
+                    if (bundle != null && sm.isLoggedIn()) {
+
+
+                        String bundledata = bundle.getString("body");
+                        String type = bundle.getString("type");
+
+                        if (bundledata != null && type.equalsIgnoreCase("AR")) {
+
+                            System.out.println("bundle data" + bundledata);
+                            JSONObject jsonObject = null;
+
+
+                            Intent intent = new Intent(SplashActivity.this, TrackingActivity.class);
+                            intent.putExtra("fromscreen", "1");
+                            intent.putExtra("vehicle_name", bundle.getString("vehicle_name"));
+                            System.out.println("vehicle_name" + bundle.getString("vehicle_name"));
+                            intent.putExtra("vehicle_number", bundle.getString("vehicle_number"));
+                            intent.putExtra("driver_name", bundle.getString("driver_name"));
+                            intent.putExtra("driver_mobile", bundle.getString("driver_mobile"));
+                            intent.putExtra("trip_id", bundle.getString("trip_id"));
+                            intent.putExtra("time", "");
+                            intent.putExtra("distance", bundle.getString("distance"));
+                            intent.putExtra("driver_profile", bundle.getString("driver_profile"));
+                            intent.putExtra("driver_lat", bundle.getString("driver_lat"));
+                            intent.putExtra("driver_long", bundle.getString("driver_long"));
+                            intent.putExtra("driver_id", bundle.getString("driver_id"));
+                            intent.putExtra("type","");
+                            startActivity(intent);
+                            finish();
+                        } else if (bundledata != null && type.equalsIgnoreCase("DA") || bundledata != null && type.equalsIgnoreCase("RS")) {
+                            String type123="";
+                            System.out.println("bundle data" + bundledata);
+                            JSONObject jsonObject = null;
+                            if(type.equalsIgnoreCase("RS")){
+                                type123="4";
+                            }
+
+
+                            Intent intent = new Intent(SplashActivity.this, TrackingActivity.class);
+                            intent.putExtra("fromscreen", "1");
+                            intent.putExtra("vehicle_name", bundle.getString("vehicle_name"));
+                            System.out.println("vehicle_name" + bundle.getString("vehicle_name"));
+                            intent.putExtra("vehicle_number", bundle.getString("vehicle_number"));
+                            intent.putExtra("driver_name", bundle.getString("driver_name"));
+                            intent.putExtra("driver_mobile", bundle.getString("driver_mobile"));
+                            intent.putExtra("trip_id", bundle.getString("trip_id"));
+                            intent.putExtra("time", "");
+                            intent.putExtra("distance", bundle.getString("distance"));
+                            intent.putExtra("driver_profile", bundle.getString("driver_profile"));
+                            intent.putExtra("driver_lat", bundle.getString("driver_lat"));
+                            intent.putExtra("driver_long", bundle.getString("driver_long"));
+                            intent.putExtra("driver_id", bundle.getString("driver_id"));
+                            intent.putExtra("type",type123);
+
+                            intent.putExtra("color",bundle.getString("vehicle_color"));
+                            intent.putExtra("avg_rating",bundle.getString("avg_rating"));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        } else if (bundledata != null && type.equalsIgnoreCase("RC")) {
+                            Intent intent = new Intent(SplashActivity.this, RatingActivity.class);
+                            intent.putExtra("fromscreen", "1");
+                            intent.putExtra("driver_name", bundle.getString("username"));
+                            intent.putExtra("trip_id", bundle.getString("trip_id"));
+                            intent.putExtra("driver_id", bundle.getString("driver_id"));
+                            intent.putExtra("driver_profile", bundle.getString("user_profile"));
+                            intent.putExtra("money", bundle.getString("final_fare"));
+                            intent.putExtra("ride_fare", bundle.getString("ride_fare"));
+                            intent.putExtra("rider_disc", bundle.getString("rider_disc"));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }else if(bundledata != null && type.equalsIgnoreCase("DC")){
+                            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        } else if (sm.isLoggedIn()) {
+                            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        } /*else {
+                            Intent i = new Intent(SplashScreenActivity.this, SelectLanguage.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                            finish();
+                        }*/
+
+
+                    } else {
+                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                    }/* else {
+                        Intent i = new Intent(SplashActivity.this, SelectLanguage.class);
+                        startActivity(i);
+                        finish();
+                    }*/
                 }
 
             }

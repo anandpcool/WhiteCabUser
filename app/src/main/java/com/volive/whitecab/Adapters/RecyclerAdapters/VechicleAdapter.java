@@ -52,9 +52,9 @@ public class VechicleAdapter extends RecyclerView.Adapter<VechicleAdapter.MyHold
 
                 selected=position;
 
-                ((HomeActivity)context).onItemSelect(position);
-
-                notifyDataSetChanged();
+//                ((HomeActivity)context).onItemSelect(position);
+//
+//                notifyDataSetChanged();
 
             }
         });

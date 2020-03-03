@@ -7,8 +7,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".util.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -90,14 +92,34 @@
         <activity
             android:name=".Activities.DropOffActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activities.TrackingActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activities.HelpActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activities.LaterBookingActivity" />
-        <activity android:name=".Activities.TermsActivity"></activity>
+
+        <activity android:name=".Activities.LaterBookingActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".Activities.TermsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+
+        <service android:name=".Notification.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".Notification.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

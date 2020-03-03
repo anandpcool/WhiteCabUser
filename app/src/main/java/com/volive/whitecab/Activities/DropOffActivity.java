@@ -134,6 +134,12 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        new checkFavorite().execute();
+    }
+*/
     @Override
     public void onClick(View view) {
 
@@ -321,7 +327,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
                 strFromLong = data.getStringExtra("from_long");
 
                 tv_dest_address.setText(dropAddress);
-
+                new checkFavorite().execute();
                 Log.e("jakshfdas",strFromLat+" "+strFromLong);
 
                 mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -464,7 +470,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            myDialog = DialogsUtils.showProgressDialog(DropOffActivity.this, getString(R.string.please_wait));
+            showLoader();
         }
 
         @Override
@@ -531,9 +537,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             // Dismiss the progress dialog
-            if (myDialog.isShowing()){
-                myDialog.dismiss();
-            }
+            hideLoader();
 
             if (netConnection) {
 
@@ -560,6 +564,33 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
+    }
+
+    // Show progress bar
+    public void showLoader() {
+        try {
+            if (myDialog != null)
+                myDialog.dismiss();
+            myDialog = null;
+            myDialog = new ProgressDialog(DropOffActivity.this);
+
+            myDialog.setTitle("");
+            myDialog.setMessage(getString(R.string.please_wait));
+            myDialog.setCancelable(false);
+            myDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Hide progress Bar
+    public void hideLoader() {
+        try {
+            if (myDialog != null && myDialog.isShowing())
+                myDialog.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

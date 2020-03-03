@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "316249085910",
+    "firebase_url": "https://whitecab-711dd.firebaseio.com",
+    "project_id": "whitecab-711dd",
+    "storage_bucket": "whitecab-711dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316249085910:android:4bfca4d666421eb3487677",
+        "android_client_info": {
+          "package_name": "com.volive.whitecab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "316249085910-9e3vcse5n9gmos1fqug5evl0tfj4mkqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgHFHFn-vUR_r6fYUHXbM7KusrhdvKrSc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "316249085910-9e3vcse5n9gmos1fqug5evl0tfj4mkqr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
