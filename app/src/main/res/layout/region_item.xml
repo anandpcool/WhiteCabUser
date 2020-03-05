@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:gravity="left"
+    android:id="@+id/linear"
+    android:layout_margin="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_sudi_flag"
+        android:id="@+id/flag"
+        android:layout_width="40dp"
+        android:layout_height="25dp" />
+    <TextView
+        android:layout_gravity="center"
+        android:id="@+id/religion"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:text="muslim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

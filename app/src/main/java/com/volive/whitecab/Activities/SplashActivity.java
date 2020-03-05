@@ -35,6 +35,7 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.volive.whitecab.BuildConfig;
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.GPSTracker;
@@ -73,6 +74,9 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
         setContentView(R.layout.activity_splash);
         sm=new SessionManager(SplashActivity.this);
         HashMap<String, String> userDetail = sm.getUserDetails();
+
+//       String firebase_token = FirebaseInstanceId.getInstance().getToken();
+//        Log.e("firebase_token", firebase_token);
 
         if(userDetail.get(SessionManager.KEY_ID) != null){
             strUserId = userDetail.get(SessionManager.KEY_ID);
@@ -432,11 +436,11 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
                         Intent mainIntent;
 
                         if(strUserId.isEmpty()){
-                            mainIntent = new Intent(SplashActivity.this, HomeActivity.class);
+                            mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
                             startActivity(mainIntent);
                             finish();
                         }else {
-                            mainIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                            mainIntent = new Intent(SplashActivity.this, HomeActivity.class);
                             startActivity(mainIntent);
                             finish();
                         }

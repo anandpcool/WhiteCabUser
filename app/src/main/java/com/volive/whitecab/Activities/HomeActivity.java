@@ -135,6 +135,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     String picturePath = "empty";
     String PickedImgPath = "empty",strImagePath, strImageUrl;
     private Dialog addressDialog;
+    private boolean boolean_save_address=false;
+    HashMap<String, String> userDetail;
+    HashMap<String, String> userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -191,15 +194,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.setVerticalScrollBarEnabled(false);
 
 
-        HashMap<String, String> userDetail = sm.getUserDetails();
-        HashMap<String, String> userProfile = sm.returnProfile_url();
+        updateProfile();
+
+    }
+
+    private void updateProfile() {
+
+        userDetail = sm.getUserDetails();
+        userProfile = sm.returnProfile_url();
         strImagePath = userProfile.get(SessionManager.PROFILE_IMG_PATH);
         strImageUrl = userProfile.get(SessionManager.PROFILE_IMG_URL);
 
         if(userDetail.get(SessionManager.KEY_ID) != null){
             strUserId = userDetail.get(SessionManager.KEY_ID);
-            strName = userDetail.get(SessionManager.KEY_NAME);
-            strEmail = userDetail.get(SessionManager.KEY_EMAIL);
+            strName =  userDetail.get(SessionManager.KEY_NAME);
+            strEmail =  userDetail.get(SessionManager.KEY_EMAIL);
             strLanguage = userDetail.get(SessionManager.KEY_LANGUAGE);
 
             tv_user_name.setText(strName);
@@ -235,17 +244,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        /*vechicleAdapter=new VechicleAdapter(HomeActivity.this,vehicle_images,vehicle_texts);
-        vehicle_recycler.setHasFixedSize(true);
-        vehicle_recycler.setAdapter(vechicleAdapter);*/
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-      //  new currentRide().execute();
+        new currentRide().execute();
         new checkFavorite().execute();
+        updateProfile();
     }
 
     @Override
@@ -275,13 +281,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.imgSaveAddress:
 
-              /*  if(boolean_save_address){
+                if(boolean_save_address){
                     Toast.makeText(HomeActivity.this, "This Address is already saved", Toast.LENGTH_SHORT).show();
                 }else {
+                    addAddressTitleDialog();
+                }
 
-                }*/
-
-                addAddressTitleDialog();
 
                 break;
 
@@ -478,10 +483,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                     if (status) {
                         imgSaveAddress.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_yellow));
-                       // boolean_save_address=true;
+                        boolean_save_address=true;
                     } else {
                         imgSaveAddress.setImageDrawable(getResources().getDrawable(R.drawable.love_gray));
-                        //boolean_save_address=false;
+                        boolean_save_address=false;
                     }
 
                 }
@@ -535,7 +540,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     strAddress = MapUtil.getLatLongToAddress(cameraPosition.target.latitude, cameraPosition.target.longitude, HomeActivity.this);
                     tv_from_address.setText(strAddress);
                     imgSaveAddress.setImageDrawable(getResources().getDrawable(R.drawable.love_gray));
-                  //  boolean_save_address=false;
+                    boolean_save_address=false;
                     new getVehicle().execute();
                     new vehicleType().execute();
                     new checkFavorite().execute();
@@ -945,7 +950,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     if (status) {
                         addressDialog.dismiss();
                         imgSaveAddress.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_yellow));
-                        //boolean_save_address=true;
+                        boolean_save_address=true;
                         MessageToast.showToastMethod(HomeActivity.this, message);
                     } else {
                         MessageToast.showToastMethod(HomeActivity.this, message);

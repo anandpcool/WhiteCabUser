@@ -27,7 +27,7 @@
         android:layout_marginTop="@dimen/spacing_xlarge"
         android:textColor="@color/black"
         android:inputType="textEmailAddress"
-        android:hint="@string/add_title"
+        android:hint="@string/add_favourite_name"
         android:layout_marginStart="@dimen/normal"
         android:layout_marginEnd="@dimen/normal"
         />

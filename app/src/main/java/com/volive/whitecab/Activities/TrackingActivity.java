@@ -533,7 +533,7 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
 
                     } else {
                         MessageToast.showToastMethod(TrackingActivity.this, message);
-                        RideCompletedDialog();
+                       // RideCompletedDialog();
                     }
 
                 }

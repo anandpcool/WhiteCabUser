@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.volive.whitecab.R;
 import com.volive.whitecab.util.ApiUrl;
 import com.volive.whitecab.util.Constants;
@@ -35,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText et_phone_login,etPassword_login;
     private ProgressDialog myDialog;
     NetworkConnection nw;
-    String strLanguage="1",phone,password;
+    String strLanguage="1",phone,password,firebase_token="";
     Boolean netConnection = false;
     Boolean nodata = false;
     SessionManager sm;
@@ -268,14 +270,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         protected Void doInBackground(Void... voids) {
 
             if (nw.isConnectingToInternet()){
-
+                firebase_token = FirebaseInstanceId.getInstance().getToken();
                 JSONObject json = new JSONObject();
                 try{
 
                     json.put("API-KEY", Constants.API_KEY);
                     json.put("phone",phone);
                     json.put("password",password);
-                    json.put("device_token","abc");
+                    json.put("device_token",firebase_token);
                     json.put("device_name", Constants.DIVICE_TYPE);
 
                     ServiceHandler sh = new ServiceHandler();

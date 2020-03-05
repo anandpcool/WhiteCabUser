@@ -111,23 +111,60 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+
+                <LinearLayout
+                    android:id="@+id/layout_Country"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:textColorHint="@color/hintcolor">
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/et_phone_number"
+                    <ImageView
+                        android:id="@+id/img_country"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="10dp"
+                        />
+
+                    <TextView
+                        android:textSize="16sp"
+                        android:id="@+id/txt_countryCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text=""
+                        />
+                    <ImageView
+                        android:id="@+id/selectdrop_down"
+                        android:layout_width="20dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/dropdown" />
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/phone_number"
-                        android:inputType="phone"
-                        android:paddingBottom="25dp"
-                        android:textColorHint="@color/hintcolor"
-                        android:textSize="16sp" />
+                        android:layout_marginBottom="8dp"
+                        android:textColorHint="@color/hintcolor">
 
-                </android.support.design.widget.TextInputLayout>
+                        <EditText
+                            android:id="@+id/et_phone_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/phone_number"
+                            android:inputType="phone"
+                            android:paddingBottom="25dp"
+                            android:textColorHint="@color/hintcolor"
+                            android:textSize="16sp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+
 
 
                 <RelativeLayout

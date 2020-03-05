@@ -49,7 +49,7 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
     RecentVisitedAdapter visitedAdapter;
     ImageView back_drop_off,img_cancel;
     CardView cardView_fromTo;
-    TextView tv_from_add,tv_destination_Address;
+    TextView tv_from_add,tv_destination_Address,tv_favourite,tv_recently_visited;
     String from_address="",to_address="";
     AutocompleteSupportFragment from_autocomplete,dest_autocomplete;
     LinearLayout ll_from_autoComeplete,layout_toAddress,ll_dest_autoComeplete;
@@ -94,6 +94,8 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
         ll_from_autoComeplete=findViewById(R.id.ll_from_autoComeplete);
         layout_toAddress=findViewById(R.id.layout_toAddress);
         ll_dest_autoComeplete=findViewById(R.id.ll_dest_autoComeplete);
+        tv_favourite=findViewById(R.id.tv_favourite);
+        tv_recently_visited=findViewById(R.id.tv_recently_visited);
     }
 
     private void initViews() {
@@ -111,7 +113,7 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
 
         img_cancel.setOnClickListener(this);
         tv_destination_Address.setOnClickListener(this);
-        tv_from_add.setOnClickListener(this);
+      //  tv_from_add.setOnClickListener(this);
         back_drop_off.setOnClickListener(this);
 
         new favouritePlaces().execute();
@@ -141,11 +143,11 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
 
                 break;
 
-            case R.id.tv_from_add:
+            /*case R.id.tv_from_add:
 
                 showFromGoogleAddress();
 
-                break;
+                break;*/
 
             case R.id.tv_destination_Address:
 
@@ -318,17 +320,23 @@ public class DropLocationActivity extends AppCompatActivity implements View.OnCl
 
                     if (status) {
                         if(!favouriteArrayList.isEmpty()){
+                            tv_favourite.setVisibility(View.VISIBLE);
                             fav_adapter=new FavoriteAdapter(DropLocationActivity.this,false,favouriteArrayList);
                             fav_recycler.setHasFixedSize(true);
                             fav_recycler.setNestedScrollingEnabled(false);
                             fav_recycler.setAdapter(fav_adapter);
+                        }else {
+                            tv_favourite.setVisibility(View.GONE);
                         }
 
                         if(!recentArrayList.isEmpty()){
+                            tv_recently_visited.setVisibility(View.VISIBLE);
                             visitedAdapter=new RecentVisitedAdapter(DropLocationActivity.this,false,recentArrayList);
                             visited_recycler.setHasFixedSize(true);
                             visited_recycler.setNestedScrollingEnabled(false);
                             visited_recycler.setAdapter(visitedAdapter);
+                        }else {
+                            tv_recently_visited.setVisibility(View.GONE);
                         }
 
                     } else {

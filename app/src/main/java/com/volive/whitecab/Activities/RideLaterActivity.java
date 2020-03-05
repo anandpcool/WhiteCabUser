@@ -28,12 +28,13 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
     String strDate, strTime,strCurrentTime;
     SimpleDateFormat foramteDate, formatTime;
 
-    String strAddress, strVehicleType, strFromLat="",strFromLong="";
+    String strAddress, strVehicleType, strFromLat="",strFromLong="",strCurrentDate,strSelectedDate;
 
 
     ImageView back_ride_later;
     Button btn_select_location;
     PreferenceUtils preferenceUtils;
+    private long hours,seconds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +68,17 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
         Date date = new Date();
         calendar.setMinDate(date.getTime());
         foramteDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        Date dateNew = new Date();
-        strDate = foramteDate.format(dateNew);
+        final Date currentDate = new Date();
+        strDate = foramteDate.format(currentDate);
+        strCurrentDate = strDate;
+        strSelectedDate = strDate;
+        Log.e("currentDate",currentDate+"");
 
         formatTime = new SimpleDateFormat("HH:mm:ss",Locale.ENGLISH);
         Date dateNewTime = new Date();
         strTime = formatTime.format(dateNewTime);
         strCurrentTime = formatTime.format(dateNewTime);
+
 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -82,14 +87,15 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
                                             int dayOfMonth) {
                 // TODO Auto-generated method stub
                 int ys = year;
-                String strDate1 = String.valueOf(dayOfMonth + "/" + (month + 1) + "/" + year);
-
+                String strDate1 = String.valueOf(year + "-" + (month + 1) + "-" + dayOfMonth);
+                Log.e("selectedDate456", String.valueOf(year + "-" + (month + 1) + "-" + dayOfMonth));
+                strSelectedDate = strDate1;
                 try {
                     SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd");
                     Date newDate = spf.parse(strDate1);
                     spf = new SimpleDateFormat("yyyy-MM-dd");
                     strDate = spf.format(newDate);
-                    Log.e("Date is : ", +dayOfMonth + " / " + (month + 1) + " / " + year + " : " + strDate);
+                    Log.e("selectedDate123", strDate);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -121,6 +127,45 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    private void calculateDate(String strCurrentDate, String strSelectedDate) {
+
+        try{
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+
+            Date date1 = formatter.parse(strCurrentDate);
+            Date date2 = formatter.parse(strSelectedDate);
+            long diff = date2.getTime() - date1.getTime();
+            long seconds = diff / 1000;
+            long minutes = seconds / 60;
+            hours = minutes / 60;
+            long days = hours / 24;
+            Log.e("dfmdfd",hours+"");
+
+
+            SimpleDateFormat formatter1 ;
+            String shortTimeStr ;
+
+            if (hours>=24)
+            {
+                formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+                shortTimeStr = formatter1.format(date2);
+                Log.e("hjugj",shortTimeStr+"");
+            }
+            else {
+
+                System.out.println("date2 is Greater than my date1");
+                formatter1 = new SimpleDateFormat("hh:mm:ss");
+                shortTimeStr = formatter1.format(date2);
+                Log.e("hjugj",shortTimeStr+"");
+            }
+
+        }catch (ParseException e1){
+            e1.printStackTrace();
+        }
+
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -134,8 +179,24 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.btn_select_location:
 
+                calculateDate(strCurrentDate,strSelectedDate);
 
-                if(checkTimeDifference() >= 0){
+                    if(hours > 0 ){
+                        preferenceUtils.setRideType("Ride Later");
+
+                        Intent intent = new Intent(RideLaterActivity.this, DropOffActivity.class);
+                        intent.putExtra("from_address", strAddress);
+                        intent.putExtra("vehicleType", strVehicleType);
+                        intent.putExtra("Date", strDate);
+                        intent.putExtra("Time", strTime);
+                        intent.putExtra("from_lat", strFromLat);
+                        intent.putExtra("from_long", strFromLong);
+
+                        intent.putExtra("key", "");
+                        Log.e("fsdafndsaklfdsaf",strDate+" "+strTime);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    } else if(checkTimeDifference() >=0 ) {
                     preferenceUtils.setRideType("Ride Later");
 
                     Intent intent = new Intent(RideLaterActivity.this, DropOffActivity.class);
@@ -147,7 +208,6 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
                     intent.putExtra("from_long", strFromLong);
 
                     intent.putExtra("key", "");
-                    Log.e("fsdafndsaklfdsaf",strDate+" "+strTime);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }else {

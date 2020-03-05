@@ -146,6 +146,7 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
             strUserId = userDetail.get(SessionManager.KEY_ID);
         }
 
+
     }
 
     private void initViews() {
@@ -320,7 +321,7 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
         LatLng origin = new LatLng(destinationMarker.getPosition().latitude,
                 destinationMarker.getPosition().longitude);
         // map.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 19));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 18f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 12f));
         LatLng dest = new LatLng(marker.getPosition().latitude,
                 marker.getPosition().longitude);
         // Getting URL to the Google Directions API

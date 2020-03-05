@@ -73,8 +73,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         rl_change_pass=findViewById(R.id.rl_change_pass);
         tv_app_version=findViewById(R.id.tv_app_version);
 
-        Log.e("askljhdfds", BuildConfig.VERSION_CODE+"");
-        tv_app_version.setText(String.valueOf(BuildConfig.VERSION_CODE));
+        Log.e("askljhdfds", BuildConfig.VERSION_NAME+"");
+        tv_app_version.setText(String.valueOf(BuildConfig.VERSION_NAME));
 
         et_user_name.setEnabled(false);
         et_user_mobile.setEnabled(false);
@@ -97,7 +97,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             et_user_name.setText(strName);
             et_user_mobile.setText(strNumber);
             et_user_mail.setText(strEmail);
-            tv_change_pass.setText(strPassword);
+           // tv_change_pass.setText(strPassword);
         }
 
     }

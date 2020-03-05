@@ -76,8 +76,8 @@
                 android:id="@+id/ll_auto_fragment"
                 android:layout_width="0dp"
                 android:layout_weight="0.7"
-                android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:layout_height="wrap_content"
                 >
 
                 <fragment android:id="@+id/autocomplete_fragment"
@@ -174,11 +174,13 @@
             >
 
             <TextView
+                android:id="@+id/tv_favourite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/favorite_places"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:visibility="gone"
                 />
 
             <android.support.v7.widget.RecyclerView
@@ -191,12 +193,14 @@
                 />
 
             <TextView
+                android:id="@+id/tv_recently_visited"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/normal"
                 android:text="@string/recently_visited"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:visibility="gone"
                 />
 
             <android.support.v7.widget.RecyclerView

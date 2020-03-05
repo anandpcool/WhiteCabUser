@@ -53,7 +53,7 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
     RecentVisitedAdapter visitedAdapter;
     ImageView back_pickup;
     CardView cardView_pickup;
-    TextView tv_from;
+    TextView tv_from,tv_recently_visited,tv_favourite;
     String strAddress;
     AutocompleteSupportFragment autocompleteFragment;
     LinearLayout ll_auto_fragment,ll_from;
@@ -90,6 +90,8 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
         tv_from=findViewById(R.id.tv_from);
         ll_auto_fragment=findViewById(R.id.ll_auto_fragment);
         ll_from=findViewById(R.id.ll_from);
+        tv_favourite=findViewById(R.id.tv_favourite);
+        tv_recently_visited=findViewById(R.id.tv_recently_visited);
 
         if(getIntent().getExtras() != null){
             strAddress= getIntent().getStringExtra("strAddress");
@@ -98,6 +100,9 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initViews() {
+
+
+
         cardView_pickup.setOnClickListener(this);
         back_pickup.setOnClickListener(this);
 
@@ -133,6 +138,7 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
                 // Specify the types of place data to return.
                 autocompleteFragment.setHint(getResources().getString(R.string.search_address_here));
                 autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+
 
                 // Set up a PlaceSelectionListener to handle the response.
                 autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -360,18 +366,26 @@ public class PickLocationActivity extends AppCompatActivity implements View.OnCl
 
                     if (status) {
                         if(!favouriteArrayList.isEmpty()){
-                            fav_adapter=new FavoriteAdapter(PickLocationActivity.this,false,favouriteArrayList);
+                            tv_favourite.setVisibility(View.VISIBLE);
+                            fav_adapter=new FavoriteAdapter(PickLocationActivity.this,true,favouriteArrayList);
                             fav_recycler.setHasFixedSize(true);
                             fav_recycler.setNestedScrollingEnabled(false);
                             fav_recycler.setAdapter(fav_adapter);
+
+                        }else {
+                            tv_favourite.setVisibility(View.GONE);
                         }
 
                         if(!recentArrayList.isEmpty()){
-                            visitedAdapter=new RecentVisitedAdapter(PickLocationActivity.this,false,recentArrayList);
+                            tv_recently_visited.setVisibility(View.VISIBLE);
+                            visitedAdapter=new RecentVisitedAdapter(PickLocationActivity.this,true,recentArrayList);
                             visited_recycler.setHasFixedSize(true);
                             visited_recycler.setNestedScrollingEnabled(false);
                             visited_recycler.setAdapter(visitedAdapter);
+                        }else {
+                            tv_recently_visited.setVisibility(View.GONE);
                         }
+
 
                     } else {
                         MessageToast.showToastMethod(PickLocationActivity.this, message);

@@ -8,13 +8,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.UiThread;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.view.View;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.volive.whitecab.Activities.HomeActivity;
@@ -36,6 +34,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 /**
  * Created by VOLIVE on 1/16/2018.
@@ -46,20 +45,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
 
     SessionManager sessionManager;
-    private NotificationUtils notificationUtils;
     String type = "", strLanguage = "2";
     NetworkConnection nw;
     SessionManager sm;
     String strUserId;
-    boolean nodata,netConnection;
+    boolean nodata, netConnection;
     MyApplication myBase;
     MyObservab myObservab;
     Activity act;
+    private NotificationUtils notificationUtils;
+    int m = 0;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.e(TAG, "From: " + remoteMessage.getFrom());
+        Log.e(TAG, "remoteMessage: " + remoteMessage.getFrom());
         sessionManager = new SessionManager(getApplicationContext());
         strLanguage = sessionManager.getSingleField(SessionManager.KEY_LANGUAGE);
         myBase = (MyApplication) getApplication();
@@ -68,12 +68,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         if (remoteMessage == null)
             return;
 
+        Random random = new Random();
+        m = random.nextInt(9999 - 1000) + 1000;
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification());
             System.out.println("notification boby" + remoteMessage.getNotification().getBody());
-
-
         }
 
         // Check if message contains a data payload.
@@ -90,6 +90,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                 Log.e(TAG, "Exception: " + e.getMessage());
             }
         }
+
     }
 
     private void handleDataMessage(JSONObject json) {
@@ -167,6 +168,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
 
                         redirectingtorideontheway(json, type);
                     } else if (type.equalsIgnoreCase("RS")) {
+
                       /*  runOnUiThread(new Runnable() {
 
                             @Override
@@ -190,6 +192,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                         startActivity(intent);
                     }
 
+                }else {
+                    createElseNotification(message);
                 }
             }
         } catch (JSONException e) {
@@ -197,6 +201,45 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         } catch (Exception e) {
             Log.e(TAG, "Exception: " + e.getMessage());
         }
+    }
+
+    private void createElseNotification(String message) {
+
+       /* intent.putExtra("message", message);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, m, intent, PendingIntent.FLAG_UPDATE_CURRENT);*/
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext());
+
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+        inboxStyle.addLine(message);
+
+        Notification notification;
+        String CHANNEL_ID = "my_channel_01";
+        CharSequence name = getApplicationContext().getString(R.string.app_name);
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationManager notificationManager =
+                (NotificationManager)
+                        getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        notification = mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker("").setWhen(0)
+                .setAutoCancel(true)
+                .setChannelId(CHANNEL_ID)
+                .setContentTitle(message)
+                .setStyle(inboxStyle)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText(message)
+             //   .setContentIntent(pendingIntent)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build();
+
+        notificationManager.notify(m, notification);
+
     }
 
     private void loadnotificationfromadmin(String message) {
@@ -298,7 +341,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         String type;
         String message, message_ar, driver_id, vehicle_name, vehicle_number, driver_name, driver_mobile, trip_id, time, distance, driver_profile, driver_lat, driver_long;
 
-        String color,avg_rating,from_address,dest_address,from_latitude,from_longitude,to_latitude,to_longitude;
+        String color, avg_rating, from_address, dest_address, from_latitude, from_longitude, to_latitude, to_longitude;
 
         @Override
         protected void onPreExecute() {
@@ -348,12 +391,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                         color = data.getString("vehicle_color");
                         avg_rating = data.getString("avg_rating");
 
-                        from_address=data.getString("from_address");
-                        dest_address=data.getString("to_address");
-                        from_latitude=data.getString("from_latitude");
-                        from_longitude=data.getString("from_longitude");
-                        to_latitude=data.getString("to_latitude");
-                        to_longitude=data.getString("to_longitude");
+                        from_address = data.getString("from_address");
+                        dest_address = data.getString("to_address");
+                        from_latitude = data.getString("from_latitude");
+                        from_longitude = data.getString("from_longitude");
+                        to_latitude = data.getString("to_latitude");
+                        to_longitude = data.getString("to_longitude");
 
 
                         if (strLanguage.equalsIgnoreCase("1")) {
@@ -433,12 +476,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                         intent.putExtra("avg_rating", avg_rating);
                         intent.putExtra("color", color);
 
-                        intent.putExtra("from_address",from_address);
-                        intent.putExtra("dest_address",dest_address);
-                        intent.putExtra("from_latitude",from_latitude);
-                        intent.putExtra("from_longitude",from_longitude);
-                        intent.putExtra("to_latitude",to_latitude);
-                        intent.putExtra("to_longitude",to_longitude);
+                        intent.putExtra("from_address", from_address);
+                        intent.putExtra("dest_address", dest_address);
+                        intent.putExtra("from_latitude", from_latitude);
+                        intent.putExtra("from_longitude", from_longitude);
+                        intent.putExtra("to_latitude", to_latitude);
+                        intent.putExtra("to_longitude", to_longitude);
                         getApplicationContext().startActivity(intent);
 
                     } else {

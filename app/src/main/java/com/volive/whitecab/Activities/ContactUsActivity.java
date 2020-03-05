@@ -56,8 +56,6 @@ public class ContactUsActivity extends AppCompatActivity implements View.OnClick
         txt_edt_phone=findViewById(R.id.txt_edt_phone);
         txt_edt_message=findViewById(R.id.txt_edt_message);
         btn_contact_submit=findViewById(R.id.btn_contact_submit);
-
-
     }
 
     private void initViews() {
@@ -78,9 +76,9 @@ public class ContactUsActivity extends AppCompatActivity implements View.OnClick
 
             Log.e("strPassword", strPassword);
 
-            txt_edt_name.setText(strName);
-            txt_edt_phone.setText(strNumber);
-            txt_edt_email.setText(strEmail);
+//            txt_edt_name.setText(strName);
+//            txt_edt_phone.setText(strNumber);
+//            txt_edt_email.setText(strEmail);
 
         }
     }
@@ -99,7 +97,22 @@ public class ContactUsActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.btn_contact_submit:
 
-                if(txt_edt_message.getText().toString().isEmpty()){
+                String pattern = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                        + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
+                if(txt_edt_name.getText().toString().isEmpty()){
+                    MessageToast.showToastMethod(ContactUsActivity.this, getString(R.string.enter_your_name));
+                }else if(txt_edt_email.getText().toString().isEmpty()){
+                    MessageToast.showToastMethod(ContactUsActivity.this, getString(R.string.enter_your_mail));
+                }else if(!(txt_edt_email.getText().toString().matches(pattern))){
+                    MessageToast.showToastMethod(ContactUsActivity.this, getString(R.string.enter_valid_mail));
+                }else if(txt_edt_phone.getText().toString().isEmpty()){
+                    MessageToast.showToastMethod(ContactUsActivity.this, getString(R.string.enter_phone_number));
+                }else if(txt_edt_message.getText().toString().isEmpty()){
                     MessageToast.showToastMethod(ContactUsActivity.this, getString(R.string.add_your_message));
                 }else {
                     new contactUs().execute();
@@ -198,8 +211,8 @@ public class ContactUsActivity extends AppCompatActivity implements View.OnClick
                     if (status == 1) {
 
                         MessageToast.showToastMethod(ContactUsActivity.this, message);
-                        finish();
-                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                        finish();
+//                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     } else {
 
                         MessageToast.showToastMethod(ContactUsActivity.this, message);

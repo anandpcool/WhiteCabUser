@@ -907,7 +907,7 @@ public class LaterBookingActivity extends AppCompatActivity implements View.OnCl
         LatLng origin = new LatLng(destinationMarker.getPosition().latitude,
                 destinationMarker.getPosition().longitude);
         // map.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 19));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 18f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 12f));
         LatLng dest = new LatLng(marker.getPosition().latitude,
                 marker.getPosition().longitude);
         // Getting URL to the Google Directions API

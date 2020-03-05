@@ -266,7 +266,7 @@
                     android:id="@+id/tv_change_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="123456"
                     android:inputType="textPassword"
                     android:layout_toEndOf="@+id/img_password"
                     android:layout_marginStart="@dimen/ten_dp"

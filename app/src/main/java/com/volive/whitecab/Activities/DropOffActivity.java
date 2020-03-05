@@ -64,6 +64,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
     Boolean nodata = false;
     private ProgressDialog myDialog;
     private Dialog addressDialog;
+    boolean boolean_save_address=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +154,13 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.img_saveAddress:
 
-                addAddressTitleDialog();
+
+                if(boolean_save_address){
+                    Toast.makeText(DropOffActivity.this, "This Address is already saved", Toast.LENGTH_SHORT).show();
+                }else {
+                    addAddressTitleDialog();
+                }
+
 
                 break;
 
@@ -304,6 +311,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
                     dropLong = String.valueOf(cameraPosition.target.longitude);
                     dropAddress = MapUtil.getLatLongToAddress(cameraPosition.target.latitude, cameraPosition.target.longitude, DropOffActivity.this);
                     tv_dest_address.setText(dropAddress);
+                    boolean_save_address=false;
                     new checkFavorite().execute();
                 }
 
@@ -445,6 +453,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
                         addressDialog.dismiss();
                         img_saveAddress.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_yellow));
                         MessageToast.showToastMethod(DropOffActivity.this, message);
+                        boolean_save_address=true;
                     } else {
                         MessageToast.showToastMethod(DropOffActivity.this, message);
                     }
@@ -549,8 +558,10 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
 
                     if (status) {
                         img_saveAddress.setImageDrawable(getResources().getDrawable(R.drawable.ic_love_yellow));
+                        boolean_save_address=true;
                     } else {
                         img_saveAddress.setImageDrawable(getResources().getDrawable(R.drawable.love_gray));
+                        boolean_save_address=false;
                     }
 
                 }
