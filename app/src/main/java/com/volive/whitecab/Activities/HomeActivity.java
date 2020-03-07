@@ -340,6 +340,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     my_intent.putExtra("from_lat", strLat);
                     my_intent.putExtra("from_long", strLong);
                     my_intent.putExtra("vehicleType", strVehicleBaseOnType);
+                    my_intent.putExtra("driverId",strDriverId);
                     startActivity(my_intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
@@ -795,7 +796,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     if (status) {
 
                         if (peaktime_status.equalsIgnoreCase("1")) {
-                            ll_pick.setVisibility(View.VISIBLE);
+                           // ll_pick.setVisibility(View.VISIBLE);
                             txt_pickTime.setText(peak_factor + "x | Peak factor");
                         }
                         Log.e("vechiles",arrVehicleType.size()+"");

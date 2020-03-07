@@ -211,8 +211,8 @@ public class ContactUsActivity extends AppCompatActivity implements View.OnClick
                     if (status == 1) {
 
                         MessageToast.showToastMethod(ContactUsActivity.this, message);
-//                        finish();
-//                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        finish();
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     } else {
 
                         MessageToast.showToastMethod(ContactUsActivity.this, message);

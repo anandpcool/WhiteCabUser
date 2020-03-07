@@ -28,7 +28,7 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
     String strDate, strTime,strCurrentTime;
     SimpleDateFormat foramteDate, formatTime;
 
-    String strAddress, strVehicleType, strFromLat="",strFromLong="",strCurrentDate,strSelectedDate;
+    String strAddress, strVehicleType, strFromLat="",strFromLong="",strCurrentDate,strSelectedDate,strDriverId="";
 
 
     ImageView back_ride_later;
@@ -64,6 +64,7 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
         strVehicleType = intent.getStringExtra("vehicleType");
         strFromLat= intent.getStringExtra("from_lat");
         strFromLong= intent.getStringExtra("from_long");
+        strDriverId= intent.getStringExtra("driverId");
 
         Date date = new Date();
         calendar.setMinDate(date.getTime());
@@ -191,7 +192,7 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
                         intent.putExtra("Time", strTime);
                         intent.putExtra("from_lat", strFromLat);
                         intent.putExtra("from_long", strFromLong);
-
+                        intent.putExtra("driverId",strDriverId);
                         intent.putExtra("key", "");
                         Log.e("fsdafndsaklfdsaf",strDate+" "+strTime);
                         startActivity(intent);
@@ -206,6 +207,7 @@ public class RideLaterActivity extends AppCompatActivity implements View.OnClick
                     intent.putExtra("Time", strTime);
                     intent.putExtra("from_lat", strFromLat);
                     intent.putExtra("from_long", strFromLong);
+                    intent.putExtra("driverId",strDriverId);
 
                     intent.putExtra("key", "");
                     startActivity(intent);

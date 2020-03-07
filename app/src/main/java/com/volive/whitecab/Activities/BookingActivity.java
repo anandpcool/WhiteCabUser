@@ -648,11 +648,10 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
                     if (status) {
                         if (value.equalsIgnoreCase("1")) {
                             try {
-//                                JSONObject driver_details = new JSONObject(response);
-//                                System.out.println("driver_details" + driver_details.getString("Trip_id"));
                                 trip_id = js.getString("Trip_id");
-                                Intent intent = new Intent(BookingActivity.this, TrackingActivity.class);
-                                startActivity(intent);
+                                preferenceUtils.setTripId(trip_id);
+//                                Intent intent = new Intent(BookingActivity.this, TrackingActivity.class);
+//                                startActivity(intent);
                                 MessageToast.showToastMethod(BookingActivity.this,message);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -707,7 +706,7 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
                 JSONObject json = new JSONObject();
                 try {
 
-                    String finalUrl = ApiUrl.strBaseUrl+"calc_fare?from_lat=" + strFromLat + "&from_long=" + strFromLong + "&to_lat=" + strDropLat + "&to_long=" + strDropLong + "&API-KEY=1514209135";
+                    String finalUrl = ApiUrl.strBaseUrl+"calc_fare?from_lat=" + strFromLat + "&from_long=" + strFromLong + "&to_lat=" + strDropLat + "&to_long=" + strDropLong + "&API-KEY=1514209135"+"&driver_id="+strDriverId;
                     Log.e("FinalUrl", finalUrl);
                     ServiceHandler sh = new ServiceHandler();
                     response = sh.callToServer(finalUrl, ServiceHandler.GET, json);

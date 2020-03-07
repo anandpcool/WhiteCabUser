@@ -8,13 +8,9 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-
-
 import com.volive.whitecab.Activities.TrackingActivity;
 import com.volive.whitecab.R;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 
 /**
@@ -29,7 +25,7 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
     Boolean nodata = false;
     NetworkConnection nw;
     SessionManager sm;
-    String strUserId, strLanguage;
+    String strUserId, strLanguage,from_address,dest_address,from_latitude,from_longitude,to_latitude,to_longitude;
     Activity act;
 
     @Override
@@ -52,7 +48,11 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
             strUserId = userDetail.get(SessionManager.KEY_ID);
             strLanguage = userDetail.get(SessionManager.KEY_LANGUAGE);
             act = activity;
-            new currentRide().execute();
+
+            if(!(activity.getClass().equals(TrackingActivity.class))){
+                new currentRide().execute();
+            }
+
         }
     }
 
@@ -144,6 +144,14 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
                         driver_id = data.getString("driver_id");
                         color = data.getString("vehicle_color");
                         avg_rating = data.getString("avg_rating");
+
+                        from_address=data.getString("from_address");
+                        dest_address=data.getString("to_address");
+                        from_latitude=data.getString("from_latitude");
+                        from_longitude=data.getString("from_longitude");
+                        to_latitude=data.getString("to_latitude");
+                        to_longitude=data.getString("to_longitude");
+
                         if (strLanguage.equalsIgnoreCase("1")) {
                             // message = js.getString("message");
                         } else if (strLanguage.equalsIgnoreCase("2")) {
@@ -220,7 +228,15 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
                         intent.putExtra("type", type);
                         intent.putExtra("avg_rating ", avg_rating);
                         intent.putExtra("color", color);
+
+                        intent.putExtra("from_address",from_address);
+                        intent.putExtra("dest_address",dest_address);
+                        intent.putExtra("from_latitude",from_latitude);
+                        intent.putExtra("from_longitude",from_longitude);
+                        intent.putExtra("to_latitude",to_latitude);
+                        intent.putExtra("to_longitude",to_longitude);
                         act.startActivity(intent);
+
 
                     } else {
 

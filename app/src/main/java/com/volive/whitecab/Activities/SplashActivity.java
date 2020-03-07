@@ -76,7 +76,7 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
         HashMap<String, String> userDetail = sm.getUserDetails();
 
 //       String firebase_token = FirebaseInstanceId.getInstance().getToken();
-//        Log.e("firebase_token", firebase_token);
+//       Log.e("firebase_token", firebase_token);
 
         if(userDetail.get(SessionManager.KEY_ID) != null){
             strUserId = userDetail.get(SessionManager.KEY_ID);

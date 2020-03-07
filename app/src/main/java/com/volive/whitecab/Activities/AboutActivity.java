@@ -208,12 +208,16 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
                             about_webView.loadDataWithBaseURL(null, heading_text_en, "text/html", "UTF-8", null);
                         }
 
-                        adapter=new AboutPagerAdapter(AboutActivity.this,arrAboutUs,base_url);
-                        about_viewPager.setAdapter(adapter);
-                        final float density = getResources().getDisplayMetrics().density;
-                        circlePageIndicator.setRadius(5 * density);
-                        about_viewPager.setPageMargin((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics()));
-                        circlePageIndicator.setCount(arrAboutUs.size());
+                        if(!arrAboutUs.isEmpty()){
+                            circlePageIndicator.setVisibility(View.VISIBLE);
+                            adapter=new AboutPagerAdapter(AboutActivity.this,arrAboutUs,base_url);
+                            about_viewPager.setAdapter(adapter);
+                            final float density = getResources().getDisplayMetrics().density;
+                            circlePageIndicator.setRadius(5 * density);
+                            about_viewPager.setPageMargin((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics()));
+                            circlePageIndicator.setCount(arrAboutUs.size());
+                        }
+
                     } else {
                         MessageToast.showToastMethod(AboutActivity.this, message);
                     }

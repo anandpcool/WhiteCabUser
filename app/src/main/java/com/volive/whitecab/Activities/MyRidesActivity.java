@@ -100,7 +100,9 @@ public class MyRidesActivity extends AppCompatActivity implements View.OnClickLi
 
                 if(completedArrayList.isEmpty()){
                     MessageToast.showToastMethod(MyRidesActivity.this, getString(R.string.no_completed_rides));
+                    my_ride_recycler.setVisibility(View.GONE);
                 }else {
+                    my_ride_recycler.setVisibility(View.VISIBLE);
                     ridesAdapter = new MyRidesAdapter(MyRidesActivity.this, completedArrayList);
                     my_ride_recycler.setHasFixedSize(true);
                     my_ride_recycler.setAdapter(ridesAdapter);
@@ -117,7 +119,9 @@ public class MyRidesActivity extends AppCompatActivity implements View.OnClickLi
 
                 if(sheduledArrayList.isEmpty()){
                     MessageToast.showToastMethod(MyRidesActivity.this, getString(R.string.no_scheduled_rides));
+                    my_ride_recycler.setVisibility(View.GONE);
                 }else {
+                    my_ride_recycler.setVisibility(View.VISIBLE);
                     ridesAdapter = new MyRidesAdapter(MyRidesActivity.this, sheduledArrayList);
                     my_ride_recycler.setHasFixedSize(true);
                     my_ride_recycler.setAdapter(ridesAdapter);
@@ -133,7 +137,9 @@ public class MyRidesActivity extends AppCompatActivity implements View.OnClickLi
 
                 if(cancelledArrayList.isEmpty()){
                     MessageToast.showToastMethod(MyRidesActivity.this, getString(R.string.no_cancelled_rides));
+                    my_ride_recycler.setVisibility(View.GONE);
                 }else {
+                    my_ride_recycler.setVisibility(View.VISIBLE);
                     ridesAdapter = new MyRidesAdapter(MyRidesActivity.this, cancelledArrayList);
                     my_ride_recycler.setHasFixedSize(true);
                     my_ride_recycler.setAdapter(ridesAdapter);
@@ -373,7 +379,9 @@ public class MyRidesActivity extends AppCompatActivity implements View.OnClickLi
 
                         if(completedArrayList.isEmpty()){
                             MessageToast.showToastMethod(MyRidesActivity.this, getString(R.string.no_completed_rides));
+                            my_ride_recycler.setVisibility(View.GONE);
                         }else {
+                            my_ride_recycler.setVisibility(View.VISIBLE);
                             ridesAdapter = new MyRidesAdapter(MyRidesActivity.this, completedArrayList);
                             my_ride_recycler.setHasFixedSize(true);
                             my_ride_recycler.setAdapter(ridesAdapter);

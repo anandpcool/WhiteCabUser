@@ -85,7 +85,7 @@ public class LaterBookingActivity extends AppCompatActivity implements View.OnCl
     GoogleMap mMap;
     GPSTracker gpsTracker;
     SupportMapFragment mapFragment;
-    String strPromoCode = "",strFromLat = "", strFromLong = "", strFromAddress = "",strvehicleType="",strDate="",strTime="",strDropAddress = "", strDropLat = "", strDropLong = "";
+    String strPromoCode = "",strFromLat = "", strFromLong = "", strFromAddress = "",strvehicleType="",strDate="",strTime="",strDropAddress = "", strDropLat = "", strDropLong = "",strDriverId="";
     int nSearchResultCode = 000;
     int nDropLocationResultCode = 00111;
     TextInputLayout input_toAddress;
@@ -156,6 +156,7 @@ public class LaterBookingActivity extends AppCompatActivity implements View.OnCl
              strDropLong= getIntent().getStringExtra("drop_longitude");
              strFromLat= getIntent().getStringExtra("from_lat");
              strFromLong= getIntent().getStringExtra("from_long");
+             strDriverId= getIntent().getStringExtra("driverId");
 
              tv_booking_date.setText("Ride on "+strDate+" at "+strTime);
              tv_from_address.setText(strFromAddress);
@@ -588,13 +589,8 @@ public class LaterBookingActivity extends AppCompatActivity implements View.OnCl
                 JSONObject json = new JSONObject();
                 try {
 
-                   /* json.put("API-KEY", Constants.API_KEY);
-                    json.put("user_id", strUserId);
-                    json.put("lat", gpsTracker.getLatitude());
-                    json.put("long", gpsTracker.getLongitude());
-                    json.put("address", strAddress);*/
 
-                    String finalUrl = ApiUrl.strBaseUrl+"calc_fare?from_lat=" + strFromLat + "&from_long=" + strFromLong + "&to_lat=" + strDropLat + "&to_long=" + strDropLong + "&API-KEY=1514209135";
+                    String finalUrl = ApiUrl.strBaseUrl+"calc_fare?from_lat=" + strFromLat + "&from_long=" + strFromLong + "&to_lat=" + strDropLat + "&to_long=" + strDropLong + "&API-KEY=1514209135"+"&driver_id="+strDriverId;
                     Log.e("FinalUrl", finalUrl);
                     ServiceHandler sh = new ServiceHandler();
                     response = sh.callToServer(finalUrl, ServiceHandler.GET, json);

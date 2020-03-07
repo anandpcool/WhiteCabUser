@@ -128,6 +128,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
                 strDate=intent.getStringExtra("Time");
                 strFromLat= intent.getStringExtra("from_lat");
                 strFromLong= intent.getStringExtra("from_long");
+                strDriverId= intent.getStringExtra("driverId");
             }
 
         }
@@ -208,6 +209,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
                     intent.putExtra("Time", strTime);
                     intent.putExtra("from_lat", strFromLat);
                     intent.putExtra("from_long", strFromLong);
+                    intent.putExtra("driverId", strDriverId);
                     startActivity(intent);
                    // setResult(RESULT_OK, intent);
                   //  finish();
@@ -264,7 +266,7 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View view) {
 
                 if(edt_title.getText().toString().isEmpty()){
-                    MessageToast.showToastMethod(DropOffActivity.this, ""+getResources().getString(R.string.add_title));
+                    MessageToast.showToastMethod(DropOffActivity.this, getResources().getString(R.string.add_favourite_name));
                 }else {
                     new saveAddress(edt_title.getText().toString()).execute();
                 }

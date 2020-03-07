@@ -169,12 +169,12 @@
                     android:id="@+id/ll_dest_autoComeplete"
                     android:visibility="gone"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/ten_dp"
                     android:layout_height="wrap_content">
 
                     <fragment android:id="@+id/dest_autocomplete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
                         android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                         />
 

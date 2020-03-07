@@ -67,18 +67,19 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     ArrayList<RegionModel> regionModels = new ArrayList<>();
     ArrayList<String> array_regionid = new ArrayList<>();
     ArrayList<String> array_country_code = new ArrayList<>();
-    String selectlang,strPhoneCode = "";
+    String selectlang="",strPhoneCode = "";
     AdapterCallBack adapterCallBack;
     GPSTracker gpsTracker;
     String country_ids="",code = "",countryid = "";
+    private String dialing_code="",country_imagge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        firebase_token = FirebaseInstanceId.getInstance().getToken();
-        Log.e("firebase_token", firebase_token);
+//        firebase_token = FirebaseInstanceId.getInstance().getToken();
+//        Log.e("firebase_token", firebase_token);
 
         initUI();
         initViews();
@@ -139,6 +140,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         }
         code = getCountryName(SignupActivity.this, gpsTracker.getLatitude(), gpsTracker.getLongitude());
+
+        loadSpinner(false);
     }
 
     @Override
@@ -154,7 +157,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
             case R.id.selectdrop_down:
 
-                loadSpinner();
+                loadSpinner(true);
 
                 break;
 
@@ -275,6 +278,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         protected Void doInBackground(Void... voids) {
 
             if (nw.isConnectingToInternet()){
+                firebase_token = FirebaseInstanceId.getInstance().getToken();
                 JSONObject json = new JSONObject();
 
                 try{
@@ -286,6 +290,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     json.put("password", etPassword.getText().toString());
                     json.put("phone_code",txt_countryCode.getText().toString());
                     json.put("country_code",countryid);
+//                    json.put("device_token",firebase_token);
+//                    json.put("device_name", Constants.DIVICE_TYPE);
+
 
                     ServiceHandler sh = new ServiceHandler();
                     response = sh.callToServer(ApiUrl.strBaseUrl + ApiUrl.strUserRegister, ServiceHandler.POST, json);
@@ -387,7 +394,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void loadSpinner() {
+    private void loadSpinner(boolean b) {
         dialog = new Dialog(SignupActivity.this, R.style.Theme_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.recyculer_dialog);
@@ -399,7 +406,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         new getCountryList().execute();
 
         slideUp(recyclerView, true);
-        dialog.show();
+        if(b){
+            dialog.show();
+        }
+
     }
 
     public static void slideUp(View view, boolean isFill) {
@@ -423,7 +433,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            myDialog = DialogsUtils.showProgressDialog(SignupActivity.this, getString(R.string.please_wait));
+            showLoader();
+           // myDialog = DialogsUtils.showProgressDialog(SignupActivity.this, getString(R.string.please_wait));
         }
 
         @Override
@@ -450,6 +461,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         String status = js1.getString("image");
                         String imageurl = baseurl + status;
 
+                        country_imagge=baseurl+jsonArray.getJSONObject(1).getString("image");
+                        dialing_code=jsonArray.getJSONObject(1).getString("dialing_code");
 
                         RegionModel regionModel = new RegionModel(id, name, imageurl);
 
@@ -483,8 +496,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             // Dismiss the progress dialog
-            if (myDialog.isShowing())
-                myDialog.dismiss();
+            hideLoader();
 
             if (netConnection) {
 
@@ -495,6 +507,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 } else {
                     if (status) {
                         String image = "yes";
+                        txt_countryCode.setText(dialing_code);
+                        Glide.with(SignupActivity.this).load(country_imagge).into(img_country);
                         RegionAdapter regionAdapter = new RegionAdapter(SignupActivity.this, adapterCallBack, regionModels, image);
                         recyclerView.setAdapter(regionAdapter);
                     }
@@ -543,6 +557,33 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         } catch (IOException ioe) {
         }
         return null;
+    }
+
+    // Show progress bar
+    public void showLoader() {
+        try {
+            if (myDialog != null)
+                myDialog.dismiss();
+            myDialog = null;
+            myDialog = new ProgressDialog(SignupActivity.this);
+
+            myDialog.setTitle("");
+            myDialog.setMessage(getString(R.string.please_wait));
+            myDialog.setCancelable(false);
+            myDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Hide progress Bar
+    public void hideLoader() {
+        try {
+            if (myDialog != null && myDialog.isShowing())
+                myDialog.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

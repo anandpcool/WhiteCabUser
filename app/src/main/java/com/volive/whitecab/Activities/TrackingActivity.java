@@ -28,7 +28,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TabHost;
+
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -60,6 +60,7 @@ import com.volive.whitecab.util.DirectionsJSONParser;
 import com.volive.whitecab.util.MessageToast;
 import com.volive.whitecab.util.MyApplication;
 import com.volive.whitecab.util.NetworkConnection;
+import com.volive.whitecab.util.PreferenceUtils;
 import com.volive.whitecab.util.ServiceHandler;
 
 import org.json.JSONArray;
@@ -79,6 +80,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class TrackingActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback,LocationListener, Observer {
 
@@ -104,6 +106,7 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
     private String cancel_reason="",strLanguage="";
     ArrayList<ComplaintModel> cancelArrayList;
     MyApplication myApplication;
+    PreferenceUtils preferenceUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,14 +129,6 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
             String fromscreen = intent.getStringExtra("fromscreen");
 
             if(fromscreen.equalsIgnoreCase("1")) {
-                vehicle_name = intent.getStringExtra("vehicle_name");
-                vehicle_number = intent.getStringExtra("vehicle_number");
-                driver_name = intent.getStringExtra("driver_name");
-                driver_mobile = intent.getStringExtra("driver_mobile");
-                trip_id = intent.getStringExtra("trip_id");
-                time = intent.getStringExtra("time");
-                distance = intent.getStringExtra("distance");
-                driver_profile = intent.getStringExtra("driver_profile");
                 driver_lat = intent.getStringExtra("driver_lat");
                 driver_long = intent.getStringExtra("driver_long");
                 from_address=intent.getStringExtra("from_address");
@@ -142,6 +137,14 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
                 from_longitude=intent.getStringExtra("from_longitude");
                 to_latitude=intent.getStringExtra("to_latitude");
                 to_longitude=intent.getStringExtra("to_longitude");
+                vehicle_name = intent.getStringExtra("vehicle_name");
+                vehicle_number = intent.getStringExtra("vehicle_number");
+                driver_name = intent.getStringExtra("driver_name");
+                driver_mobile = intent.getStringExtra("driver_mobile");
+                trip_id = intent.getStringExtra("trip_id");
+                time = intent.getStringExtra("time");
+                distance = intent.getStringExtra("distance");
+                driver_profile = intent.getStringExtra("driver_profile");
 
                 driver_id = intent.getStringExtra("driver_id");
                 type = intent.getStringExtra("type");
@@ -156,7 +159,7 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
             tv_vehicleName.setText(vehicle_name);
             tv_vehicleNumber.setText(vehicle_number);
 
-            Glide.with(TrackingActivity.this).load(Constants.IMAGE_BASE_URL+driver_profile).into(captainProfile);
+            Glide.with(TrackingActivity.this).load(driver_profile).into(captainProfile);
 
 
             tv_rating.setText(avg_rating);
@@ -179,6 +182,7 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
 
     private void initUI() {
         nw=new NetworkConnection(TrackingActivity.this);
+        preferenceUtils=new PreferenceUtils(TrackingActivity.this);
         cancelArrayList=new ArrayList<>();
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.tracking_map);
         mapFragment.getMapAsync(TrackingActivity.this);
@@ -461,6 +465,10 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
         protected Void doInBackground(Void... arg0) {
             if (nw.isConnectingToInternet()) {
 
+                if(trip_id.isEmpty()){
+                    trip_id=preferenceUtils.getTripId();
+                }
+
                 JSONObject json = new JSONObject();
                 try {
                     json.put("API-KEY", Constants.API_KEY);
@@ -576,6 +584,13 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
         mMap.getUiSettings().setRotateGesturesEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.valueOf(from_latitude), Double.valueOf(from_longitude)), 16));
 
+        LatLng drivrLatlong = new LatLng(Double.parseDouble(driver_lat), Double.parseDouble(driver_long));
+
+        now = mMap.addMarker(new MarkerOptions()
+                .position(drivrLatlong)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_loc_icon)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(drivrLatlong, 13));
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -584,14 +599,6 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
 
             }
         },1000);
-
-        LatLng drivrLatlong = new LatLng(Double.parseDouble(driver_lat), Double.parseDouble(driver_long));
-
-        now = mMap.addMarker(new MarkerOptions()
-                .position(drivrLatlong)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.current_loc_icon)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(drivrLatlong, 13));
-
 
     }
 
@@ -713,7 +720,7 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
         LatLng origin = new LatLng(destinationMarker.getPosition().latitude,
                 destinationMarker.getPosition().longitude);
         // map.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 19));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 18f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 12f));
         LatLng dest = new LatLng(marker.getPosition().latitude,
                 marker.getPosition().longitude);
         // Getting URL to the Google Directions API

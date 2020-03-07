@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -106,7 +107,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                 //notification(message);
                 loadnotificationfromadmin(message);
             } else {
-                //JSONObject data = json.getJSONObject(json.toString());
                 if (strLanguage.equalsIgnoreCase("1")) {
                     message = json.getString("body");
                 } else {
@@ -114,16 +114,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                 }
 
 
-                title = json.getString("title");
-                String message1 = json.getString("body");
-
-
-                boolean isBackground = false;//data.getBoolean("is_background");
-                String imageUrl = "";//data.getString("image");
-                String timestamp = "";//data.getString("timestamp");
-
-
-                if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+                if (!NotificationUtils.isAppIsInBackground(getApplicationContext()))
+                {
 
                     System.out.println("app backfroud");
 
@@ -168,7 +160,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
 
                         redirectingtorideontheway(json, type);
                     } else if (type.equalsIgnoreCase("RS")) {
-
+                        Log.e("jdsafsdfds","Ride Started");
                       /*  runOnUiThread(new Runnable() {
 
                             @Override
@@ -192,8 +184,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                         startActivity(intent);
                     }
 
-                }else {
-                    createElseNotification(message);
                 }
             }
         } catch (JSONException e) {
@@ -203,44 +193,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         }
     }
 
-    private void createElseNotification(String message) {
-
-       /* intent.putExtra("message", message);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, m, intent, PendingIntent.FLAG_UPDATE_CURRENT);*/
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext());
-
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        inboxStyle.addLine(message);
-
-        Notification notification;
-        String CHANNEL_ID = "my_channel_01";
-        CharSequence name = getApplicationContext().getString(R.string.app_name);
-        int importance = NotificationManager.IMPORTANCE_HIGH;
-        NotificationManager notificationManager =
-                (NotificationManager)
-                        getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-            notificationManager.createNotificationChannel(mChannel);
-        }
-
-        notification = mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker("").setWhen(0)
-                .setAutoCancel(true)
-                .setChannelId(CHANNEL_ID)
-                .setContentTitle(message)
-                .setStyle(inboxStyle)
-                .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentText(message)
-             //   .setContentIntent(pendingIntent)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .build();
-
-        notificationManager.notify(m, notification);
-
-    }
 
     private void loadnotificationfromadmin(String message) {
         if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
