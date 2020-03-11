@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,13 +29,13 @@ import java.util.ArrayList;
 public class HelpActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView back_help;
-    TextView tv_help;
     private ProgressDialog myDialog;
     NetworkConnection nw;
     SessionManager sm;
     Boolean netConnection = false;
     Boolean nodata = false;
     String strLanguage="";
+    WebView help_webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initUI() {
         back_help=findViewById(R.id.back_help);
-        tv_help=findViewById(R.id.tv_help);
+        help_webView=findViewById(R.id.help_webView);
         nw=new NetworkConnection(HelpActivity.this);
         sm=new SessionManager(HelpActivity.this);
     }
@@ -162,10 +163,7 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
                     if (status) {
 
                         if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
-                           // about_webView.loadDataWithBaseURL(null, heading_text_en, "text/html", "UTF-8", null);
-                            tv_help.setText(help);
-                        }else {
-                            tv_help.setText(help);
+                            help_webView.loadDataWithBaseURL(null, help, "text/html", "UTF-8", null);
                         }
 
                     } else {

@@ -219,7 +219,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     private void SignOutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.setMessage(getString(R.string.sure_signout));
         builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
@@ -277,7 +277,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     status = js.getBoolean("status");
                     message = js.getString("message");
                     Log.e("strEditProfile", response);
-//                    message_ar = js.getString("message_ar");
+//                  message_ar = js.getString("message_ar");
 
 
                     if (status) {
@@ -430,7 +430,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                         String profile_pic = userobj.getString("profile_pic");
                         String base_url = js.getString("base_url");
 
-                        tv_change_pass.setText(password);
+                        tv_change_pass.setText(new_password);
                         sm.createLoginSession(user_id, email, username, password, phone, true);
                         sm.profileImageUrl(profile_pic, base_url);
 

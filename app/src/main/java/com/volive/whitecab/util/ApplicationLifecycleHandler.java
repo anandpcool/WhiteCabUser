@@ -2,16 +2,25 @@ package com.volive.whitecab.util;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.ComponentCallbacks2;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
+
 import com.volive.whitecab.Activities.TrackingActivity;
 import com.volive.whitecab.R;
 import org.json.JSONObject;
 import java.util.HashMap;
+
+import static com.volive.whitecab.Activities.TrackingActivity.btn_call_captain;
+import static com.volive.whitecab.Activities.TrackingActivity.btn_cancel_ride;
 
 /**
  * Created by volive on 9/7/2018.
@@ -27,6 +36,14 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
     SessionManager sm;
     String strUserId, strLanguage,from_address,dest_address,from_latitude,from_longitude,to_latitude,to_longitude;
     Activity act;
+
+
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    };
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {

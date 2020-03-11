@@ -383,7 +383,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View view) {
 
                 if(edt_title.getText().toString().isEmpty()){
-                    MessageToast.showToastMethod(HomeActivity.this, ""+getResources().getString(R.string.add_title));
+                    MessageToast.showToastMethod(HomeActivity.this, ""+getResources().getString(R.string.add_favourite_name));
                 }else {
                     new saveAddress(edt_title.getText().toString()).execute();
                 }

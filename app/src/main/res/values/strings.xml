@@ -175,7 +175,7 @@
     <string name="choose_valid_time">Choose Valid Time</string>
     <string name="please_select_reason">Please select your reason</string>
     <string name="capacity">Capacity</string>
-    <string name="add_favourite_name">Add favourite name</string>
+    <string name="add_favourite_name">Add Favourite Name</string>
     <string name="choose_country_code">Choose your country code</string>
     <string-array name="CountryCodes">
         <item>93,AF</item>

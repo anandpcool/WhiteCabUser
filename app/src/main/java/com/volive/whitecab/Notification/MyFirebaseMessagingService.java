@@ -10,8 +10,11 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -37,6 +40,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
+import static com.volive.whitecab.Activities.TrackingActivity.btn_call_captain;
+import static com.volive.whitecab.Activities.TrackingActivity.btn_cancel_ride;
+
 /**
  * Created by VOLIVE on 1/16/2018.
  */
@@ -46,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
 
     SessionManager sessionManager;
-    String type = "", strLanguage = "2";
+    String type = "", strLanguage = "1";
     NetworkConnection nw;
     SessionManager sm;
     String strUserId;
@@ -62,7 +68,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         super.onMessageReceived(remoteMessage);
         Log.e(TAG, "remoteMessage: " + remoteMessage.getFrom());
         sessionManager = new SessionManager(getApplicationContext());
-        strLanguage = sessionManager.getSingleField(SessionManager.KEY_LANGUAGE);
+        // strLanguage = sessionManager.getSingleField(SessionManager.KEY_LANGUAGE);
         myBase = (MyApplication) getApplication();
         myBase.getObserver().addObserver(this);
 
@@ -161,22 +167,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                         redirectingtorideontheway(json, type);
                     } else if (type.equalsIgnoreCase("RS")) {
                         Log.e("jdsafsdfds","Ride Started");
-                      /*  runOnUiThread(new Runnable() {
 
-                            @Override
-                            public void run() {
-
-                                myBase.getObserver().setValue("1");
-//                                layoutCancel.setVisibility(View.GONE);
-//                                layoutCall.setVisibility(View.GONE);
-//                                layoutChangedTrip.setVisibility(View.GONE);
-//                                txtMints.setVisibility(View.GONE);
-//                                txtActivityName.setVisibility(View.GONE);
-
-                                // Stuff that updates the UI
-
-                            }
-                        });*/
+                        Intent my_intent = new Intent("custom-message");
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(my_intent);
 
                     } else if (type.equalsIgnoreCase("DC")) {
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -196,8 +189,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
 
     private void loadnotificationfromadmin(String message) {
         if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-            final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-                    getApplicationContext());
+            final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext());
 
             int m = 200;
             PendingIntent fullScreenIntent;
@@ -212,14 +204,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
             String CHANNEL_ID = "my_channel_01";
             CharSequence name = getApplicationContext().getString(R.string.app_name);
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationManager notificationManager =
-                    (NotificationManager)
-                            getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
                 notificationManager.createNotificationChannel(mChannel);
-
-
             }
 
             notification = mBuilder.setSmallIcon(R.mipmap.ic_launcher).setTicker(message).setWhen(0)
@@ -251,7 +239,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
             strLanguage = userDetail.get(SessionManager.KEY_LANGUAGE);
 
             try {
-
                 new currentRide().execute();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -434,11 +421,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                         intent.putExtra("from_longitude", from_longitude);
                         intent.putExtra("to_latitude", to_latitude);
                         intent.putExtra("to_longitude", to_longitude);
-                        getApplicationContext().startActivity(intent);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
 
-                    } else {
-
-                        // MessageToast.showToastMethod(HomeScreenActivity.this, "There is no current ride now");
                     }
 
 

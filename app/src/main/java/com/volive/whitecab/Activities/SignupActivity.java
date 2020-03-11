@@ -72,6 +72,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     GPSTracker gpsTracker;
     String country_ids="",code = "",countryid = "";
     private String dialing_code="",country_imagge;
+    String image="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -290,8 +291,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                     json.put("password", etPassword.getText().toString());
                     json.put("phone_code",txt_countryCode.getText().toString());
                     json.put("country_code",countryid);
-//                    json.put("device_token",firebase_token);
-//                    json.put("device_name", Constants.DIVICE_TYPE);
 
 
                     ServiceHandler sh = new ServiceHandler();
@@ -369,18 +368,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-                       /* if (isFromForgot) {
-
-                            Intent intent = new Intent(SignupActivity.this, PasswordActivity.class);
-                            intent.putExtra("isComeFromForgot", isFromForgot);
-                            startActivity(intent);
-
-                        } else {
-                            Intent intent = new Intent(SignupActivity.this, HomeScreenActivity.class);
-                            // intent.putExtra("strPhoneCode",strPhoneCode);
-                            startActivity(intent);
-                        }*/
-
                     } else {
                         MessageToast.showToastMethod(SignupActivity.this, message);
                     }
@@ -403,12 +390,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         recyclerView = (RecyclerView) dialog.findViewById(R.id.recycleview);
         layoutManager = new LinearLayoutManager(SignupActivity.this);
         recyclerView.setLayoutManager(layoutManager);
-        new getCountryList().execute();
+        new getCountryList(b).execute();
 
         slideUp(recyclerView, true);
-        if(b){
-            dialog.show();
-        }
 
     }
 
@@ -428,7 +412,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private class getCountryList extends AsyncTask<Void, Void, Void> {
         String response = null;
         String imgbase_path;
-        boolean status;
+        boolean status,check;
+
+
+        public getCountryList(boolean check) {
+            this.check=check;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -463,6 +452,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
                         country_imagge=baseurl+jsonArray.getJSONObject(1).getString("image");
                         dialing_code=jsonArray.getJSONObject(1).getString("dialing_code");
+                        countryid=jsonArray.getJSONObject(1).getString("country_code");
 
                         RegionModel regionModel = new RegionModel(id, name, imageurl);
 
@@ -506,11 +496,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
                 } else {
                     if (status) {
-                        String image = "yes";
+                         image = "yes";
                         txt_countryCode.setText(dialing_code);
                         Glide.with(SignupActivity.this).load(country_imagge).into(img_country);
                         RegionAdapter regionAdapter = new RegionAdapter(SignupActivity.this, adapterCallBack, regionModels, image);
                         recyclerView.setAdapter(regionAdapter);
+                        if(check){
+                            dialog.show();
+                        }
                     }
 
                 }

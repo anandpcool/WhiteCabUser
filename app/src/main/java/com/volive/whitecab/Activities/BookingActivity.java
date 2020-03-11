@@ -738,7 +738,6 @@ public class BookingActivity extends AppCompatActivity implements View.OnClickLi
                         } else if (strLanguage.equalsIgnoreCase("2")) {
                             message = js.getString("message_ar");
                         }
-//                        message_ar = js.getString("message_ar");
 
                     }
 

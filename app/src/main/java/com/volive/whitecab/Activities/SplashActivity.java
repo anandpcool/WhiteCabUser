@@ -394,24 +394,14 @@ public class SplashActivity extends AppCompatActivity  implements  GoogleApiClie
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
-                        } /*else {
-                            Intent i = new Intent(SplashScreenActivity.this, SelectLanguage.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(i);
-                            finish();
-                        }*/
-
+                        }
 
                     } else {
                         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         finish();
-                    }/* else {
-                        Intent i = new Intent(SplashActivity.this, SelectLanguage.class);
-                        startActivity(i);
-                        finish();
-                    }*/
+                    }
                 }
 
             }

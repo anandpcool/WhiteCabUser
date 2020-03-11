@@ -3,7 +3,10 @@ package com.volive.whitecab.Activities;
 import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -14,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.LocationListener;
@@ -85,7 +90,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TrackingActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback,LocationListener, Observer {
 
     ImageView back_tracking;
-    Button btn_cancel_ride,btn_call_captain;
+   public static  Button btn_cancel_ride,btn_call_captain;
     RideCancelAdapter cancelAdapter;
     String[] texts=new String[]{"Too many riders","Too much luggage","Rider requested cancel","Rider didn't answer","Wrong address shown","Other"};
     String vehicle_name="", vehicle_number="", driver_name="", driver_mobile, trip_id="", time, distance="", driver_profile="", driver_lat, driver_long;
@@ -108,11 +113,22 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
     MyApplication myApplication;
     PreferenceUtils preferenceUtils;
 
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            btn_call_captain.setVisibility(View.GONE);
+            btn_cancel_ride.setVisibility(View.GONE);
+            myApplication.getObserver().setValue("1");
+
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking);
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("custom-message"));
         initUI();
         initViews();
 
@@ -170,14 +186,13 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
                 tv_rideDistance.setText(distance + " KM");
             }
 
-        }else {
-            from_latitude="17.4436";
-            from_longitude="78.4458";
-            driver_lat="17.4875";
-            driver_long="78.3953";
-            to_latitude="17.4875";
-            to_longitude="78.3953";
         }
+
+        if (myApplication.getObserver().getValue().equalsIgnoreCase("1")) {
+            btn_call_captain.setVisibility(View.GONE);
+            btn_cancel_ride.setVisibility(View.GONE);
+        }
+
     }
 
     private void initUI() {
@@ -248,6 +263,8 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
 
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+            btn_call_captain.setVisibility(View.GONE);
+            btn_cancel_ride.setVisibility(View.GONE);
 
             LatLng drivrLatlong = new LatLng(Double.parseDouble(driver_lat), Double.parseDouble(driver_long));
 

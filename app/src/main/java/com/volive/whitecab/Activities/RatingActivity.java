@@ -73,8 +73,8 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
 
         if(getIntent().getExtras()!=null){
             driver_id= getIntent().getStringExtra("driver_id");
-            driver_name= getIntent().getStringExtra("driver_name");
-            driver_profile= getIntent().getStringExtra("driver_profile");
+            driver_name= getIntent().getStringExtra("username");
+            driver_profile= getIntent().getStringExtra("user_profile");
             driver_rating= getIntent().getStringExtra("driver_rating");
             trip_id= getIntent().getStringExtra("trip_id");
 

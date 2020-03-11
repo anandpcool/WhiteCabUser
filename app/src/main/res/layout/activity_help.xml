@@ -39,98 +39,22 @@
 
     </RelativeLayout>
 
-<!--
-    <View
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGrey"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/one_five"
-        android:orientation="horizontal"
-        android:layout_gravity="start|center_horizontal"
-        android:gravity="start|center_horizontal"
-        >
-
-
-        <ImageView
-            android:layout_width="@dimen/two_five"
-            android:layout_height="@dimen/two_five"
-            android:layout_gravity="start|center"
-            android:src="@drawable/back_black"
-            android:visibility="invisible"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/report_cab_issue"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="@dimen/text_size_16sp"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/ten_dp"
-            />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGrey"
-        android:layout_marginStart="@dimen/normal"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/one_five"
-        android:orientation="horizontal"
-        android:layout_gravity="start|center_horizontal"
-        android:gravity="start|center_horizontal"
-        >
-
-
-        <ImageView
-            android:layout_width="@dimen/two_five"
-            android:layout_height="@dimen/two_five"
-            android:layout_gravity="start|center"
-            android:src="@drawable/back_black"
-            android:visibility="invisible"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send_report"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="@dimen/text_size_16sp"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/ten_dp"
-            />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGrey"
-        android:layout_marginStart="@dimen/normal"
-        />-->
-
-    <TextView
-        android:id="@+id/tv_help"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_gravity="start|center"
-        android:gravity="start|center"
-        android:textSize="@dimen/text_size_16sp"
-        android:textColor="@color/black"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:layout_marginTop="@dimen/normal"
         android:layout_marginStart="@dimen/one_five"
         android:layout_marginEnd="@dimen/one_five"
-        />
+        >
+
+        <WebView
+            android:id="@+id/help_webView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </WebView>
+
+    </ScrollView>
 
 </LinearLayout>

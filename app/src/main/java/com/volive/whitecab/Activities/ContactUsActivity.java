@@ -145,9 +145,9 @@ public class ContactUsActivity extends AppCompatActivity implements View.OnClick
                 try {
                     json.put("API-KEY", Constants.API_KEY);
                     json.put("user_id", strUserId);
-                    json.put("name", strName);
-                    json.put("phone", strNumber);
-                    json.put("email", strEmail);
+                    json.put("name", txt_edt_name.getText().toString());
+                    json.put("phone", txt_edt_phone.getText().toString());
+                    json.put("email", txt_edt_email.getText().toString());
                     json.put("message", txt_edt_message.getText().toString());
 
                     ServiceHandler sh = new ServiceHandler();
