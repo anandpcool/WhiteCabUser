@@ -257,6 +257,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                 intent.putExtra("money", bundle.getString("final_fare"));
                 intent.putExtra("ride_fare", bundle.getString("ride_fare"));
                 intent.putExtra("rider_disc", bundle.getString("rider_disc"));
+                intent.putExtra("driver_rating", bundle.getString("driver_rating"));
 
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
