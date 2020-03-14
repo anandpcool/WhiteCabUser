@@ -42,4 +42,5 @@ public class ApiUrl {
     public static String userComplaint="user_complaint";
     public static String favouriteLocations="favorite_locations?";
     public static String checkFavorite="check_favorite";
+    public static String resendCode="resend_code?";
 }

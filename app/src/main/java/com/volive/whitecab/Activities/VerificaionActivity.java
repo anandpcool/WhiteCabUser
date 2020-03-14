@@ -37,7 +37,7 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
     Boolean nodata = false,forgot;
     SessionManager sm;
     EditText edt_one,edt_two,edt_three,edt_four;
-    TextView tv_mobile_num;
+    TextView tv_mobile_num,tv_resendCode;
 
 
     @Override
@@ -54,6 +54,7 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
         btn_verify=findViewById(R.id.btn_verify);
         back_verify=findViewById(R.id.back_verify);
         tv_mobile_num=findViewById(R.id.tv_mobile_num);
+        tv_resendCode=findViewById(R.id.tv_resendCode);
 
         edt_one=findViewById(R.id.edt_one);
         edt_two=findViewById(R.id.edt_two);
@@ -68,6 +69,7 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
     private void initViews() {
         btn_verify.setOnClickListener(this);
         back_verify.setOnClickListener(this);
+        tv_resendCode.setOnClickListener(this);
 
         if(getIntent().getExtras() != null){
             user_id= getIntent().getStringExtra("user_id");
@@ -149,6 +151,12 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
 
         switch (view.getId()) {
+
+            case R.id.tv_resendCode:
+
+                new resendCode().execute();
+
+                break;
 
             case R.id.btn_verify:
 
@@ -285,7 +293,6 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
                         finish();
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     } else {
-
                         MessageToast.showToastMethod(VerificaionActivity.this, message);
                     }
 
@@ -298,6 +305,136 @@ public class VerificaionActivity extends AppCompatActivity implements View.OnCli
 
         }
     }
+
+    private class resendCode extends AsyncTask<Void, Void, Void>{
+        String response = null;
+        boolean status;
+        String message, message_ar,help;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showLoader();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            if (nw.isConnectingToInternet()) {
+
+                JSONObject json = new JSONObject();
+                try {
+
+                    String finalUrl = ApiUrl.strBaseUrl+ApiUrl.resendCode + "&API-KEY=1514209135"+"&user_id="+user_id;
+
+                    Log.e("resendFinalUrl", finalUrl);
+                    ServiceHandler sh = new ServiceHandler();
+                    response = sh.callToServer(finalUrl, ServiceHandler.GET, json);
+
+                    JSONObject js = new JSONObject(response);
+                    status = js.getBoolean("status");
+                    message = js.getString("message");
+                    Log.e("Fare", response.toString());
+
+                    if (status) {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                            help=js.getString("help_ar");
+                        }
+
+
+                    } else {
+
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
+                            message = js.getString("message");
+                        } else if (strLanguage.equalsIgnoreCase("2")) {
+                            message = js.getString("message_ar");
+                        }
+//                        message_ar = js.getString("message_ar");
+
+                    }
+
+                    nodata = false;
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    nodata = true;
+                }
+
+                netConnection = true;
+
+            } else {
+
+                netConnection = false;
+
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+               hideLoader();
+
+            if (netConnection) {
+
+                if (nodata) {
+
+                    MessageToast.showToastMethod(VerificaionActivity.this, getString(R.string.no_data));
+
+                } else {
+
+                    if (status) {
+                        MessageToast.showToastMethod(VerificaionActivity.this, message);
+                    } else {
+                        MessageToast.showToastMethod(VerificaionActivity.this, message);
+                    }
+
+                }
+            } else {
+
+                MessageToast.showToastMethod(VerificaionActivity.this, getString(R.string.check_net_connection));
+
+            }
+
+        }
+
+
+    }
+
+    // Show progress bar
+    public void showLoader() {
+        try {
+            if (myDialog != null)
+                myDialog.dismiss();
+            myDialog = null;
+            myDialog = new ProgressDialog(VerificaionActivity.this);
+
+            myDialog.setTitle("");
+            myDialog.setMessage(getString(R.string.please_wait));
+            myDialog.setCancelable(false);
+            myDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Hide progress Bar
+    public void hideLoader() {
+        try {
+            if (myDialog != null && myDialog.isShowing())
+                myDialog.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void onBackPressed() {

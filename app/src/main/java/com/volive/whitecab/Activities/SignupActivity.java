@@ -51,8 +51,7 @@ import java.util.Locale;
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener, AdapterCallBack {
 
     EditText et_your_name,et_email,et_phone_number,etPassword,et_con_password;
-    TextView txt_show,txt_show_con,tv_login,tv_terms_conditions;
-    public static TextView txt_countryCode;
+    TextView txt_show,txt_show_con,tv_login,tv_terms_conditions,txt_countryCode;
     Button btn_sign_up;
     ImageView back_sign_up,selectdrop_down,img_country;
     private ProgressDialog myDialog;

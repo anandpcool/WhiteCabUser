@@ -15,8 +15,6 @@ import com.volive.whitecab.util.AdapterCallBack;
 import com.volive.whitecab.util.SessionManager;
 import java.util.ArrayList;
 
-import static com.volive.whitecab.Activities.SignupActivity.txt_countryCode;
-
 /**
  * Created by volive on 7/20/2018.
  */
