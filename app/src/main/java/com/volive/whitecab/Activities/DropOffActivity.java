@@ -124,8 +124,8 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
             }else {
                 strFromAddress = intent.getStringExtra("from_address");
                 strVehicleType = intent.getStringExtra("vehicleType");
-                strTime=intent.getStringExtra("Date");
-                strDate=intent.getStringExtra("Time");
+                strDate=intent.getStringExtra("Date");
+                strTime=intent.getStringExtra("Time");
                 strFromLat= intent.getStringExtra("from_lat");
                 strFromLong= intent.getStringExtra("from_long");
                 strDriverId= intent.getStringExtra("driverId");
@@ -136,12 +136,6 @@ public class DropOffActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        new checkFavorite().execute();
-    }
-*/
     @Override
     public void onClick(View view) {
 

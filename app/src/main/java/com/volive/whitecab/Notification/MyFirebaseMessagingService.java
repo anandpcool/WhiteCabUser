@@ -31,17 +31,12 @@ import com.volive.whitecab.util.MyObservab;
 import com.volive.whitecab.util.NetworkConnection;
 import com.volive.whitecab.util.ServiceHandler;
 import com.volive.whitecab.util.SessionManager;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-
-import static com.volive.whitecab.Activities.TrackingActivity.btn_call_captain;
-import static com.volive.whitecab.Activities.TrackingActivity.btn_cancel_ride;
 
 /**
  * Created by VOLIVE on 1/16/2018.
@@ -281,7 +276,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
         String type;
         String message, message_ar, driver_id, vehicle_name, vehicle_number, driver_name, driver_mobile, trip_id, time, distance, driver_profile, driver_lat, driver_long;
 
-        String color, avg_rating, from_address, dest_address, from_latitude, from_longitude, to_latitude, to_longitude;
+        String color, avg_rating, from_address, dest_address, from_latitude, from_longitude, to_latitude, to_longitude,driver_status;
 
         @Override
         protected void onPreExecute() {
@@ -337,6 +332,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                         from_longitude = data.getString("from_longitude");
                         to_latitude = data.getString("to_latitude");
                         to_longitude = data.getString("to_longitude");
+                        driver_status=data.getString("driver_status");
 
 
                         if (strLanguage.equalsIgnoreCase("1")) {
@@ -422,6 +418,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
                         intent.putExtra("from_longitude", from_longitude);
                         intent.putExtra("to_latitude", to_latitude);
                         intent.putExtra("to_longitude", to_longitude);
+                        intent.putExtra("driver_status", driver_status);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
 

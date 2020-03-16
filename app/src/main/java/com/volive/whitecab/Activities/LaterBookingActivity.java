@@ -531,8 +531,8 @@ public class LaterBookingActivity extends AppCompatActivity implements View.OnCl
         WindowManager.LayoutParams wlp = window.getAttributes();
         wlp.gravity = Gravity.TOP;
         dialog.setContentView(R.layout.ride_confirm_dialog);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
         ImageView img_ride_confirm,img_cancel;

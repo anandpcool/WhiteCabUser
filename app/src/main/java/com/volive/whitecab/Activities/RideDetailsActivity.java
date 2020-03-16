@@ -160,11 +160,7 @@ public class RideDetailsActivity extends AppCompatActivity implements View.OnCli
          tv_vehicle_number.setText(vehicle_number);
          tv_vehicle_name.setText(vehicle_type);
 
-         if(trip_distance.isEmpty()){
-             tv_ride_distance.setText("0 KM");
-         }else {
-             tv_ride_distance.setText(trip_distance+" KM");
-         }
+         tv_ride_distance.setText(trip_distance);
 
          if(captain_rating.isEmpty()){
              tv_captainRating.setText("0");

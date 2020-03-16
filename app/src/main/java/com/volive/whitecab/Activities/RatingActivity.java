@@ -85,19 +85,21 @@ public class RatingActivity extends AppCompatActivity implements View.OnClickLis
                 txt_captain_rating.setText(driver_rating);
             }
 
-            Glide.with(RatingActivity.this).load(Constants.IMAGE_BASE_URL+driver_profile).into(img_captain_profile);
+            Glide.with(RatingActivity.this).load(driver_profile).into(img_captain_profile);
         }
 
         customer_rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
 
-                if(ratingBar.getRating() == 1){
+                if(ratingBar.getRating() == 0){
                     txt_rate_value.setText("Bad");
-                }else if(ratingBar.getRating() == 2){
+                } else if(ratingBar.getRating() == 1){
                     txt_rate_value.setText("Okay!");
-                }else if(ratingBar.getRating() == 3){
+                }else if(ratingBar.getRating() == 2){
                     txt_rate_value.setText("Good");
+                }else if(ratingBar.getRating() == 3){
+                    txt_rate_value.setText("Nice");
                 }else if(ratingBar.getRating() == 4){
                     txt_rate_value.setText("Excellent");
                 }else if(ratingBar.getRating() == 5){

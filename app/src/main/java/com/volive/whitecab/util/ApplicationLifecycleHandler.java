@@ -10,17 +10,12 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.View;
-
 import com.volive.whitecab.Activities.TrackingActivity;
 import com.volive.whitecab.R;
 import org.json.JSONObject;
 import java.util.HashMap;
 
-import static com.volive.whitecab.Activities.TrackingActivity.btn_call_captain;
-import static com.volive.whitecab.Activities.TrackingActivity.btn_cancel_ride;
 
 /**
  * Created by volive on 9/7/2018.
@@ -112,7 +107,7 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
         String type;
         String message, message_ar, driver_id, vehicle_name, vehicle_number, driver_name, driver_mobile, trip_id, time, distance, driver_profile, driver_lat, driver_long;
 
-        String color,avg_rating;
+        String color,avg_rating,driver_status;
 
         @Override
         protected void onPreExecute() {
@@ -168,6 +163,7 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
                         from_longitude=data.getString("from_longitude");
                         to_latitude=data.getString("to_latitude");
                         to_longitude=data.getString("to_longitude");
+                        driver_status=data.getString("driver_status");
 
                         if (strLanguage.equalsIgnoreCase("1")) {
                             // message = js.getString("message");
@@ -252,6 +248,7 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
                         intent.putExtra("from_longitude",from_longitude);
                         intent.putExtra("to_latitude",to_latitude);
                         intent.putExtra("to_longitude",to_longitude);
+                        intent.putExtra("driver_status",driver_status);
                         act.startActivity(intent);
 
 

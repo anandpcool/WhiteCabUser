@@ -1342,7 +1342,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         String type;
         String message, message_ar, driver_id, vehicle_name, vehicle_number, driver_name, driver_mobile, trip_id, time, distance, driver_profile, driver_lat, driver_long;
 
-        String color, avg_rating="",from_address,dest_address,from_latitude,from_longitude,to_latitude,to_longitude;
+        String color, avg_rating="",from_address,dest_address,from_latitude,from_longitude,to_latitude,to_longitude,driver_status;
 
         @Override
         protected void onPreExecute() {
@@ -1397,6 +1397,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         from_longitude=data.getString("from_longitude");
                         to_latitude=data.getString("to_latitude");
                         to_longitude=data.getString("to_longitude");
+                        driver_status=data.getString("driver_status");
 
 
                         if (strLanguage.equalsIgnoreCase("1")) {
@@ -1484,6 +1485,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         intent.putExtra("from_longitude",from_longitude);
                         intent.putExtra("to_latitude",to_latitude);
                         intent.putExtra("to_longitude",to_longitude);
+                        intent.putExtra("driver_status", driver_status);
                         startActivity(intent);
 
                     } /*else {
@@ -1613,7 +1615,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                     if (status) {
 
-                        if (strLanguage.equalsIgnoreCase("1")) {
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
                             message = js.getString("message");
                         } else if (strLanguage.equalsIgnoreCase("2")) {
                             message = js.getString("message_ar");
@@ -1623,7 +1625,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         path = js.getString("base_url");
                         sm.profileImageUrl(image, path);
                     } else {
-                        if (strLanguage.equalsIgnoreCase("1")) {
+                        if (strLanguage.equalsIgnoreCase("1") || strLanguage.isEmpty()) {
                             message = js.getString("message");
                         } else if (strLanguage.equalsIgnoreCase("2")) {
                             message = js.getString("message_ar");

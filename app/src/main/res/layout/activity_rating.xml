@@ -65,7 +65,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_marginStart="80dp"
-                    android:src="@drawable/rate_profile"
+                    android:src="@drawable/ic_profile_empty"
                     />
 
                 <TextView

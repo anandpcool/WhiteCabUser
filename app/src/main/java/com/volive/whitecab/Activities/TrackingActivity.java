@@ -90,12 +90,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TrackingActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback,LocationListener, Observer {
 
     ImageView back_tracking;
-   public static  Button btn_cancel_ride,btn_call_captain;
+    Button btn_cancel_ride,btn_call_captain;
     RideCancelAdapter cancelAdapter;
     String[] texts=new String[]{"Too many riders","Too much luggage","Rider requested cancel","Rider didn't answer","Wrong address shown","Other"};
     String vehicle_name="", vehicle_number="", driver_name="", driver_mobile, trip_id="", time, distance="", driver_profile="", driver_lat, driver_long;
-    String color, avg_rating="",driver_id = "",type,from_address,dest_address,from_latitude,from_longitude,to_latitude,to_longitude;
-    TextView tracking_from_address,tracking_dest_address,tv_captainName,tv_rideDistance,tv_vehicleName,tv_vehicleNumber,tv_rating;
+    String color, avg_rating="",driver_id = "",type,from_address,dest_address,from_latitude,
+            from_longitude,to_latitude,to_longitude,driver_status;
+    TextView tracking_from_address,tracking_dest_address,tv_captainName,tv_rideDistance,tv_vehicleName,tv_vehicleNumber,tv_rating,tv_away;
     CircleImageView captainProfile;
     SupportMapFragment mapFragment;
     GoogleMap mMap;
@@ -166,6 +167,7 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
                 type = intent.getStringExtra("type");
                 color = intent.getStringExtra("color");
                 avg_rating = intent.getStringExtra("avg_rating");
+                driver_status=intent.getStringExtra("driver_status");
 
             }
 
@@ -177,20 +179,16 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
 
             Glide.with(TrackingActivity.this).load(driver_profile).into(captainProfile);
 
+            if(driver_status.equalsIgnoreCase("3") || driver_status.equalsIgnoreCase("4")){
+                btn_call_captain.setVisibility(View.GONE);
+                btn_cancel_ride.setVisibility(View.GONE);
+                myApplication.getObserver().setValue("1");
+            }
 
             tv_rating.setText(avg_rating);
 
-            if(distance.isEmpty()){
-                tv_rideDistance.setText("0 KM");
-            }else {
-                tv_rideDistance.setText(distance + " KM");
-            }
+            tv_rideDistance.setText(distance);
 
-        }
-
-        if (myApplication.getObserver().getValue().equalsIgnoreCase("1")) {
-            btn_call_captain.setVisibility(View.GONE);
-            btn_cancel_ride.setVisibility(View.GONE);
         }
 
     }
@@ -212,6 +210,7 @@ public class TrackingActivity extends AppCompatActivity implements View.OnClickL
         tv_vehicleNumber=findViewById(R.id.tv_vehicleNumber);
         tv_rating=findViewById(R.id.tv_rating);
         captainProfile=findViewById(R.id.captainProfile);
+        tv_away=findViewById(R.id.tv_away);
 
         tracking_dest_address=findViewById(R.id.tracking_dest_address);
         tracking_from_address=findViewById(R.id.tracking_from_address);

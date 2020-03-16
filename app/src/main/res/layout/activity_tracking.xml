@@ -339,7 +339,7 @@
                     android:id="@+id/tv_away"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2mins away!"
+                    android:text=""
                     android:textColor="@color/light_black"
                     android:layout_toEndOf="@+id/rl_profile"
                     android:layout_marginStart="@dimen/ten_dp"
