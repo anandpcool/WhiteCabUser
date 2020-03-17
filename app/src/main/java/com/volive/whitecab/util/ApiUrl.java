@@ -12,7 +12,7 @@ public class ApiUrl {
      */
 
     //live url
-    public static String strBaseUrl = "http://demomaplebrains.com/whitecab_final/api/customer/";
+    public static String strBaseUrl = "http://demomaplebrains.ca/whitecab_final/api/customer/";
 
 
     public static String strSendOtp = "send_otp";

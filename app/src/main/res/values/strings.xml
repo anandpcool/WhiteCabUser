@@ -177,6 +177,7 @@
     <string name="capacity">Capacity</string>
     <string name="add_favourite_name">Add Favourite Name</string>
     <string name="choose_country_code">Choose your country code</string>
+    <string name="forgot_password">Forgot Password?</string>
     <string-array name="CountryCodes">
         <item>93,AF</item>
         <item>355,AL</item>
