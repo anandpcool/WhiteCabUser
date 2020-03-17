@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_margin="@dimen/ten_dp"
+    >
+
+
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="@dimen/five"
+        android:src="@drawable/ic_cancel"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/normal"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="@string/forgot_password"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_16sp"
+        />
+
+    <EditText
+        android:id="@+id/edt_mail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xlarge"
+        android:textColor="@color/black"
+        android:inputType="textEmailAddress"
+        android:hint="@string/enter_your_mail"
+        android:layout_marginStart="@dimen/normal"
+        android:layout_marginEnd="@dimen/normal"
+        />
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spaceing_large_x"
+        android:layout_marginStart="@dimen/normal"
+        android:layout_marginEnd="@dimen/normal"
+        android:background="@drawable/button_background_black"
+        android:text="@string/send"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_18sp"
+        android:padding="@dimen/one_five"
+        android:layout_marginBottom="@dimen/ten_dp"
+        />
+
+
+</LinearLayout>
